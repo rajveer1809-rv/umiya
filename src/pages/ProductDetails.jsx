@@ -512,7 +512,7 @@ export default function ProductDetails() {
       </svg>
 
       {/* Banner */}
-      <section className="inner-page-banner">
+      <section className="inner-page-banner banner-products">
         <div className="container-xl">
           <ScrollReveal>
             <h1>Product Details</h1>
