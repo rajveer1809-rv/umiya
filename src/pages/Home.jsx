@@ -362,16 +362,24 @@ export default function Home() {
           <rect y="320" width="800" height="180" fill="#E5E7EB" />
           <line x1="0" y1="320" x2="800" y2="320" stroke="#D1D5DB" strokeWidth="2" />
 
+          {/* Bed Wall Cast Shadow */}
+          <image href="/images/luxury_bed.png" x="175" y="160" width="450" height="270" filter="url(#cast-shadow-filter)" transform="translate(0, 15)" style={{ mixBlendMode: 'multiply' }} />
           {/* Bed Contact Shadow */}
           <ellipse cx="400" cy="410" rx="220" ry="12" fill="url(#contact-shadow)" opacity="0.8" />
           {/* Bed Headboard, Mattress & Blanket */}
           <image href="/images/luxury_bed.png" x="175" y="160" width="450" height="270" filter="url(#soft-shadow)" />
 
+          {/* Left Nightstand Wall Cast Shadow */}
+          <image href="/images/nightstand_lamp.png" x="55" y="210" width="110" height="200" filter="url(#cast-shadow-filter)" transform="translate(-10, 8)" style={{ mixBlendMode: 'multiply' }} />
           {/* Left Nightstand Contact Shadow */}
           <ellipse cx="110" cy="405" rx="50" ry="6" fill="url(#contact-shadow)" opacity="0.85" />
           {/* Left Nightstand */}
           <image href="/images/nightstand_lamp.png" x="55" y="210" width="110" height="200" filter="url(#soft-shadow)" />
 
+          {/* Right Nightstand Wall Cast Shadow (flipped) */}
+          <g transform="translate(745, 0) scale(-1, 1)" style={{ mixBlendMode: 'multiply' }}>
+            <image href="/images/nightstand_lamp.png" x="0" y="210" width="110" height="200" filter="url(#cast-shadow-filter)" transform="translate(-10, 8)" />
+          </g>
           {/* Right Nightstand Contact Shadow */}
           <ellipse cx="690" cy="405" rx="50" ry="6" fill="url(#contact-shadow)" opacity="0.85" />
           {/* Right Nightstand (flipped horizontally) */}
@@ -479,12 +487,16 @@ export default function Home() {
         {/* Rug pattern */}
         <ellipse cx="400" cy="425" rx="230" ry="40" fill="none" stroke="#CBD5E1" strokeWidth="1.5" strokeDasharray="6,4" />
 
-        {/* 5. Sofa Contact Shadow */}
+        {/* 5. Sofa Wall Cast Shadow */}
+        <image href="/images/luxury_sofa.png" x="40" y="110" width="720" height="290" filter="url(#cast-shadow-filter)" transform="translate(35, 12)" style={{ mixBlendMode: 'multiply' }} />
+        {/* Sofa Floor Contact Shadow */}
         <ellipse cx="400" cy="385" rx="300" ry="12" fill="url(#contact-shadow)" opacity="0.85" />
         {/* Realistic 3D Sofa */}
         <image href="/images/luxury_sofa.png" x="40" y="110" width="720" height="290" filter="url(#soft-shadow)" />
 
-        {/* 6. Plant Contact Shadow */}
+        {/* 6. Plant Wall Cast Shadow */}
+        <image href="/images/potted_plant.png" x="10" y="220" width="110" height="210" filter="url(#cast-shadow-filter)" transform="translate(25, 10)" style={{ mixBlendMode: 'multiply' }} />
+        {/* Plant Floor Contact Shadow */}
         <ellipse cx="65" cy="430" rx="30" ry="8" fill="url(#contact-shadow)" opacity="0.9" />
         {/* Potted Plant */}
         <image href="/images/potted_plant.png" x="10" y="220" width="110" height="210" filter="url(#soft-shadow)" />
@@ -1324,6 +1336,15 @@ export default function Home() {
               <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="4" result="noise" />
               <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.16 0" />
               <feBlend mode="multiply" in="SourceGraphic" in2="noise" />
+            </filter>
+
+            {/* Cast Silhouette Shadow Filter for Photorealistic Overlays */}
+            <filter id="cast-shadow-filter">
+              <feColorMatrix type="matrix" values="0 0 0 0 0
+                                                   0 0 0 0 0
+                                                   0 0 0 0 0
+                                                   0 0 0 0.42 0" />
+              <feGaussianBlur stdDeviation="14" />
             </filter>
           </defs>
         </svg>
