@@ -273,7 +273,7 @@ export default function Home() {
               
               <div className="home-hero-buttons">
                 <Link to="/products" className="btn-luxury">Explore Products</Link>
-                <Link to="/contact" className="btn-outline-gold" style={{ border: '1px solid rgba(255,255,255,0.4)', color: 'white' }}>Get Consultation</Link>
+                <Link to="/contact" className="btn-outline-gold">Get Consultation</Link>
               </div>
 
               {/* Floating stats inside hero */}

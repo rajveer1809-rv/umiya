@@ -3404,7 +3404,7 @@ main {
   background-attachment: fixed;
   display: flex;
   align-items: center;
-  color: #FFFFFF;
+  color: var(--text-main);
   overflow: hidden;
   border-bottom: 1px solid var(--border-light);
 }
@@ -3412,7 +3412,7 @@ main {
 .home-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.7) 50%, rgba(15, 23, 42, 0.4) 100%);
+  background: linear-gradient(90deg, rgba(250, 248, 245, 0.95) 0%, rgba(250, 248, 245, 0.75) 50%, rgba(250, 248, 245, 0.15) 100%);
   z-index: 1;
 }
 
@@ -3433,9 +3433,10 @@ main {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: var(--color-gold);
+  color: var(--color-gold-dark);
   margin-bottom: 20px;
   display: inline-block;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .home-hero-headline {
@@ -3443,16 +3444,19 @@ main {
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -2px;
-  color: #FFFFFF;
+  color: var(--text-main);
   margin-bottom: 24px;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.95), 0 1px 2px rgba(255, 255, 255, 0.9);
 }
 
 .home-hero-subheadline {
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--text-main);
+  opacity: 0.9;
   line-height: 1.6;
   margin-bottom: 40px;
   max-width: 600px;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95);
 }
 
 .home-hero-buttons {
@@ -3463,7 +3467,7 @@ main {
 
 /* Floating statistics bar inside hero */
 .home-hero-stats-strip {
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid var(--border-color);
   padding-top: 30px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -3479,16 +3483,18 @@ main {
   font-family: var(--font-display);
   font-size: 32px;
   font-weight: 700;
-  color: var(--color-gold);
+  color: var(--color-gold-dark);
   line-height: 1;
   margin-bottom: 6px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .home-hero-stat-label {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--text-muted);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 /* 2. Company Story Two-Column Layout */
@@ -4083,6 +4089,9 @@ main {
   .home-hero-cinematic {
     height: auto;
     padding: 140px 0 80px 0;
+  }
+  .home-hero-overlay {
+    background: linear-gradient(180deg, rgba(250, 248, 245, 0.95) 0%, rgba(250, 248, 245, 0.85) 100%);
   }
   .home-hero-headline {
     font-size: 48px;
