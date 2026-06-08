@@ -263,49 +263,6 @@ export default function Home() {
   const renderVisualizerSuite = () => {
     const hexColor = selectedColor
 
-    if (visualizerSpace === 'Sideboard Cabinet') {
-      return (
-        <svg viewBox="0 0 800 500" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
-          <defs>
-            <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="12" stdDeviation="10" floodColor="#0F172A" floodOpacity="0.25" />
-            </filter>
-            <linearGradient id="cabinet-wood" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#78350F" />
-              <stop offset="50%" stopColor="#92400E" />
-              <stop offset="100%" stopColor="#78350F" />
-            </linearGradient>
-            <linearGradient id="cabinet-shading" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#000000" stopOpacity="0.35" />
-            </linearGradient>
-            <linearGradient id="gold-metal" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#FDE047" />
-              <stop offset="50%" stopColor="#CA8A04" />
-              <stop offset="100%" stopColor="#854D0E" />
-            </linearGradient>
-          </defs>
-
-          {/* Wall Background */}
-          <rect width="800" height="360" fill="#F3F4F6" />
-          <rect width="800" height="360" fill="url(#global-linen-pat)" />
-          
-          {/* Floor */}
-          <rect y="360" width="800" height="140" fill="#E5E7EB" />
-          <line x1="0" y1="360" x2="800" y2="360" stroke="#D1D5DB" strokeWidth="2" />
-
-          {/* Cabinet Color Block behind the transparent 3D sideboard */}
-          <rect x="160" y="140" width="480" height="240" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
-
-          {/* 3D Sideboard Image Overlay (Multiplied to apply color to wood textures/doors) */}
-          <image href="/images/modern_sideboard.png" x="145" y="125" width="510" height="305" filter="url(#soft-shadow)" style={{ mixBlendMode: 'multiply' }} />
-
-          {/* Small plant on sideboard */}
-          <image href="/images/potted_plant.png" x="480" y="30" width="80" height="110" filter="url(#soft-shadow)" />
-        </svg>
-      )
-    }
-
     if (visualizerSpace === 'Wood Planks') {
       return (
         <svg viewBox="0 0 800 500" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
@@ -346,65 +303,6 @@ export default function Home() {
       )
     }
 
-    if (visualizerSpace === 'Linen Wall') {
-      return (
-        <svg viewBox="0 0 800 500" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
-          <defs>
-            <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="12" stdDeviation="8" floodColor="#0F172A" floodOpacity="0.25" />
-            </filter>
-            <linearGradient id="sofa-fabric-linen" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#4A5568" />
-              <stop offset="100%" stopColor="#1E293B" />
-            </linearGradient>
-          </defs>
-          <rect width="800" height="350" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
-          <rect width="800" height="350" fill="url(#global-linen-pat)" />
-          {/* Floor */}
-          <rect y="350" width="800" height="150" fill="#EBE4D8" />
-          <line x1="0" y1="350" x2="800" y2="350" stroke="#D3C9BC" strokeWidth="2" />
-          {/* Skirting board */}
-          <rect y="335" width="800" height="15" fill="#FBF9F6" />
-          <line x1="0" y1="335" x2="800" y2="335" stroke="#E6DFD3" strokeWidth="1" />
-          
-          {/* 3D Sofa */}
-          <image href="/images/luxury_sofa.png" x="40" y="110" width="720" height="290" filter="url(#soft-shadow)" />
-
-          {/* 3D Potted Plant */}
-          <image href="/images/potted_plant.png" x="10" y="220" width="110" height="210" filter="url(#soft-shadow)" />
-        </svg>
-      )
-    }
-
-    if (visualizerSpace === 'Stucco Wall') {
-      return (
-        <svg viewBox="0 0 800 500" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
-          <defs>
-            <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
-              <feDropShadow dx="0" dy="12" stdDeviation="8" floodColor="#0F172A" floodOpacity="0.25" />
-            </filter>
-            <linearGradient id="sofa-fabric-stucco" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#52525B" />
-              <stop offset="100%" stopColor="#27272A" />
-            </linearGradient>
-          </defs>
-          <rect width="800" height="350" fill={hexColor} filter="url(#global-stucco-filt)" style={{ transition: 'fill 0.4s ease' }} />
-          {/* Floor */}
-          <rect y="350" width="800" height="150" fill="#EBE4D8" />
-          <line x1="0" y1="350" x2="800" y2="350" stroke="#D3C9BC" strokeWidth="2" />
-          {/* Skirting board */}
-          <rect y="335" width="800" height="15" fill="#FBF9F6" />
-          <line x1="0" y1="335" x2="800" y2="335" stroke="#E6DFD3" strokeWidth="1" />
-          
-          {/* 3D Sofa */}
-          <image href="/images/luxury_sofa.png" x="40" y="110" width="720" height="290" filter="url(#soft-shadow)" />
-
-          {/* 3D Potted Plant */}
-          <image href="/images/potted_plant.png" x="10" y="220" width="110" height="210" filter="url(#soft-shadow)" />
-        </svg>
-      )
-    }
-
     if (visualizerSpace === 'Bedroom') {
       return (
         <svg viewBox="0 0 800 500" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
@@ -412,44 +310,78 @@ export default function Home() {
             <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
               <feDropShadow dx="0" dy="12" stdDeviation="10" floodColor="#0F172A" floodOpacity="0.25" />
             </filter>
-            <linearGradient id="headboard-grad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#475569" />
-              <stop offset="100%" stopColor="#1E293B" />
-            </linearGradient>
-            <linearGradient id="wood-nightstand" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#B45309" />
-              <stop offset="100%" stopColor="#78350F" />
-            </linearGradient>
-            <linearGradient id="pillow-shading" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FFFFFF" />
-              <stop offset="100%" stopColor="#E2E8F0" />
-            </linearGradient>
             <linearGradient id="wall-shading" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#000000" stopOpacity="0.2" />
+              <stop offset="0%" stopColor="#000000" stopOpacity="0.25" />
               <stop offset="20%" stopColor="#000000" stopOpacity="0.0" />
               <stop offset="80%" stopColor="#000000" stopOpacity="0.0" />
               <stop offset="100%" stopColor="#000000" stopOpacity="0.15" />
+            </linearGradient>
+            <linearGradient id="ceiling-ao" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#000000" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#000000" stopOpacity="0.0" />
+            </linearGradient>
+            <linearGradient id="right-corner-ao" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#000000" stopOpacity="0.0" />
+              <stop offset="100%" stopColor="#000000" stopOpacity="0.35" />
+            </linearGradient>
+            <radialGradient id="contact-shadow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#0F172A" stopOpacity="0.85" />
+              <stop offset="30%" stopColor="#0F172A" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#0F172A" stopOpacity="0.0" />
+            </radialGradient>
+            <radialGradient id="lamp-glow-left" cx="110" cy="210" r="160">
+              <stop offset="0%" stopColor="#FEF08A" stopOpacity="0.45" />
+              <stop offset="40%" stopColor="#FEF08A" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#FEF08A" stopOpacity="0.0" />
+            </radialGradient>
+            <radialGradient id="lamp-glow-right" cx="690" cy="210" r="160">
+              <stop offset="0%" stopColor="#FEF08A" stopOpacity="0.45" />
+              <stop offset="40%" stopColor="#FEF08A" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#FEF08A" stopOpacity="0.0" />
+            </radialGradient>
+            <linearGradient id="lamp-cone-left" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#FEF08A" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#FEF08A" stopOpacity="0.0" />
             </linearGradient>
           </defs>
 
           {/* Wall Background (Painted with hexColor) */}
           <rect width="800" height="320" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
+          {/* Lamp Wall Glows */}
+          <circle cx="110" cy="210" r="160" fill="url(#lamp-glow-left)" style={{ mixBlendMode: 'screen' }} />
+          <circle cx="690" cy="210" r="160" fill="url(#lamp-glow-right)" style={{ mixBlendMode: 'screen' }} />
+          {/* Wall ambient shading */}
           <rect width="800" height="320" fill="url(#wall-shading)" style={{ mixBlendMode: 'multiply' }} />
+          {/* Ceiling ambient shadow */}
+          <rect width="800" height="40" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply' }} />
+          {/* Left and Right corners */}
+          <rect width="40" height="320" fill="url(#right-corner-ao)" style={{ mixBlendMode: 'multiply', transform: 'scaleX(-1)', transformOrigin: '20px 0' }} />
+          <rect x="760" width="40" height="320" fill="url(#right-corner-ao)" style={{ mixBlendMode: 'multiply' }} />
           
           {/* Floor */}
           <rect y="320" width="800" height="180" fill="#E5E7EB" />
           <line x1="0" y1="320" x2="800" y2="320" stroke="#D1D5DB" strokeWidth="2" />
 
+          {/* Bed Contact Shadow */}
+          <ellipse cx="400" cy="410" rx="220" ry="12" fill="url(#contact-shadow)" opacity="0.8" />
           {/* Bed Headboard, Mattress & Blanket */}
           <image href="/images/luxury_bed.png" x="175" y="160" width="450" height="270" filter="url(#soft-shadow)" />
 
+          {/* Left Nightstand Contact Shadow */}
+          <ellipse cx="110" cy="405" rx="50" ry="6" fill="url(#contact-shadow)" opacity="0.85" />
           {/* Left Nightstand */}
           <image href="/images/nightstand_lamp.png" x="55" y="210" width="110" height="200" filter="url(#soft-shadow)" />
 
+          {/* Right Nightstand Contact Shadow */}
+          <ellipse cx="690" cy="405" rx="50" ry="6" fill="url(#contact-shadow)" opacity="0.85" />
           {/* Right Nightstand (flipped horizontally) */}
           <g transform="translate(745, 0) scale(-1, 1)" filter="url(#soft-shadow)">
             <image href="/images/nightstand_lamp.png" x="0" y="210" width="110" height="200" />
           </g>
+
+          {/* Lamp Light Cones */}
+          <polygon points="110,210 40,340 180,340" fill="url(#lamp-cone-left)" opacity="0.6" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
+          <polygon points="690,210 620,340 760,340" fill="url(#lamp-cone-left)" opacity="0.6" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
 
           {/* Picture Frame above bed */}
           <g filter="url(#soft-shadow)">
@@ -464,14 +396,9 @@ export default function Home() {
     return (
       <svg viewBox="0 0 800 500" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
         <defs>
-          {/* Shadow Filters for 3D depth */}
           <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
             <feDropShadow dx="0" dy="12" stdDeviation="10" floodColor="#0F172A" floodOpacity="0.25" />
           </filter>
-          <filter id="cushion-shadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="6" stdDeviation="5" floodColor="#000000" floodOpacity="0.3" />
-          </filter>
-          {/* Gradients for lighting sheens */}
           <linearGradient id="wall-shading" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#000000" stopOpacity="0.2" />
             <stop offset="20%" stopColor="#000000" stopOpacity="0.0" />
@@ -483,28 +410,45 @@ export default function Home() {
             <stop offset="50%" stopColor="#B08968" />
             <stop offset="100%" stopColor="#7F5539" />
           </linearGradient>
-          <linearGradient id="sofa-fabric" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#8E9AAF" />
-            <stop offset="100%" stopColor="#4A5568" />
+          <radialGradient id="contact-shadow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#0F172A" stopOpacity="0.85" />
+            <stop offset="30%" stopColor="#0F172A" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#0F172A" stopOpacity="0.0" />
+          </radialGradient>
+          <radialGradient id="wall-light-falloff" cx="130" cy="150" r="700">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.35" />
+            <stop offset="30%" stopColor="#FFFFFF" stopOpacity="0.15" />
+            <stop offset="70%" stopColor="#000000" stopOpacity="0.05" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0.25" />
+          </radialGradient>
+          <linearGradient id="light-beam" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#FFFBEB" stopOpacity="0.2" />
+            <stop offset="45%" stopColor="#FFFBEB" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#FFFBEB" stopOpacity="0.0" />
           </linearGradient>
-          <linearGradient id="cushion-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#CBD5E1" />
-            <stop offset="100%" stopColor="#64748B" />
+          <linearGradient id="right-corner-ao" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#000000" stopOpacity="0.0" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0.3" />
           </linearGradient>
-          <linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#DFBA73" />
-            <stop offset="50%" stopColor="#C5A059" />
-            <stop offset="100%" stopColor="#9E7A3F" />
+          <linearGradient id="ceiling-ao" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#000000" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0.0" />
           </linearGradient>
         </defs>
 
         {/* 1. Wall Background (painted with hexColor) */}
         <rect width="800" height="350" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
-        {/* Ambient occlusion wall shading */}
-        <rect width="800" height="350" fill="url(#wall-shading)" style={{ mixBlendMode: 'multiply' }} />
+        {/* Wall light falloff overlay */}
+        <rect width="800" height="350" fill="url(#wall-light-falloff)" style={{ mixBlendMode: 'multiply' }} />
+        {/* Ceiling ambient shadow */}
+        <rect width="800" height="40" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply' }} />
+        {/* Right corner shadow */}
+        <rect x="750" width="50" height="350" fill="url(#right-corner-ao)" style={{ mixBlendMode: 'multiply' }} />
 
         {/* 2. Window on the Left Wall */}
         <image href="/images/modern_window.png" x="40" y="30" width="180" height="240" filter="url(#soft-shadow)" />
+        {/* Window light beam overlay */}
+        <polygon points="130,150 800,280 800,500 130,270" fill="url(#light-beam)" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
 
         {/* 3. Wood Floor */}
         <rect y="350" width="800" height="150" fill="url(#wood-floor)" />
@@ -522,6 +466,8 @@ export default function Home() {
           <line x1="550" y1="350" x2="560" y2="500" />
           <line x1="700" y1="350" x2="740" y2="500" />
         </g>
+        {/* Floor ambient occlusion near skirting */}
+        <rect y="350" width="800" height="25" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply', transform: 'scaleY(-1)', transformOrigin: '0 362.5px' }} />
         
         {/* Skirting Board */}
         <rect y="340" width="800" height="10" fill="#FAF8F5" />
@@ -533,10 +479,14 @@ export default function Home() {
         {/* Rug pattern */}
         <ellipse cx="400" cy="425" rx="230" ry="40" fill="none" stroke="#CBD5E1" strokeWidth="1.5" strokeDasharray="6,4" />
 
-        {/* 5. Realistic 3D Sofa */}
+        {/* 5. Sofa Contact Shadow */}
+        <ellipse cx="400" cy="385" rx="300" ry="12" fill="url(#contact-shadow)" opacity="0.85" />
+        {/* Realistic 3D Sofa */}
         <image href="/images/luxury_sofa.png" x="40" y="110" width="720" height="290" filter="url(#soft-shadow)" />
 
-        {/* 6. Potted Plant */}
+        {/* 6. Plant Contact Shadow */}
+        <ellipse cx="65" cy="430" rx="30" ry="8" fill="url(#contact-shadow)" opacity="0.9" />
+        {/* Potted Plant */}
         <image href="/images/potted_plant.png" x="10" y="220" width="110" height="210" filter="url(#soft-shadow)" />
       </svg>
     )
@@ -1427,7 +1377,7 @@ export default function Home() {
                 <div className="visualizer-space-selector">
                   <strong>1. Choose Environment:</strong>
                   <div className="visualizer-space-buttons">
-                    {['Living Room', 'Bedroom', 'Sideboard Cabinet', 'Wood Planks', 'Linen Wall', 'Stucco Wall'].map((space) => (
+                    {['Living Room', 'Bedroom', 'Wood Planks'].map((space) => (
                       <button
                         key={space}
                         className={`visualizer-space-btn ${visualizerSpace === space ? 'active' : ''}`}
@@ -1436,10 +1386,7 @@ export default function Home() {
                       >
                         {space === 'Living Room' && '🛋️'}
                         {space === 'Bedroom' && '🛏️'}
-                        {space === 'Sideboard Cabinet' && '🗄️'}
                         {space === 'Wood Planks' && '🪵'}
-                        {space === 'Linen Wall' && '🕸️'}
-                        {space === 'Stucco Wall' && '🛕'}
                         <span>{space}</span>
                       </button>
                     ))}
