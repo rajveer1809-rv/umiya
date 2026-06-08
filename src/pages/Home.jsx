@@ -26,20 +26,20 @@ export default function Home() {
   // Before & After Data Mapping
   const beforeAfterData = {
     'Exterior Facades': {
-      before: '/gallery/exterior_buildings.png',
-      after: '/projects/modern_villa_facade.png',
+      before: '/gallery/exterior_facades_before.png',
+      after: '/gallery/exterior_facades_after.png',
       title: 'Modern Villa Facade Treatment',
       desc: 'Deep structural restoration followed by 2 coats of UV-stable, anti-algal elastomeric weather protection shields.'
     },
     'Epoxy Flooring': {
-      before: '/gallery/commercial_spaces.png',
-      after: '/projects/ankleshwar_gidc_warehouse.png',
+      before: '/gallery/epoxy_flooring_before.png',
+      after: '/gallery/epoxy_flooring_after.png',
       title: 'Heavy-Duty GIDC Warehouse Floor',
       desc: 'Converting dusty, cracked concrete surfaces into chemical-resistant, dust-free seamless epoxy protective coatings.'
     },
     'Office Interiors': {
-      before: '/gallery/office_interiors.png',
-      after: '/projects/corporate_main_lobby.png',
+      before: '/gallery/office_interiors_before.png',
+      after: '/gallery/office_interiors_after.png',
       title: 'Corporate Main Lobby Renovation',
       desc: 'Applying premium, soft-sheen luxury emulsions and designer texture glazes to turn dull workspaces into artistic environments.'
     },
