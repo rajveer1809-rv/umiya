@@ -1,19 +1,556 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { products } from '../data/products'
 import ProductImage from '../components/ProductImage'
 import ScrollReveal from '../components/ScrollReveal'
 
 export default function Home() {
+  const [featuredCategory, setFeaturedCategory] = useState('Interior Paints')
+  const [projectTab, setProjectTab] = useState('All')
+  const [testimonialIndex, setTestimonialIndex] = useState(0)
+
+  // Before & After Interactive States
+  const [beforeAfterTab, setBeforeAfterTab] = useState('Exterior Facades')
+  const [sliderPosition, setSliderPosition] = useState(50)
+  const widgetRef = useRef(null)
+  const [widgetWidth, setWidgetWidth] = useState(500)
+
+  // Measure before/after widget size
+  useEffect(() => {
+    const handleResize = () => {
+      if (widgetRef.current) {
+        setWidgetWidth(widgetRef.current.offsetWidth)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [beforeAfterTab])
+
+  // Before & After Data Mapping
+  const beforeAfterData = {
+    'Exterior Facades': {
+      before: '/gallery/exterior_buildings.png',
+      after: '/projects/modern_villa_facade.png',
+      title: 'Modern Villa Facade Treatment',
+      desc: 'Deep structural restoration followed by 2 coats of UV-stable, anti-algal elastomeric weather protection shields.'
+    },
+    'Epoxy Flooring': {
+      before: '/gallery/commercial_spaces.png',
+      after: '/projects/ankleshwar_gidc_warehouse.png',
+      title: 'Heavy-Duty GIDC Warehouse Floor',
+      desc: 'Converting dusty, cracked concrete surfaces into chemical-resistant, dust-free seamless epoxy protective coatings.'
+    },
+    'Office Interiors': {
+      before: '/gallery/office_interiors.png',
+      after: '/projects/corporate_main_lobby.png',
+      title: 'Corporate Main Lobby Renovation',
+      desc: 'Applying premium, soft-sheen luxury emulsions and designer texture glazes to turn dull workspaces into artistic environments.'
+    },
+    'Warehouse Coatings': {
+      before: '/gallery/commercial_spaces.png',
+      after: '/projects/heavy_plant_pipeline.png',
+      title: 'Anti-Corrosive Pipe Coatings',
+      desc: 'Corroded factory piping treated with zinc chromate primers and protective aliphatic polyurethane layers.'
+    }
+  }
+
+  const currentBA = beforeAfterData[beforeAfterTab]
+
+  // Hover/touch interaction handler for Before/After Slider
+  const handleBAInteraction = (clientX, container) => {
+    if (!container) return
+    const rect = container.getBoundingClientRect()
+    const x = clientX - rect.left
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100))
+    setSliderPosition(percentage)
+  }
+
+  const handleMouseMove = (e) => {
+    handleBAInteraction(e.clientX, e.currentTarget)
+  }
+
+  const handleTouchMove = (e) => {
+    if (e.touches[0]) {
+      handleBAInteraction(e.touches[0].clientX, e.currentTarget)
+    }
+  }
+
+  // 2. "Where We Work" Interactive Hotspot States
+  const [activeHotspot, setActiveHotspot] = useState('Villa')
+
+  const hotspotsData = {
+    'Villa': {
+      title: 'Luxury Residential Villa',
+      solution: 'Weather Guard & Luxury Interior Emulsions',
+      desc: 'Complete moisture diagnostics, efflorescence resistance, and computerized Colourworld shade formulations for architectural elegance.',
+      system: 'Asian Paints Royale + Apex Ultima Weather Guard',
+      warranty: '7-Year Film Warranty',
+      top: '25%', left: '16.5%'
+    },
+    'Office': {
+      title: 'Corporate Office Spaces',
+      solution: 'Lustre Sheen & Designer Textures',
+      desc: 'Clean corporate vibes using Crystal Reflective Technology and washable texture glazes that resist high-traffic burnishing.',
+      system: 'Berger Silk Glamor + Spatulato Textures',
+      warranty: '5-Year Durability',
+      top: '46%', left: '50%'
+    },
+    'Warehouse': {
+      title: 'Industrial GIDC Warehouses',
+      solution: 'Anti-Rust & Heavy Floor Epoxies',
+      desc: 'Anti-corrosive primer systems for structural steels and high-build epoxy flooring that eliminates concrete dust residue.',
+      system: 'PPG Asian Paints High-Build Epoxy Primer & Topcoat',
+      warranty: '10-Year Protection',
+      top: '73%', left: '76.5%'
+    },
+    'Showroom': {
+      title: 'Retail Showrooms',
+      solution: 'High-Gloss Enamels & Soft Sheen Finishes',
+      desc: 'Spectacular reflective finishes on metal grilles, custom wood veneers, and glass framing trim.',
+      system: 'Berger Luxol High Gloss + Imperia PU Finish',
+      warranty: 'Premium Aesthetics',
+      top: '74%', left: '19%'
+    },
+    'Factory': {
+      title: 'Manufacturing Plants',
+      solution: 'Chemical & Heat Resistant Protection',
+      desc: 'Shielding pipes, heat exchangers, and storage units against high temperature, acids, and friction.',
+      system: 'Apcothane Polyurethane + Zinc Oxide Primers',
+      warranty: 'Industrial Grade',
+      top: '24%', left: '75.5%'
+    }
+  }
+
+  // 3. Signature Projects Wall Bento Grid Configuration
+  const bentoProjects = [
+    {
+      id: 1,
+      image: '/projects/modern_villa_facade.png',
+      title: 'Luxury Villa Facade',
+      cat: 'Residential',
+      tags: ['Residential', 'Exterior'],
+      location: 'Ankleshwar Chowk',
+      value: '₹8.5 Lakhs',
+      area: '14,000 sq.ft',
+      system: 'Apex Ultima DPUR',
+      layoutClass: 'bento-wide-tall'
+    },
+    {
+      id: 2,
+      image: '/projects/veneer_furniture_coating.png',
+      title: 'Veneer Furniture Coating',
+      cat: 'Residential',
+      tags: ['Residential', 'Interior'],
+      location: 'Valia Road Residency',
+      value: '₹3.2 Lakhs',
+      area: '3,500 sq.ft',
+      system: 'Berger Imperia PU',
+      layoutClass: 'bento-standard'
+    },
+    {
+      id: 3,
+      image: '/projects/showroom_glass_facade.png',
+      title: 'Retail Showroom Facade',
+      cat: 'Commercial',
+      tags: ['Commercial', 'Exterior'],
+      location: 'Centre Point Mall',
+      value: '₹12.8 Lakhs',
+      area: '18,000 sq.ft',
+      system: 'Aliphatic PU Coating',
+      layoutClass: 'bento-standard'
+    },
+    {
+      id: 4,
+      image: '/projects/corporate_main_lobby.png',
+      title: 'Corporate Main Lobby',
+      cat: 'Commercial',
+      tags: ['Commercial', 'Interior'],
+      location: 'GIDC Office Park',
+      value: '₹6.4 Lakhs',
+      area: '8,500 sq.ft',
+      system: 'Royale Play Stucco',
+      layoutClass: 'bento-wide'
+    },
+    {
+      id: 5,
+      image: '/projects/heavy_plant_pipeline.png',
+      title: 'Industrial Pipeline Shielding',
+      cat: 'Industrial',
+      tags: ['Industrial', 'Exterior'],
+      location: 'ONGC Plant Ankleshwar',
+      value: '₹45 Lakhs',
+      area: '45,000 sq.ft',
+      system: 'Apcothane PU System',
+      layoutClass: 'bento-standard'
+    },
+    {
+      id: 6,
+      image: '/projects/ankleshwar_gidc_warehouse.png',
+      title: 'GIDC Logistics Floor',
+      cat: 'Industrial',
+      tags: ['Industrial', 'Interior'],
+      location: 'Warehouse Block D',
+      value: '₹22 Lakhs',
+      area: '62,000 sq.ft',
+      system: 'PPG High-Build Epoxy',
+      layoutClass: 'bento-wide'
+    }
+  ]
+
+  const filteredBentoProjects = projectTab === 'All'
+    ? bentoProjects
+    : bentoProjects.filter(p => p.cat === projectTab || p.tags.includes(projectTab))
+
+  // 5. Surface Protection Journey Timeline
+  const journeySteps = [
+    {
+      num: '01',
+      title: 'Surface Analysis',
+      desc: 'Measuring moisture metrics, mapping wall undulations, and assessing concrete tensile strength.'
+    },
+    {
+      num: '02',
+      title: 'Primer Sealing',
+      desc: 'Applying deep-penetration binders to lock down dust and neutralize structural cement salts.'
+    },
+    {
+      num: '03',
+      title: 'Protective System',
+      desc: 'Laying flexible elastomeric damp proof sheets or high-build chemical-resistant epoxy coats.'
+    },
+    {
+      num: '04',
+      title: 'Decorative Finish',
+      desc: 'Applying computerized tinted emulsions or hand-tool textured Italian stucco glazes.'
+    },
+    {
+      num: '05',
+      title: 'Long-Term Protection',
+      desc: 'Adhesion testing, visual sign-off, and delivery of warranties for paint film durability.'
+    }
+  ]
+
+  // 6. Explore By Space Cards
+  const exploreSpaces = [
+    { icon: '🏠', title: 'Living Rooms', desc: 'Washable luxury emulsions', link: '/products' },
+    { icon: '🛏', title: 'Premium Bedrooms', desc: 'Velvet soft sheen finishes', link: '/products' },
+    { icon: '🏢', title: 'Office Interiors', desc: 'Clean corporate color vibes', link: '/products' },
+    { icon: '🏬', title: 'Commercial Spaces', desc: 'Impact-resistant floors', link: '/products' },
+    { icon: '🏭', title: 'Industrial Plants', desc: 'Anti-corrosive shields', link: '/products' },
+    { icon: '🏬', title: 'Warehouses', desc: 'Dust-free epoxy flooring', link: '/products' },
+    { icon: '🏡', title: 'Exterior Buildings', desc: 'UV-stable weather guards', link: '/products' }
+  ]
+
+  // 7. Luxury Materials Showcase Data
+  const materialsShowcase = [
+    { title: 'Luxury Emulsions', desc: 'Rich, soft-sheen paint films with Teflon surface stain protection.', brand: 'Royale Luxury Emulsion' },
+    { title: 'Weather Guards', desc: 'UV-stable silicone coatings resisting tropical monsoon algae and micro-cracks.', brand: 'Apex Ultima DPUR' },
+    { title: 'PU Finishes', desc: 'Italian wood veneer protections with diamond-hard scratch and heat resistance.', brand: 'Berger Imperia PU' },
+    { title: 'Epoxy Systems', desc: 'Seamless floor coatings engineered for heavy machinery and GIDC plants.', brand: 'PPG High Build Epoxy' },
+    { title: 'Decorative Textures', desc: 'Special effects glazes replicating natural rock, comb, or krinkle finishes.', brand: 'Royale Play Designer' }
+  ]
+
+  // 9. Live Coating Visualizer States
+  const [visualizerSpace, setVisualizerSpace] = useState('Living Room')
+  const [selectedColor, setSelectedColor] = useState('#FAF8F5') // Default warm cream
+
+  const visualizerColors = [
+    { name: 'Warm Cream', hex: '#FAF8F5', isLight: true },
+    { name: 'Luxury Gold', hex: '#BF8C4C', isLight: false },
+    { name: 'Steel Blue', hex: '#637A9F', isLight: false },
+    { name: 'Slate Gray', hex: '#8F9B9C', isLight: true },
+    { name: 'Terracotta', hex: '#A85A42', isLight: false },
+    { name: 'Deep Navy', hex: '#1E2D42', isLight: false }
+  ]
+
+  const renderVisualizerSuite = () => {
+    const hexColor = selectedColor
+
+    if (visualizerSpace === 'Sideboard Cabinet') {
+      return (
+        <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
+          {/* Wall Background */}
+          <rect width="400" height="210" fill="#F3F4F6" />
+          
+          {/* Floor */}
+          <rect y="210" width="400" height="70" fill="#E5E7EB" />
+          <line x1="0" y1="210" x2="400" y2="210" stroke="#D1D5DB" strokeWidth="2" />
+
+          {/* Cabinet Body */}
+          <rect x="80" y="70" width="240" height="140" rx="8" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
+          
+          {/* Cabinet wood grain overlay */}
+          <g opacity="0.22" stroke="#000000" strokeWidth="1" fill="none" pointerEvents="none">
+            <line x1="160" y1="70" x2="160" y2="210" stroke="#000000" strokeWidth="1.5" />
+            <line x1="240" y1="70" x2="240" y2="210" stroke="#000000" strokeWidth="1.5" />
+            
+            <path d="M 85 90 C 120 85, 200 95, 315 90" />
+            <path d="M 85 105 C 150 110, 220 98, 315 102" />
+            <path d="M 85 130 C 110 125, 150 135, 180 130 C 220 125, 280 135, 315 128" />
+            <path d="M 85 155 C 140 150, 190 160, 315 152" />
+            <path d="M 85 175 C 130 178, 220 170, 315 174" />
+            <path d="M 85 195 C 150 190, 240 200, 315 192" />
+            
+            <path d="M 120 115 A 8 4 0 1 0 136 115 A 8 4 0 1 0 120 115 Z" />
+            <path d="M 270 145 A 10 5 0 1 0 290 145 A 10 5 0 1 0 270 145 Z" />
+          </g>
+
+          {/* Legs */}
+          <line x1="110" y1="210" x2="100" y2="235" stroke="#1F2937" strokeWidth="4" strokeLinecap="round" />
+          <line x1="290" y1="210" x2="300" y2="235" stroke="#1F2937" strokeWidth="4" strokeLinecap="round" />
+          <line x1="150" y1="210" x2="150" y2="225" stroke="#1F2937" strokeWidth="3" strokeLinecap="round" />
+          <line x1="250" y1="210" x2="250" y2="225" stroke="#1F2937" strokeWidth="3" strokeLinecap="round" />
+
+          {/* Knobs handles */}
+          <circle cx="145" cy="140" r="4" fill="#D97706" />
+          <circle cx="175" cy="140" r="4" fill="#D97706" />
+          <circle cx="225" cy="140" r="4" fill="#D97706" />
+          <circle cx="255" cy="140" r="4" fill="#D97706" />
+
+          {/* Plant pot on sideboard */}
+          <rect x="250" y="45" width="20" height="25" rx="2" fill="#E5E7EB" />
+          <path d="M 260 45 Q 240 25 245 15" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" />
+          <path d="M 260 45 Q 275 20 268 12" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      )
+    }
+
+    if (visualizerSpace === 'Wood Planks') {
+      return (
+        <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
+          {/* Stacked planks */}
+          <g stroke="#000000" strokeWidth="0.5">
+            <rect y="0" width="400" height="56" fill={hexColor} opacity="0.95" style={{ transition: 'fill 0.4s ease' }} />
+            <rect y="56" width="400" height="56" fill={hexColor} opacity="0.88" style={{ transition: 'fill 0.4s ease' }} />
+            <rect y="112" width="400" height="56" fill={hexColor} opacity="1.0" style={{ transition: 'fill 0.4s ease' }} />
+            <rect y="168" width="400" height="56" fill={hexColor} opacity="0.91" style={{ transition: 'fill 0.4s ease' }} />
+            <rect y="224" width="400" height="56" fill={hexColor} opacity="0.96" style={{ transition: 'fill 0.4s ease' }} />
+          </g>
+          
+          {/* Wood Grain Overlay */}
+          <g opacity="0.2" stroke="#000000" strokeWidth="1.2" fill="none" pointerEvents="none">
+            {/* Plank division lines */}
+            <line x1="0" y1="56" x2="400" y2="56" stroke="#000000" strokeWidth="1" />
+            <line x1="0" y1="112" x2="400" y2="112" stroke="#000000" strokeWidth="1" />
+            <line x1="0" y1="168" x2="400" y2="168" stroke="#000000" strokeWidth="1" />
+            <line x1="0" y1="224" x2="400" y2="224" stroke="#000000" strokeWidth="1" />
+
+            {/* Board 1 Grain */}
+            <path d="M 10 20 Q 120 12 240 25 T 390 18" />
+            <path d="M 0 35 Q 160 42 320 28 T 400 32" />
+            
+            {/* Board 2 Grain */}
+            <path d="M 50 78 A 20 6 0 0 0 90 78 A 20 6 0 0 0 50 78 Z" />
+            <path d="M 0 68 Q 110 85 220 62 T 400 75" />
+            <path d="M 10 92 Q 180 82 290 98 T 390 90" />
+            
+            {/* Board 3 Grain */}
+            <path d="M 0 135 C 100 125, 200 145, 400 130" />
+            <path d="M 20 152 Q 130 162 250 148 T 380 155" />
+            
+            {/* Board 4 Grain */}
+            <path d="M 280 196 A 12 5 0 0 1 304 196 A 12 5 0 0 1 280 196 Z" />
+            <path d="M 0 185 Q 140 178 270 192 T 400 182" />
+            <path d="M 15 212 C 100 205, 210 220, 395 208" />
+            
+            {/* Board 5 Grain */}
+            <path d="M 0 248 Q 160 255 310 242 T 400 250" />
+            <path d="M 5 265 C 120 260, 240 272, 390 262" />
+          </g>
+        </svg>
+      )
+    }
+
+    if (visualizerSpace === 'Linen Wall') {
+      return (
+        <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
+          <rect width="400" height="200" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
+          <rect width="400" height="200" fill="url(#global-linen-pat)" />
+          {/* Floor */}
+          <rect y="200" width="400" height="80" fill="#EBE4D8" />
+          <line x1="0" y1="200" x2="400" y2="200" stroke="#D3C9BC" strokeWidth="2" />
+          {/* Skirting board */}
+          <rect y="190" width="400" height="10" fill="#FBF9F6" />
+          <line x1="0" y1="190" x2="400" y2="190" stroke="#E6DFD3" strokeWidth="1" />
+          {/* Sofa overlay */}
+          <rect x="120" y="150" width="160" height="50" rx="8" fill="#4B5563" />
+          <rect x="130" y="175" width="65" height="20" rx="4" fill="#374151" />
+          <rect x="205" y="175" width="65" height="20" rx="4" fill="#374151" />
+          <rect x="110" y="165" width="15" height="30" rx="6" fill="#1F2937" />
+          <rect x="275" y="165" width="15" height="30" rx="6" fill="#1F2937" />
+          <path d="M 140 175 L 150 155 L 160 175 Z" fill="#D97706" />
+          <path d="M 260 175 L 250 155 L 240 175 Z" fill="#059669" />
+          {/* Plant */}
+          <rect x="35" y="185" width="16" height="25" rx="2" fill="#78350F" />
+          <path d="M 43 185 Q 30 160 20 170 C 25 178 37 182 43 185 Z" fill="#166534" />
+          <path d="M 43 185 Q 56 165 66 175 C 60 182 50 185 43 185 Z" fill="#166534" />
+        </svg>
+      )
+    }
+
+    if (visualizerSpace === 'Stucco Wall') {
+      return (
+        <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
+          <rect width="400" height="200" fill={hexColor} filter="url(#global-stucco-filt)" style={{ transition: 'fill 0.4s ease' }} />
+          {/* Floor */}
+          <rect y="200" width="400" height="80" fill="#EBE4D8" />
+          <line x1="0" y1="200" x2="400" y2="200" stroke="#D3C9BC" strokeWidth="2" />
+          {/* Skirting board */}
+          <rect y="190" width="400" height="10" fill="#FBF9F6" />
+          <line x1="0" y1="190" x2="400" y2="190" stroke="#E6DFD3" strokeWidth="1" />
+          {/* Sofa overlay */}
+          <rect x="120" y="150" width="160" height="50" rx="8" fill="#4B5563" />
+          <rect x="130" y="175" width="65" height="20" rx="4" fill="#374151" />
+          <rect x="205" y="175" width="65" height="20" rx="4" fill="#374151" />
+          <rect x="110" y="165" width="15" height="30" rx="6" fill="#1F2937" />
+          <rect x="275" y="165" width="15" height="30" rx="6" fill="#1F2937" />
+          <path d="M 140 175 L 150 155 L 160 175 Z" fill="#D97706" />
+          <path d="M 260 175 L 250 155 L 240 175 Z" fill="#059669" />
+          {/* Plant */}
+          <rect x="35" y="185" width="16" height="25" rx="2" fill="#78350F" />
+          <path d="M 43 185 Q 30 160 20 170 C 25 178 37 182 43 185 Z" fill="#166534" />
+          <path d="M 43 185 Q 56 165 66 175 C 60 182 50 185 43 185 Z" fill="#166534" />
+        </svg>
+      )
+    }
+
+    if (visualizerSpace === 'Bedroom') {
+      return (
+        <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
+          {/* Wall */}
+          <rect width="400" height="180" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
+          
+          {/* Floor */}
+          <rect y="180" width="400" height="100" fill="#E5E7EB" />
+          <line x1="0" y1="180" x2="400" y2="180" stroke="#D1D5DB" strokeWidth="2" />
+
+          {/* Headboard */}
+          <rect x="80" y="120" width="240" height="80" rx="4" fill="#374151" />
+          
+          {/* Bed Mattress & Blanket */}
+          <rect x="90" y="160" width="220" height="70" rx="4" fill="#FFFFFF" stroke="#E5E7EB" />
+          <rect x="90" y="180" width="220" height="50" rx="2" fill="#93C5FD" />
+
+          {/* Pillows */}
+          <rect x="110" y="145" width="50" height="25" rx="3" fill="#F3F4F6" stroke="#E5E7EB" />
+          <rect x="240" y="145" width="50" height="25" rx="3" fill="#F3F4F6" stroke="#E5E7EB" />
+
+          {/* Nightstands */}
+          <rect x="30" y="150" width="40" height="40" rx="2" fill="#8B5A2B" />
+          <circle cx="50" cy="170" r="3" fill="#1F2937" />
+          <rect x="330" y="150" width="40" height="40" rx="2" fill="#8B5A2B" />
+          <circle cx="350" cy="170" r="3" fill="#1F2937" />
+          
+          {/* Lamps */}
+          <rect x="45" y="140" width="10" height="10" fill="#4B5563" />
+          <path d="M 40 140 L 60 140 L 55 125 L 45 125 Z" fill="#FBBF24" />
+          <rect x="345" y="140" width="10" height="10" fill="#4B5563" />
+          <path d="M 340 140 L 360 140 L 355 125 L 345 125 Z" fill="#FBBF24" />
+
+          {/* Picture frame above bed */}
+          <rect x="160" y="30" width="80" height="50" fill="#FAF8F5" stroke="#1F2937" strokeWidth="2" />
+          <circle cx="200" cy="55" r="10" fill="#F59E0B" />
+        </svg>
+      )
+    }
+
+    // Default: Living Room
+    return (
+      <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
+        {/* Wall Background */}
+        <rect width="400" height="200" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
+        
+        {/* Floor */}
+        <rect y="200" width="400" height="80" fill="#EBE4D8" />
+        <line x1="0" y1="200" x2="400" y2="200" stroke="#D3C9BC" strokeWidth="2" />
+        
+        {/* Skirting board */}
+        <rect y="190" width="400" height="10" fill="#FBF9F6" />
+        <line x1="0" y1="190" x2="400" y2="190" stroke="#E6DFD3" strokeWidth="1" />
+
+        {/* Window */}
+        <rect x="20" y="30" width="80" height="110" fill="#E0F2FE" opacity="0.8" stroke="#FBF9F6" strokeWidth="4" />
+        <line x1="60" y1="30" x2="60" y2="140" stroke="#FBF9F6" strokeWidth="2" />
+        <line x1="20" y1="85" x2="100" y2="85" stroke="#FBF9F6" strokeWidth="2" />
+        
+        {/* Wall Art Frame */}
+        <rect x="290" y="40" width="60" height="80" fill="#FAF8F5" stroke="#232323" strokeWidth="3" />
+        {/* Inner Art */}
+        <circle cx="320" cy="75" r="15" fill="#F59E0B" />
+        <path d="M 295 105 Q 310 95 320 105 T 345 105" fill="none" stroke="#0284C7" strokeWidth="2" />
+
+        {/* Sofa */}
+        <rect x="120" y="150" width="160" height="50" rx="8" fill="#52525B" />
+        <rect x="130" y="175" width="65" height="20" rx="4" fill="#3F3F46" />
+        <rect x="205" y="175" width="65" height="20" rx="4" fill="#3F3F46" />
+        <rect x="110" y="165" width="15" height="30" rx="6" fill="#27272A" />
+        <rect x="275" y="165" width="15" height="30" rx="6" fill="#27272A" />
+        
+        {/* Accent Pillows */}
+        <path d="M 140 175 L 150 155 L 160 175 Z" fill="#F43F5E" />
+        <path d="M 260 175 L 250 155 L 240 175 Z" fill="#10B981" />
+        
+        {/* Legs */}
+        <line x1="130" y1="200" x2="125" y2="215" stroke="#18181B" strokeWidth="4" strokeLinecap="round" />
+        <line x1="270" y1="200" x2="275" y2="215" stroke="#18181B" strokeWidth="4" strokeLinecap="round" />
+        
+        {/* Rug */}
+        <ellipse cx="200" cy="225" rx="90" ry="15" fill="#E4E4E7" opacity="0.6" />
+
+        {/* Plant */}
+        <rect x="30" y="185" width="20" height="30" rx="3" fill="#D97706" />
+        <path d="M 40 185 Q 25 155 15 165 C 20 175 35 180 40 185 Z" fill="#15803D" />
+        <path d="M 40 185 Q 40 145 50 150 C 45 165 42 175 40 185 Z" fill="#166534" />
+        <path d="M 40 185 Q 55 160 65 170 C 58 178 48 182 40 185 Z" fill="#15803D" />
+      </svg>
+    )
+  }
+
+  // 10. Client Logo Marquee Data
+  const marqueeBrands = [
+    'Asian Paints', 'Berger', 'Nerolac', 'Indigo', 'JSW', 'Dr Fixit', 'Birla White', 'ICA Wood Coatings'
+  ]
+  const extendedBrandsList = [...marqueeBrands, ...marqueeBrands]
+
+  // 12. Why Choose Us Premium Metrics
+  const premiumWhyChooseUs = [
+    { title: 'Site Assessment', desc: 'Moisture diagnostics and substrate strength testing prior to paint coating specification.' },
+    { title: 'Technical Expertise', desc: 'Engineering exact layer thickness (DFT) suitable for GIDC chemical plants and coastal climates.' },
+    { title: 'Quality Products', desc: 'Direct-depot sourcing of authentic batches with genuine safety data sheets.' },
+    { title: 'Professional Application', desc: 'Application guidance matching exact dilution ratios and curing times for maximum lifetime.' },
+    { title: 'Warranty Support', desc: 'Full manufacturer-backed film warranties up to 7-10 years on premium coating lines.' }
+  ]
+
+  // 15. Success Stories (Case Study style)
+  const caseStudies = [
+    {
+      title: 'GIDC Warehouse Floor Restoration',
+      challenge: 'Porous concrete causing massive dust residue, interfering with cleanroom components packaging.',
+      solution: 'Slab moisture diagnostic followed by structural crack repair and 2 coats of high-build PPG chemical epoxy flooring.',
+      result: '100% dust-free, high-load seamless flooring cured in 72 hours, with anti-static certifications.',
+      image: '/projects/ankleshwar_gidc_warehouse.png'
+    },
+    {
+      title: 'Ankleshwar Villa External Treatment',
+      challenge: 'Frequent heavy monsoons causing water seepage, resulting in paint peeling and salt dampness on interiors.',
+      solution: 'Stripping old layers, applying Dr. Fixit waterproofing sealing membrane, and top coating with Apex Ultima DPUR.',
+      result: 'Absolute damp defense with a self-cleaning surface film backed by a 7-year performance warranty.',
+      image: '/projects/modern_villa_facade.png'
+    }
+  ]
+  const [activeCaseIndex, setActiveCaseIndex] = useState(0)
+
+  // Hero Section Dynamic Text Slideshow Data
   const slides = [
     {
-      tagline: 'Authorized Paint & Coating Depot',
-      headline: 'Building Colors.<br />Building Trust.',
-      subheadline: 'Premium Paints, Industrial Coatings, Waterproofing Solutions & Hardware Since 2005.',
-      primaryBtnText: 'Explore Products',
-      primaryBtnLink: '/products',
-      secondaryBtnText: 'Get Consultation',
-      secondaryBtnLink: '/contact'
+      tagline: 'Premium Surface & Coatings Depot',
+      headline: 'Surfaces That Last.<br />Spaces That Inspire.',
+      subheadline: 'Residential, Commercial & Industrial Coating Solutions. Sourcing directly from authorized brand depots in Ankleshwar since 2005.',
+      primaryBtnText: 'View Projects',
+      primaryBtnLink: '#projects-section',
+      secondaryBtnText: 'Book Site Inspection',
+      secondaryBtnLink: '/contact?subject=Request Site Visit'
     },
     {
       tagline: 'Premium Brands & Tech Tinting',
@@ -44,267 +581,50 @@ export default function Home() {
     return () => clearInterval(timer)
   }, [slides.length])
 
-  const [featuredCategory, setFeaturedCategory] = useState('Interior Paints')
-  const [projectTab, setProjectTab] = useState('All')
-  const [testimonialIndex, setTestimonialIndex] = useState(0)
-
-  // Floating statistics for Hero
-  const heroStats = [
-    { num: '20+', label: 'Years Experience' },
-    { num: '5,000+', label: 'Customers Served' },
-    { num: '100+', label: 'Premium Products' },
-    { num: '1,000+', label: 'Projects Supported' }
-  ]
-
-  // Plain typography statistics for Impact Numbers section
-  const impactNumbers = [
-    { num: '20+', label: 'Years Experience' },
-    { num: '5,000+', label: 'Happy Customers' },
-    { num: '100+', label: 'Products' },
-    { num: '1,000+', label: 'Projects' }
-  ]
-
-  // Expertise data (Service 1 to 4)
-  const expertiseItems = [
-    {
-      tag: 'Architectural Elegance',
-      title: 'Decorative Paints',
-      desc: 'Enhance your residential and commercial environments with luxury interior emulsions, dust-resistant weather guards, and computerized Colourworld shade formulations matching over 1,500+ colors.',
-      image: '/images/products/asian-paints-royale-play-designer-finish.png',
-      link: '/services#decorative-paints',
-      isReversed: false
-    },
-    {
-      tag: 'Heavy-Duty Defense',
-      title: 'Industrial Coatings',
-      desc: 'Shield factory piping, warehouse steel fabrications, and assembly machinery against corrosion and abrasive friction using high-build epoxy primers and aliphatic polyurethane topcoats.',
-      image: '/images/products/ppg-asian-paints-high-build-epoxy-primer.png',
-      link: '/services#industrial-coatings',
-      isReversed: true
-    },
-    {
-      tag: 'Moisture Protection',
-      title: 'Waterproofing Solutions',
-      desc: 'Stop concrete dampness, ceiling drips, and efflorescence salt peeling. We stock specialized integral admixtures, damp-proof courses, and high-build elastomeric roof sealants.',
-      image: '/images/products/dr-fixit-raincoat-select.png',
-      link: '/services#waterproofing-systems',
-      isReversed: false
-    },
-    {
-      tag: 'Premium Wood Safeguards',
-      title: 'Wood Finishes',
-      desc: 'Protect custom furniture and grain veneers from stains, heat, and moisture with Italian-grade single and two-pack polyurethane (PU) sealers and UV-resistant stains.',
-      image: '/images/products/ica-premium-wood-coating.png',
-      link: '/services#wood-finishes',
-      isReversed: true
-    }
-  ]
-
-  // Masonry gallery configurations
-  const galleryItems = [
-    {
-      image: '/about_interior.png',
-      title: 'Modern Living Rooms',
-      desc: 'Washable luxury emulsions',
-      layoutClass: 'wide-3 tall'
-    },
-    {
-      image: '/about_detail.png',
-      title: 'Premium Bedrooms',
-      desc: 'Velvet soft sheen finishes',
-      layoutClass: 'wide-3'
-    },
-    {
-      image: '/page_banner_services.png',
-      title: 'Office Interiors',
-      desc: 'Clean corporate color vibes',
-      layoutClass: 'wide-2 tall'
-    },
-    {
-      image: '/page_banner.png',
-      title: 'Commercial Spaces',
-      desc: 'Impact-resistant floor epoxies',
-      layoutClass: 'wide-2 tall'
-    },
-    {
-      image: '/page_banner_about.png',
-      title: 'Exterior Buildings',
-      desc: 'UV-stable silicone weather guards',
-      layoutClass: 'wide-2'
-    }
-  ]
-
-  // Brand logs slider placeholders
-  const marqueeBrands = [
-    'Asian Paints', 'Berger', 'Nerolac', 'Indigo', 'JSW', 'Dr Fixit', 'Birla White', 'ICA Wood Coatings'
-  ]
-  // Double array to make animation marquee seamless
-  const extendedBrandsList = [...marqueeBrands, ...marqueeBrands]
-
-  // Dynamic filter handler for Section 6
-  const getFeaturedProducts = (category) => {
-    switch (category) {
-      case 'Interior Paints':
-        return products.filter(p => p.id === 'asianpaintsroyaleluxuryemulsion' || p.id === 'berger-paints-silk-glamor' || p.id === 'dulux-velvet-touch')
-      case 'Exterior Paints':
-        return products.filter(p => p.id === 'asianpaintsapexultima' || p.id === 'dr-fixit-raincoat-select')
-      case 'Industrial Coatings':
-        return products.filter(p => p.category === 'Idustrial Paints')
-      case 'Waterproofing Products':
-        return products.filter(p => p.category === 'Water Proofing Materials' && p.id !== 'dr-fixit-waterproofing-application-rollers')
-      case 'Wood Finishes':
-        return products.filter(p => p.category === 'Wood Coating')
-      case 'Primers':
-        return products.filter(p => p.id === 'asian-paints-decoprime-wall-primer' || p.id === 'birla-white-wallcare-putty')
-      default:
-        return products.slice(0, 3)
-    }
-  }
-
-  const activeFeaturedProducts = getFeaturedProducts(featuredCategory)
-
-  // Project showcase categories
-  const projectGallery = [
-    {
-      image: '/about_interior.png',
-      title: 'Modern Villa Facade',
-      desc: 'Finished with Apex Ultima Weather Guard',
-      cat: 'Residential'
-    },
-    {
-      image: '/about_detail.png',
-      title: 'Veneer Furniture Coating',
-      desc: 'Sealed with Berger Imperia PU Finish',
-      cat: 'Residential'
-    },
-    {
-      image: '/page_banner.png',
-      title: 'Showroom Glass Facade',
-      desc: 'Fitted with architectural primers',
-      cat: 'Commercial'
-    },
-    {
-      image: '/page_banner_services.png',
-      title: 'Corporate Main Lobby',
-      desc: 'Decorated with Royale Play Stucco plaster',
-      cat: 'Commercial'
-    },
-    {
-      image: '/page_banner_contact.png',
-      title: 'Heavy Plant Pipeline',
-      desc: 'Coated with high-build chemical epoxies',
-      cat: 'Industrial'
-    },
-    {
-      image: '/page_banner_about.png',
-      title: 'Ankleshwar GIDC Warehouse',
-      desc: 'Anti-corrosive primer and dust-free flooring',
-      cat: 'Industrial'
-    }
-  ]
-
-  const filteredProjects = projectTab === 'All'
-    ? projectGallery
-    : projectGallery.filter(proj => proj.cat === projectTab)
-
-  // Why choose us items
-  const whyChooseUsData = [
-    {
-      title: '20+ Years Experience',
-      desc: 'Delivering authorized paint batches and hardware supplies across Ankleshwar since 2005.',
-      icon: (
-        <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
-      )
-    },
-    {
-      title: 'Premium Product Range',
-      desc: 'Stocking only certified brands: Asian Paints, Berger, Dulux, Dr. Fixit, and Birla White.',
-      icon: (
-        <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-        </svg>
-      )
-    },
-    {
-      title: 'Expert Guidance',
-      desc: 'Free site inspection, moisture diagnostics, and computerized color fandeck formulations.',
-      icon: (
-        <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-        </svg>
-      )
-    },
-    {
-      title: 'Reliable Supply',
-      desc: 'Direct depot logistics matching bulk demands for infrastructure and builders.',
-      icon: (
-        <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 10-4 0 2 2 0 004 0z" />
-        </svg>
-      )
-    },
-    {
-      title: 'Industrial Expertise',
-      desc: 'Specialized chemical-resistant floor epoxies and primers for factories and workshops.',
-      icon: (
-        <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a2 2 0 00-1.96 1.414l-.548 2.2a2 2 0 01-1.96 1.414H9.663a2 2 0 01-1.96-1.414l-.548-2.2A2 2 0 005.195 15.4l-2.387.478a2 2 0 00-.586 3.414l1.39 1.39a8 8 0 005.122 1.024h6.532a8 8 0 005.122-1.024l1.39-1.39a2 2 0 00-.586-3.414zM12 3c-1.2 0-3.6 1.8-3.6 4.8 0 2 1.6 3.6 3.6 3.6s3.6-1.6 3.6-3.6C15.6 4.8 13.2 3 12 3z" />
-        </svg>
-      )
-    },
-    {
-      title: 'Customer Satisfaction',
-      desc: 'Proudly supporting contractors, builders, and Ankleshwar homeowners with top-tier paint values.',
-      icon: (
-        <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-        </svg>
-      )
-    }
-  ]
-
-  // Testimonials Carousel data
-  const testimonials = [
-    {
-      quote: "Umiya Hardware & Paints has been our primary coatings supplier for all our industrial projects in Ankleshwar GIDC. Their direct-depot supply guarantees chemical authenticity every time.",
-      author: "Rajesh Patel",
-      role: "Industrial Infrastructure Contractor"
-    },
-    {
-      quote: "The digital color consultation and computerized tinting machine matched my living room swatches perfectly. Zero color variation between batches. Outstanding service!",
-      author: "Meera Shah",
-      role: "Ankleshwar Homeowner"
-    },
-    {
-      quote: "Their waterproofing guidance saved our commercial basement from persistent monsoon water seepage. Dr. Fixit Damp Proof systems worked exactly as recommended.",
-      author: "Amit Desai",
-      role: "Commercial Property Builder"
-    }
-  ]
-
-  const nextTestimonial = () => {
-    setTestimonialIndex((prev) => (prev + 1) % testimonials.length)
-  }
-
-  const prevTestimonial = () => {
-    setTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
-  }
-
   return (
     <>
-      {/* 1. HERO SECTION */}
+      {/* LOCAL BUSINESS SCHEMA FOR SEO */}
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Umiya Hardware & Paints",
+            "image": "https://umiya-paints.com/logo-removebg-preview.png",
+            "telephone": "+918866117573",
+            "email": "umiyapaint@yahoo.co.in",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "GF-28 Centre Point, Opp. GIDC Police Station",
+              "addressLocality": "Ankleshwar",
+              "addressRegion": "Gujarat",
+              "postalCode": "393002",
+              "addressCountry": "IN"
+            },
+            "url": "https://umiya-paints.com",
+            "priceRange": "$$",
+            "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": [
+                "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+              ],
+              "opens": "09:00",
+              "closes": "20:00"
+            }
+          })
+        }}
+      />
+
+      {/* 1. HERO SECTION WITH DYNAMIC SLIDESHOW & SLOW ZOOM */}
       <section 
-        className="home-hero-cinematic" 
+        className="home-hero-cinematic zoom-effect" 
         style={{ backgroundImage: `url('/home_hero.png')` }}
       >
         <div className="home-hero-overlay"></div>
         <div className="container-xl home-hero-container">
           <div className="home-hero-content">
             <ScrollReveal>
-              {/* Dynamic Slideshow Wrapper with key-remount animation trigger */}
               <div key={currentSlide} className="home-hero-slide-content">
                 <span className="home-hero-tagline">{slides[currentSlide].tagline}</span>
                 <h1 className="home-hero-headline" dangerouslySetInnerHTML={{ __html: slides[currentSlide].headline }}></h1>
@@ -313,23 +633,19 @@ export default function Home() {
                 </p>
                 
                 <div className="home-hero-buttons">
-                  <Link to={slides[currentSlide].primaryBtnLink} className="btn-luxury">
-                    {slides[currentSlide].primaryBtnText}
-                  </Link>
-                  <Link to={slides[currentSlide].secondaryBtnLink} className="btn-outline-gold">
+                  {slides[currentSlide].primaryBtnLink.startsWith('#') ? (
+                    <a href={slides[currentSlide].primaryBtnLink} className="btn-solid-gold">
+                      {slides[currentSlide].primaryBtnText}
+                    </a>
+                  ) : (
+                    <Link to={slides[currentSlide].primaryBtnLink} className="btn-solid-gold">
+                      {slides[currentSlide].primaryBtnText}
+                    </Link>
+                  )}
+                  <Link to={slides[currentSlide].secondaryBtnLink} className="btn-outline-white">
                     {slides[currentSlide].secondaryBtnText}
                   </Link>
                 </div>
-              </div>
-
-              {/* Floating stats inside hero */}
-              <div className="home-hero-stats-strip">
-                {heroStats.map((stat, idx) => (
-                  <div key={idx} className="home-hero-stat-item">
-                    <span className="home-hero-stat-num">{stat.num}</span>
-                    <span className="home-hero-stat-label">{stat.label}</span>
-                  </div>
-                ))}
               </div>
             </ScrollReveal>
           </div>
@@ -348,197 +664,822 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. COMPANY STORY */}
-      <section className="home-story-section">
+      {/* 2. "WHERE WE WORK" INTERACTIVE SECTION (LIGHT) */}
+      <section className="hotspots-section">
         <div className="container-xl">
-          <div className="home-story-grid">
+          <ScrollReveal>
+            <div className="section-header-centered">
+              <span className="section-subtitle-centered">Interactive Environments</span>
+              <h2 className="section-title-centered">Where We Work</h2>
+              <p style={{ color: 'var(--text-muted)', maxWidth: '600px', margin: '10px auto 0 auto', fontSize: '14px' }}>
+                Click hotspots on our blueprint architectural layout to reveal custom surface protection systems.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="hotspots-grid-layout">
             <ScrollReveal animation="fade-in-left">
-              <div className="home-story-image-frame">
-                <img src="/about_interior.png" alt="Showroom interior layout" />
+              <div className="hotspots-interactive-map">
+                {/* stylized blueprint building layout background */}
+                <div className="blueprint-map-frame">
+                  <svg
+                    viewBox="0 0 800 500"
+                    width="100%"
+                    height="100%"
+                    className="blueprint-svg"
+                    style={{ display: 'block' }}
+                  >
+                    <defs>
+                      {/* Blueprint grid pattern */}
+                      <pattern id="blueprintGrid" width="25" height="25" patternUnits="userSpaceOnUse">
+                        <path d="M 25 0 L 0 0 0 25" fill="none" stroke="rgba(191, 140, 76, 0.08)" strokeWidth="1" />
+                      </pattern>
+
+                      {/* Glass gradients */}
+                      <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#E0F2FE" stopOpacity="0.75" />
+                        <stop offset="100%" stopColor="#BAE6FD" stopOpacity="0.35" />
+                      </linearGradient>
+                      <linearGradient id="activeGlassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#FDE047" stopOpacity="0.9" />
+                        <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.6" />
+                      </linearGradient>
+
+                      {/* Wood slats gradient */}
+                      <linearGradient id="woodGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#BF8C4C" />
+                        <stop offset="50%" stopColor="#A27238" />
+                        <stop offset="100%" stopColor="#BF8C4C" />
+                      </linearGradient>
+
+                      {/* Pool water gradient */}
+                      <linearGradient id="poolGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#38BDF8" />
+                        <stop offset="100%" stopColor="#0284C7" />
+                      </linearGradient>
+
+                      {/* Retail interior glow */}
+                      <radialGradient id="spotlightGlow" cx="50%" cy="0%" r="90%">
+                        <stop offset="0%" stopColor="#FDE047" stopOpacity="0.4" />
+                        <stop offset="100%" stopColor="#FAF8F5" stopOpacity="0" />
+                      </radialGradient>
+                    </defs>
+
+                    {/* Master Plan grid background */}
+                    <rect width="800" height="500" fill="url(#blueprintGrid)" />
+
+                    {/* Zone dividers */}
+                    <line x1="300" y1="0" x2="300" y2="500" stroke="rgba(191, 140, 76, 0.12)" strokeWidth="1.5" strokeDasharray="5,5" />
+                    <line x1="500" y1="0" x2="500" y2="500" stroke="rgba(191, 140, 76, 0.12)" strokeWidth="1.5" strokeDasharray="5,5" />
+                    <line x1="0" y1="250" x2="800" y2="250" stroke="rgba(191, 140, 76, 0.12)" strokeWidth="1.5" strokeDasharray="5,5" />
+
+                    {/* Zone Labeling */}
+                    <text x="15" y="25" className="zone-label">ZONE 01 // RESIDENTIAL</text>
+                    <text x="15" y="275" className="zone-label">ZONE 02 // PREMIUM RETAIL</text>
+                    <text x="315" y="25" className="zone-label">ZONE 03 // CORPORATE</text>
+                    <text x="515" y="25" className="zone-label">ZONE 04 // HEAVY INDUSTRY</text>
+                    <text x="515" y="275" className="zone-label">ZONE 05 // LOGISTICS DEPOT</text>
+
+                    {/* 1. VILLA GROUP */}
+                    <g
+                      className={`building-group villa-group ${activeHotspot === 'Villa' ? 'active' : ''}`}
+                      onClick={() => setActiveHotspot('Villa')}
+                    >
+                      {/* Pool */}
+                      <ellipse cx="140" cy="195" rx="50" ry="10" fill="url(#poolGradient)" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="90" y1="195" x2="190" y2="195" stroke="rgba(255,255,255,0.4)" strokeWidth="1" strokeDasharray="2,2" />
+                      
+                      {/* Tree/Landscaping */}
+                      <path d="M 45,185 L 45,195" stroke="var(--color-navy)" strokeWidth="3" strokeLinecap="round" />
+                      <path d="M 45,185 Q 30,165 45,150 Q 60,135 70,150 Q 80,165 70,185 Z" fill="#E2EAD4" stroke="var(--color-navy)" strokeWidth="1.5" />
+
+                      {/* Main Ground Volume */}
+                      <rect x="85" y="120" width="130" height="65" rx="3" className="main-structure" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="2" />
+                      {/* Garage Door */}
+                      <rect x="165" y="130" width="40" height="55" className="accent-fill" fill="#FAF8F5" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="165" y1="141" x2="205" y2="141" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="165" y1="152" x2="205" y2="152" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="165" y1="163" x2="205" y2="163" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="165" y1="174" x2="205" y2="174" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Upper Cantilever Volume */}
+                      <rect x="65" y="70" width="110" height="50" rx="3" className="main-structure" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="2" />
+                      {/* Wood Accent Siding */}
+                      <rect x="175" y="70" width="30" height="50" fill="url(#woodGradient)" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      
+                      {/* Windows */}
+                      <rect x="75" y="80" width="45" height="25" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="78" y1="85" x2="98" y2="100" stroke="rgba(255,255,255,0.6)" strokeWidth="1" />
+
+                      <rect x="95" y="130" width="60" height="55" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="100" y1="135" x2="135" y2="170" stroke="rgba(255,255,255,0.6)" strokeWidth="1" />
+
+                      {/* Balcony Railing */}
+                      <rect x="175" y="120" width="30" height="25" fill="rgba(191,140,76,0.15)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="175" y1="132" x2="205" y2="132" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Pergola Roof Structure */}
+                      <line x1="75" y1="55" x2="165" y2="55" stroke="var(--color-navy)" strokeWidth="2" />
+                      <line x1="85" y1="55" x2="85" y2="70" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="110" y1="55" x2="110" y2="70" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="135" y1="55" x2="135" y2="70" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="160" y1="55" x2="160" y2="70" stroke="var(--color-navy)" strokeWidth="1.5" />
+
+                      {/* Louver ticks */}
+                      <line x1="95" y1="50" x2="100" y2="55" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="120" y1="50" x2="125" y2="55" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="145" y1="50" x2="150" y2="55" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Text Label */}
+                      <text x="140" y="225" textAnchor="middle" className="building-label">LUXURY VILLA</text>
+                    </g>
+
+
+                    {/* 2. SHOWROOM GROUP */}
+                    <g
+                      className={`building-group showroom-group ${activeHotspot === 'Showroom' ? 'active' : ''}`}
+                      onClick={() => setActiveHotspot('Showroom')}
+                    >
+                      {/* Plant and planter */}
+                      <rect x="225" y="405" width="20" height="25" className="accent-fill" fill="#FAF8F5" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <circle cx="235" cy="395" r="10" fill="#E2EAD4" stroke="var(--color-navy)" strokeWidth="1" />
+                      <circle cx="230" cy="388" r="7" fill="#E2EAD4" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Main Storefront Body */}
+                      <rect x="70" y="325" width="150" height="105" rx="4" className="main-structure" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="2" />
+                      
+                      {/* Signage Fascia */}
+                      <rect x="70" y="325" width="150" height="25" fill="#1E293B" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <text x="145" y="341" textAnchor="middle" fill="var(--color-gold)" fontSize="8" fontWeight="800" letterSpacing="1.5">UMIYA GALLERY</text>
+                      
+                      {/* Storefront Glass Facade */}
+                      <rect x="80" y="350" width="130" height="70" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1.5" />
+
+                      {/* Spotlight Glow cones */}
+                      <polygon points="110,350 90,420 130,420" fill="url(#spotlightGlow)" opacity="0.35" style={{ pointerEvents: 'none' }} />
+                      <polygon points="180,350 160,420 200,420" fill="url(#spotlightGlow)" opacity="0.35" style={{ pointerEvents: 'none' }} />
+
+                      {/* Inside Displays */}
+                      <rect x="100" y="390" width="20" height="30" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="1" />
+                      <circle cx="110" cy="382" r="5" fill="var(--color-gold)" opacity="0.75" />
+                      
+                      <rect x="170" y="390" width="20" height="30" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="1" />
+                      <polygon points="180,375 175,385 185,385" fill="var(--color-gold)" opacity="0.75" />
+
+                      {/* Glass Entrance Double Doors */}
+                      <rect x="130" y="360" width="30" height="60" fill="none" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="145" y1="360" x2="145" y2="420" stroke="var(--color-navy)" strokeWidth="1" />
+                      <circle cx="142" cy="390" r="1.5" fill="var(--color-gold)" />
+                      <circle cx="148" cy="390" r="1.5" fill="var(--color-gold)" />
+
+                      {/* Front Canopy */}
+                      <polygon points="60,325 230,312 230,325 60,325" fill="#1E293B" stroke="var(--color-gold)" strokeWidth="1.5" />
+                      <line x1="230" y1="325" x2="220" y2="430" stroke="var(--color-navy)" strokeWidth="1.5" />
+
+                      <text x="145" y="450" textAnchor="middle" className="building-label">RETAIL SHOWROOM</text>
+                    </g>
+
+
+                    {/* 3. CORPORATE OFFICE TOWER GROUP */}
+                    <g
+                      className={`building-group office-group ${activeHotspot === 'Office' ? 'active' : ''}`}
+                      onClick={() => setActiveHotspot('Office')}
+                    >
+                      {/* Main Skyscraper body */}
+                      <rect x="335" y="65" width="130" height="365" rx="5" className="main-structure" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="2.5" />
+                      
+                      {/* Slanted architectural crown */}
+                      <path d="M 335,65 L 400,25 L 465,65 Z" fill="#1E293B" stroke="var(--color-navy)" strokeWidth="2" />
+                      {/* Crown inner truss work */}
+                      <line x1="400" y1="25" x2="400" y2="65" stroke="var(--color-gold)" strokeWidth="1.5" />
+                      <line x1="335" y1="65" x2="400" y2="45" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+                      <line x1="465" y1="65" x2="400" y2="45" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+
+                      {/* Glass Columns */}
+                      <rect x="345" y="75" width="22" height="345" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <rect x="373" y="75" width="22" height="345" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <rect x="405" y="75" width="22" height="345" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <rect x="433" y="75" width="22" height="345" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Horizontal window divider lines */}
+                      <line x1="345" y1="105" x2="455" y2="105" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="345" y1="135" x2="455" y2="135" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="345" y1="165" x2="455" y2="165" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="345" y1="195" x2="455" y2="195" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="345" y1="225" x2="455" y2="225" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="345" y1="255" x2="455" y2="255" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="345" y1="285" x2="455" y2="285" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="345" y1="315" x2="455" y2="315" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="345" y1="345" x2="455" y2="345" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="345" y1="375" x2="455" y2="375" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="345" y1="405" x2="455" y2="405" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Sky Garden cutout on the side */}
+                      <rect x="415" y="195" width="48" height="60" className="accent-fill" fill="#F8F6F0" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      {/* Garden Plants */}
+                      <path d="M 425,230 Q 420,215 430,210 Q 440,205 445,215 Q 455,220 450,230 Z" fill="#E2EAD4" stroke="var(--color-navy)" strokeWidth="1" />
+                      <rect x="415" y="230" width="48" height="25" fill="rgba(191,140,76,0.2)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="415" y1="240" x2="463" y2="240" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Brand Logo Shield on Facade */}
+                      <polygon points="400,90 410,98 400,106 390,98" fill="none" stroke="var(--color-gold)" strokeWidth="2" />
+                      <circle cx="400" cy="98" r="3" fill="var(--color-gold)" />
+
+                      {/* Entrance Lobby Canopy */}
+                      <rect x="350" y="380" width="100" height="50" rx="2" fill="none" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="350" y1="395" x2="450" y2="395" stroke="var(--color-gold)" strokeWidth="1.5" />
+                      
+                      {/* Entrance doors */}
+                      <rect x="385" y="395" width="30" height="35" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="400" y1="395" x2="400" y2="430" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      <text x="400" y="455" textAnchor="middle" className="building-label">CORPORATE OFFICE</text>
+                    </g>
+
+
+                    {/* 4. HEAVY INDUSTRY FACTORY GROUP */}
+                    <g
+                      className={`building-group factory-group ${activeHotspot === 'Factory' ? 'active' : ''}`}
+                      onClick={() => setActiveHotspot('Factory')}
+                    >
+                      {/* Vents/Tanks Background */}
+                      <rect x="670" y="90" width="45" height="90" rx="3" className="main-structure" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="2" />
+                      <path d="M 670,90 Q 692.5,70 715,90 Z" fill="#1E293B" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      {/* Ladder on tank */}
+                      <line x1="705" y1="90" x2="705" y2="180" stroke="var(--color-navy)" strokeWidth="1" strokeDasharray="3,3" />
+                      
+                      {/* External pipes */}
+                      <path d="M 625,140 L 670,140" fill="none" stroke="var(--color-gold)" strokeWidth="4.5" strokeLinecap="round" />
+                      <path d="M 600,165 L 600,175 L 670,175" fill="none" stroke="var(--color-navy)" strokeWidth="2.5" strokeLinecap="round" />
+
+                      {/* Main Sawtooth Factory building */}
+                      <path
+                        d="M 520,180 L 520,115 L 555,85 L 555,115 L 590,85 L 590,115 L 625,85 L 625,115 L 660,115 L 660,180 Z"
+                        className="main-structure"
+                        fill="#FFFFFF"
+                        stroke="var(--color-navy)"
+                        strokeWidth="2"
+                      />
+
+                      {/* Sawtooth Windows */}
+                      <polygon points="522,112 552,87 552,112" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <polygon points="557,112 587,87 587,112" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <polygon points="592,112 622,87 622,112" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Silos / Chimney stack */}
+                      <rect x="635" y="45" width="12" height="70" className="main-structure" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="2" />
+                      <rect x="635" y="45" width="12" height="6" fill="var(--color-gold)" />
+                      <rect x="635" y="55" width="12" height="4" fill="var(--color-navy)" />
+
+                      <rect x="650" y="60" width="8" height="55" className="main-structure" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      
+                      {/* Smoke loops */}
+                      <path d="M 641,38 C 635,25 645,20 640,10 C 648,5 642,-2 646,-8" fill="none" stroke="rgba(191,140,76,0.35)" strokeWidth="1.5" strokeDasharray="3,3" />
+
+                      {/* Industrial cargo entry door */}
+                      <rect x="535" y="145" width="35" height="35" className="accent-fill" fill="#F8F6F0" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="535" y1="155" x2="570" y2="155" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="535" y1="165" x2="570" y2="165" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="552.5" y1="145" x2="552.5" y2="180" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Standard windows */}
+                      <rect x="585" y="130" width="20" height="15" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <rect x="615" y="130" width="20" height="15" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      <text x="590" y="225" textAnchor="middle" className="building-label">MANUFACTURING PLANT</text>
+                    </g>
+
+
+                    {/* 5. LOGISTICS WAREHOUSE GROUP */}
+                    <g
+                      className={`building-group warehouse-group ${activeHotspot === 'Warehouse' ? 'active' : ''}`}
+                      onClick={() => setActiveHotspot('Warehouse')}
+                    >
+                      {/* Main Gabled structure */}
+                      <polygon
+                        points="520,345 610,305 700,345 700,425 520,425"
+                        className="main-structure"
+                        fill="#FFFFFF"
+                        stroke="var(--color-navy)"
+                        strokeWidth="2"
+                      />
+
+                      {/* Corrugated facade vertical texture lines */}
+                      <line x1="530" y1="350" x2="530" y2="425" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+                      <line x1="550" y1="340" x2="550" y2="425" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+                      <line x1="570" y1="330" x2="570" y2="425" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+                      <line x1="590" y1="320" x2="590" y2="425" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+                      <line x1="610" y1="310" x2="610" y2="425" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+                      <line x1="630" y1="320" x2="630" y2="425" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+                      <line x1="650" y1="330" x2="650" y2="425" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+                      <line x1="670" y1="340" x2="670" y2="425" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+                      <line x1="690" y1="350" x2="690" y2="425" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+
+                      {/* Loading Docks */}
+                      {/* Dock 1 */}
+                      <rect x="535" y="375" width="45" height="50" rx="1" className="accent-fill" fill="#F1ECE4" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="535" y1="380" x2="580" y2="380" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="535" y1="385" x2="580" y2="385" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="535" y1="390" x2="580" y2="390" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="535" y1="395" x2="580" y2="395" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="535" y1="400" x2="580" y2="400" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="535" y1="405" x2="580" y2="405" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="535" y1="410" x2="580" y2="410" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="535" y1="415" x2="580" y2="415" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="535" y1="420" x2="580" y2="420" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Dock 2 */}
+                      <rect x="595" y="375" width="45" height="50" rx="1" className="accent-fill" fill="#F1ECE4" stroke="var(--color-navy)" strokeWidth="1.5" />
+                      <line x1="595" y1="380" x2="640" y2="380" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="595" y1="385" x2="640" y2="385" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="595" y1="390" x2="640" y2="390" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="595" y1="395" x2="640" y2="395" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="595" y1="400" x2="640" y2="400" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="595" y1="405" x2="640" y2="405" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="595" y1="410" x2="640" y2="410" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="595" y1="415" x2="640" y2="415" stroke="var(--color-navy)" strokeWidth="1" />
+                      <line x1="595" y1="420" x2="640" y2="420" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Dock Buffers */}
+                      <rect x="532" y="372" width="51" height="53" rx="1" fill="none" stroke="var(--color-gold)" strokeWidth="1.5" />
+                      <rect x="592" y="372" width="51" height="53" rx="1" fill="none" stroke="var(--color-gold)" strokeWidth="1.5" />
+
+                      {/* Small clerestory windows under roof */}
+                      <rect x="540" y="350" width="10" height="10" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <rect x="560" y="342" width="10" height="10" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <rect x="630" y="342" width="10" height="10" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                      <rect x="650" y="350" width="10" height="10" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+
+                      {/* Truck container parked */}
+                      <g className="delivery-truck">
+                        {/* Trailer */}
+                        <rect x="460" y="378" width="60" height="42" rx="1" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="1.5" />
+                        <line x1="465" y1="378" x2="465" y2="420" stroke="var(--color-gold)" strokeWidth="3" />
+                        <text x="492" y="402" textAnchor="middle" fill="var(--color-navy)" fontSize="6" fontWeight="700" letterSpacing="0.5">UMIYA</text>
+                        {/* Cab */}
+                        <rect x="435" y="393" width="25" height="27" rx="2" fill="#FFFFFF" stroke="var(--color-navy)" strokeWidth="1.5" />
+                        <rect x="438" y="397" width="12" height="10" className="window-glass" fill="url(#glassGradient)" stroke="var(--color-navy)" strokeWidth="1" />
+                        {/* Wheels */}
+                        <circle cx="450" cy="423" r="6" fill="#1E293B" stroke="var(--color-navy)" strokeWidth="1.5" />
+                        <circle cx="450" cy="423" r="2" fill="#FFFFFF" />
+                        <circle cx="478" cy="423" r="6" fill="#1E293B" stroke="var(--color-navy)" strokeWidth="1.5" />
+                        <circle cx="478" cy="423" r="2" fill="#FFFFFF" />
+                        <circle cx="503" cy="423" r="6" fill="#1E293B" stroke="var(--color-navy)" strokeWidth="1.5" />
+                        <circle cx="503" cy="423" r="2" fill="#FFFFFF" />
+                      </g>
+
+                      <text x="610" y="450" textAnchor="middle" className="building-label">LOGISTICS WAREHOUSE</text>
+                    </g>
+                  </svg>
+
+                  {Object.keys(hotspotsData).map((key) => {
+                    const data = hotspotsData[key]
+                    return (
+                      <button
+                        key={key}
+                        className={`hotspot-node ${activeHotspot === key ? 'active' : ''}`}
+                        style={{ top: data.top, left: data.left }}
+                        onClick={() => setActiveHotspot(key)}
+                        aria-label={`Select ${data.title}`}
+                      >
+                        <span className="hotspot-pulse"></span>
+                        <span className="hotspot-num">{key[0]}</span>
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
             </ScrollReveal>
 
             <ScrollReveal animation="fade-in-right">
-              <div>
-                <span className="about-company-tag" style={{ marginBottom: '15px', display: 'inline-block' }}>Established in 2005</span>
-                <h2 className="about-title" style={{ fontSize: '36px', marginBottom: '24px', lineHeight: '1.25' }}>
-                  About Umiya Hardware & Paints
-                </h2>
-                <p className="about-text" style={{ marginBottom: '20px' }}>
-                  For over two decades, Umiya Hardware & Paints has been a trusted supplier of architectural emulsions, heavy-duty industrial finishes, and structural waterproofing barriers in Ankleshwar.
-                </p>
-                <p className="about-text" style={{ marginBottom: '35px' }}>
-                  We build strong, long-term relationships with regional painting contractors, builders, industrial safety managers, and homeowners. By sourcing directly from authorized paint brand depots, we guarantee chemical shelf-freshness and color integrity.
-                </p>
-                <Link to="/about" className="btn-solid-dark">Read More</Link>
+              <div className="hotspots-details-panel">
+                <span className="hotspot-panel-badge">Hotspot Details</span>
+                <h3 className="hotspot-panel-title">{hotspotsData[activeHotspot].title}</h3>
+                <div className="hotspot-panel-solution-box">
+                  <strong>Recommended Solution:</strong>
+                  <p>{hotspotsData[activeHotspot].solution}</p>
+                </div>
+                <p className="hotspot-panel-desc">{hotspotsData[activeHotspot].desc}</p>
+                <div className="hotspot-panel-meta">
+                  <div>
+                    <strong>System Used:</strong>
+                    <p>{hotspotsData[activeHotspot].system}</p>
+                  </div>
+                  <div>
+                    <strong>Warranty:</strong>
+                    <p>{hotspotsData[activeHotspot].warranty}</p>
+                  </div>
+                </div>
+                <Link to="/contact?subject=Where We Work Inquiry" className="btn-solid-gold" style={{ marginTop: '20px' }}>
+                  Inquire Solution ➔
+                </Link>
               </div>
             </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* 3. IMPACT NUMBERS */}
-      <section className="home-impact-section">
-        <div className="container-xl">
-          <div className="home-impact-grid">
-            {impactNumbers.map((stat, idx) => (
-              <ScrollReveal key={idx} delay={idx * 0.1} animation="zoom-in">
-                <div>
-                  <div className="home-impact-number">{stat.num}</div>
-                  <div className="home-impact-label">{stat.label}</div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. OUR EXPERTISE */}
-      <section className="home-expertise-section">
-        <div className="container-xl">
-          <ScrollReveal>
-            <div className="section-header-centered" style={{ marginBottom: '50px' }}>
-              <span className="section-subtitle-centered">Umiya Coating Range</span>
-              <h2 className="section-title-centered" style={{ fontSize: '26px' }}>Our Specialty Expertise</h2>
-            </div>
-          </ScrollReveal>
-
-          <div className="home-expertise-grid">
-            {expertiseItems.map((item, idx) => (
-              <ScrollReveal key={idx} delay={idx * 0.08} animation="zoom-in">
-                <div className="home-expertise-card">
-                  <div className="home-expertise-img-box">
-                    <img src={item.image} alt={item.title} />
-                  </div>
-                  <div className="home-expertise-info">
-                    <span className="home-expertise-tag">{item.tag}</span>
-                    <h3 className="home-expertise-title">{item.title}</h3>
-                    <p className="home-expertise-desc">{item.desc}</p>
-                    <Link to={item.link} className="home-expertise-link">
-                      Learn More ➔
-                    </Link>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. COLOR INSPIRATION GALLERY */}
-      <section className="home-gallery-section">
-        <div className="container-xl">
-          <ScrollReveal>
-            <div className="section-header-centered" style={{ marginBottom: '60px' }}>
-              <span className="section-subtitle-centered">Design Swatches</span>
-              <h2 className="section-title-centered" style={{ fontSize: '26px' }}>Color Inspiration Gallery</h2>
-            </div>
-          </ScrollReveal>
-
-          <div className="home-gallery-grid">
-            {galleryItems.map((item, idx) => (
-              <div 
-                key={idx} 
-                className={`home-gallery-card ${item.layoutClass}`}
-              >
-                <img src={item.image} alt={item.title} />
-                <div className="home-gallery-overlay">
-                  <h4>{item.title}</h4>
-                  <p>{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 6. FEATURED PRODUCTS */}
-      <section className="home-featured-products-section">
+      {/* 3. SIGNATURE PROJECTS WALL - MASONRY BENTO GRID (DARK) */}
+      <section id="projects-section" className="bento-projects-section">
         <div className="container-xl">
           <ScrollReveal>
             <div className="section-header-centered" style={{ marginBottom: '40px' }}>
-              <span className="section-subtitle-centered">Top Choices</span>
-              <h2 className="section-title-centered" style={{ fontSize: '26px' }}>Featured Products</h2>
+              <span className="section-subtitle-centered" style={{ color: 'var(--color-gold)' }}>Portfolio Showroom</span>
+              <h2 className="section-title-centered" style={{ color: '#FFFFFF' }}>Signature Projects Wall</h2>
             </div>
           </ScrollReveal>
 
-          {/* Interactive Switcher */}
+          {/* Project Tabs */}
           <ScrollReveal animation="fade-in-up">
-            <div className="home-featured-switcher">
-              {['Interior Paints', 'Exterior Paints', 'Industrial Coatings', 'Waterproofing Products', 'Wood Finishes', 'Primers'].map(cat => (
+            <div className="home-projects-tabs" style={{ marginBottom: '50px' }}>
+              {['All', 'Residential', 'Commercial', 'Industrial'].map(tab => (
                 <button
-                  key={cat}
-                  className={`filter-btn ${featuredCategory === cat ? 'active' : ''}`}
-                  onClick={() => setFeaturedCategory(cat)}
-                  style={{ fontSize: '12.5px' }}
+                  key={tab}
+                  className={`home-projects-tab-btn ${projectTab === tab ? 'active' : ''}`}
+                  onClick={() => setProjectTab(tab)}
                 >
-                  {cat}
+                  {tab}
                 </button>
               ))}
             </div>
           </ScrollReveal>
 
-          {/* Slider Layout displaying products matching the active category */}
-          <div className="home-featured-grid-wrapper">
-            <div className="shades-grid" key={featuredCategory}>
-              {activeFeaturedProducts.map((product, idx) => (
-                <ScrollReveal key={product.id} animation="zoom-in" delay={idx * 0.05} duration={0.4}>
-                  <div className="shade-card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                    <Link to={`/products/${product.id}`} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                      <div className="shade-swatch-wrapper" style={{ height: '220px', backgroundColor: '#F8F6F1' }}>
-                        <ProductImage 
-                          id={product.id} 
-                          name={product.name} 
-                          category={product.category} 
-                          className="shade-swatch"
-                        />
-                        <span className="shade-finish-badge">{product.brand}</span>
+          {/* Bento Projects Wall */}
+          <div className="bento-wall" key={projectTab}>
+            {filteredBentoProjects.map((project, idx) => (
+              <ScrollReveal key={project.id} delay={idx * 0.05} animation="zoom-in">
+                <div className={`bento-card-wrapper ${project.layoutClass}`}>
+                  <img src={project.image} alt={project.title} loading="lazy" />
+                  <div className="bento-card-overlay">
+                    <div>
+                      <span className="bento-card-cat">{project.cat}</span>
+                      <h3 className="bento-card-title">{project.title}</h3>
+                    </div>
+                    {/* Hover statistics detail */}
+                    <div className="bento-card-hover-details">
+                      <div className="bento-stat-row">
+                        <span>Project Value:</span>
+                        <strong>{project.value}</strong>
                       </div>
-                      <div className="shade-info" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <div>
-                          <span className="shade-category">{product.category}</span>
-                          <h3 className="shade-name" style={{ fontSize: '15px', lineHeight: 1.3, margin: '4px 0 8px 0', minHeight: '42px' }}>
-                            {product.name}
-                          </h3>
-                          <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.4, marginBottom: '12px' }}>
-                            {product.shortDescription}
-                          </p>
-                        </div>
-                        <div className="shade-code-price" style={{ borderTop: '1px solid var(--border-light)', paddingTop: '12px', marginTop: 'auto' }}>
-                          <span className="shade-code" style={{ textTransform: 'uppercase', fontSize: '11px', fontWeight: 600 }}>
-                            {product.brand} Quality
-                          </span>
-                          <span className="shade-price" style={{ color: 'var(--color-gold-dark)', fontSize: '13px', fontWeight: 600 }}>
-                            View details ➔
-                          </span>
-                        </div>
+                      <div className="bento-stat-row">
+                        <span>Area Covered:</span>
+                        <strong>{project.area}</strong>
                       </div>
-                    </Link>
+                      <div className="bento-stat-row">
+                        <span>Coating System:</span>
+                        <strong>{project.system}</strong>
+                      </div>
+                      <div className="bento-stat-row">
+                        <span>Location:</span>
+                        <strong>{project.location}</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. BEFORE / AFTER TRANSFORMATION SLIDER (LIGHT) */}
+      <section className="ba-section">
+        <div className="container-xl">
+          <div className="ba-grid">
+            <ScrollReveal animation="fade-in-left">
+              <div className="ba-info-box">
+                <span className="section-subtitle-centered" style={{ textAlign: 'left' }}>Visual Verification</span>
+                <h2 className="section-title-centered" style={{ textAlign: 'left', fontSize: '36px', marginBottom: '20px' }}>
+                  Surface Transformations
+                </h2>
+                <p style={{ color: 'var(--text-muted)', fontSize: '14.5px', marginBottom: '30px', lineHeight: 1.7 }}>
+                  Glide your mouse or touch swipe over the image slider to see raw weathered areas transform into premium protective coatings.
+                </p>
+                <div className="ba-tab-list">
+                  {Object.keys(beforeAfterData).map((tab) => (
+                    <button
+                      key={tab}
+                      className={`ba-tab-btn ${beforeAfterTab === tab ? 'active' : ''}`}
+                      onClick={() => setBeforeAfterTab(tab)}
+                    >
+                      <span className="ba-tab-title">{tab}</span>
+                      <span className="ba-tab-arrow">➔</span>
+                    </button>
+                  ))}
+                </div>
+                <p className="ba-desc">
+                  <strong>Description: </strong>{currentBA.desc}
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal animation="fade-in-right">
+              <div 
+                ref={widgetRef}
+                className="ba-widget"
+                onMouseMove={handleMouseMove}
+                onTouchMove={handleTouchMove}
+              >
+                <img src={currentBA.after} className="ba-img-after" alt="After treatment" loading="lazy" />
+                <div 
+                  className="ba-before-wrapper" 
+                  style={{ width: `${sliderPosition}%` }}
+                >
+                  <img 
+                    src={currentBA.before} 
+                    className="ba-img-before" 
+                    style={{ width: widgetWidth }}
+                    alt="Before treatment" 
+                    loading="lazy"
+                  />
+                </div>
+                <div 
+                  className="ba-divider" 
+                  style={{ left: `${sliderPosition}%` }}
+                >
+                  <div className="ba-divider-handle">
+                    <span className="ba-divider-arrow">◀</span>
+                    <span className="ba-divider-arrow">▶</span>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. SURFACE PROTECTION JOURNEY TIMELINE (DARK/CHARCOAL) */}
+      <section className="journey-section">
+        <div className="container-xl">
+          <ScrollReveal>
+            <div className="section-header-centered">
+              <span className="section-subtitle-centered" style={{ color: 'var(--color-gold)' }}>Application Method</span>
+              <h2 className="section-title-centered" style={{ color: '#FFFFFF' }}>Surface Protection Journey</h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="journey-flow-wrapper">
+            <div className="journey-line"></div>
+            <div className="journey-grid">
+              {journeySteps.map((step, idx) => (
+                <ScrollReveal key={idx} delay={idx * 0.08} animation="fade-in-up">
+                  <div className="journey-card">
+                    <div className="journey-num-box">
+                      <span className="journey-num">{step.num}</span>
+                    </div>
+                    <h3 className="journey-title">{step.title}</h3>
+                    <p className="journey-desc">{step.desc}</p>
                   </div>
                 </ScrollReveal>
               ))}
             </div>
           </div>
+        </div>
+      </section>
 
-          <div style={{ textAlign: 'center', marginTop: '50px' }}>
-            <Link to="/products" className="btn-outline-dark">View Entire Catalog</Link>
+      {/* 6. "EXPLORE BY SPACE" (LIGHT) */}
+      <section className="explore-spaces-section">
+        <div className="container-xl">
+          <ScrollReveal>
+            <div className="section-header-centered">
+              <span className="section-subtitle-centered">Design Matrix</span>
+              <h2 className="section-title-centered">Explore By Space</h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="explore-spaces-grid">
+            {exploreSpaces.map((space, idx) => (
+              <ScrollReveal key={idx} delay={idx * 0.05} animation="zoom-in">
+                <Link to={space.link} className="explore-space-card">
+                  <span className="explore-space-icon">{space.icon}</span>
+                  <h3 className="explore-space-title">{space.title}</h3>
+                  <p className="explore-space-desc">{space.desc}</p>
+                  <span className="explore-space-link">View catalog ➔</span>
+                </Link>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 7. TRUSTED BRANDS */}
-      <section className="home-brands-section">
+      {/* 7. LUXURY MATERIALS SHOWCASE (LIGHT) */}
+      <section className="materials-showcase-section" style={{ backgroundColor: '#FAF8F5', borderTop: '1px solid var(--border-light)' }}>
         <div className="container-xl">
           <ScrollReveal>
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-              <span style={{ fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--color-gold)', fontWeight: 700 }}>Authorized Dealerships</span>
+            <div className="section-header-centered">
+              <span className="section-subtitle-centered">Quality Catalogue</span>
+              <h2 className="section-title-centered">Luxury Materials Showcase</h2>
             </div>
           </ScrollReveal>
-          
-          <div className="home-brands-marquee">
-            <div className="home-brands-track">
+
+          <div className="materials-horizontal-scroll">
+            {materialsShowcase.map((mat, idx) => (
+              <ScrollReveal key={idx} delay={idx * 0.08} animation="zoom-in">
+                <div className="material-showcase-card">
+                  <div className="material-badge">{mat.brand}</div>
+                  <h3 className="material-title">{mat.title}</h3>
+                  <p className="material-desc">{mat.desc}</p>
+                  <Link to="/products" className="material-action-btn">
+                    View Specifications ➔
+                  </Link>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 8. PROJECT IMPACT COUNTER (DARK) */}
+      <section className="impact-counter-section">
+        <div className="container-xl">
+          <div className="impact-counter-grid">
+            <ScrollReveal animation="zoom-in" delay={0.1}>
+              <div className="impact-counter-card">
+                <div className="impact-counter-num">12 Million+</div>
+                <div className="impact-counter-label">Sq. Ft. Protected</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal animation="zoom-in" delay={0.2}>
+              <div className="impact-counter-card">
+                <div className="impact-counter-num">5,000+</div>
+                <div className="impact-counter-label">Projects Delivered</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal animation="zoom-in" delay={0.3}>
+              <div className="impact-counter-card">
+                <div className="impact-counter-num">20+</div>
+                <div className="impact-counter-label">Years Experience</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal animation="zoom-in" delay={0.4}>
+              <div className="impact-counter-card">
+                <div className="impact-counter-num">1,000+</div>
+                <div className="impact-counter-label">Satisfied Clients</div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. COATING COLOR VISUALIZER (CHARCOAL) */}
+      <section className="visualizer-section">
+        {/* Global SVG Definitions for patterns and filters */}
+        <svg width="0" height="0" style={{ position: 'absolute', zIndex: -1 }}>
+          <defs>
+            {/* Linen Texture Pattern */}
+            <pattern id="global-linen-pat" width="8" height="8" patternUnits="userSpaceOnUse">
+              <line x1="0" y1="4" x2="8" y2="4" stroke="#000000" strokeWidth="0.8" opacity="0.12" />
+              <line x1="4" y1="0" x2="4" y2="8" stroke="#000000" strokeWidth="0.8" opacity="0.12" />
+              <line x1="0" y1="1" x2="8" y2="1" stroke="#ffffff" strokeWidth="0.5" opacity="0.08" />
+              <line x1="1" y1="0" x2="1" y2="8" stroke="#ffffff" strokeWidth="0.5" opacity="0.08" />
+            </pattern>
+            
+            {/* Stucco Fractal Noise Filter */}
+            <filter id="global-stucco-filt" x="0%" y="0%" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="4" result="noise" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.16 0" />
+              <feBlend mode="multiply" in="SourceGraphic" in2="noise" />
+            </filter>
+          </defs>
+        </svg>
+
+        <div className="container-xl">
+          <ScrollReveal>
+            <div className="section-header-centered" style={{ marginBottom: '50px' }}>
+              <span className="section-subtitle-centered" style={{ color: 'var(--color-gold)' }}>Interactive Studio</span>
+              <h2 className="section-title-centered" style={{ color: '#FFFFFF' }}>Coating Color Visualizer</h2>
+              <p style={{ color: 'rgba(255,255,255,0.7)', maxWidth: '600px', margin: '10px auto 0 auto', fontSize: '14px' }}>
+                Select a space and tap color swatches below to dynamically test paint shades live in our simulation.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="visualizer-container-grid">
+            <ScrollReveal animation="fade-in-left">
+              <div className="visualizer-mockup-frame" style={{ position: 'relative' }}>
+                <div className="visualizer-image-box" style={{ background: '#FAF8F5', height: '440px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {renderVisualizerSuite()}
+                  
+                  {selectedColor && (
+                    <div className="shade-active-indicator" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <span 
+                          style={{ 
+                            width: '16px', 
+                            height: '16px', 
+                            borderRadius: '50%', 
+                            backgroundColor: selectedColor,
+                            border: '1.5px solid rgba(15,23,42,0.15)'
+                          }}
+                        ></span>
+                        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-navy)' }}>
+                          {visualizerColors.find(c => c.hex === selectedColor)?.name}
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--color-gold-dark)' }}>
+                        {selectedColor}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal animation="fade-in-right">
+              <div className="visualizer-controls-panel">
+                <h3 className="visualizer-panel-title">Visualizer Suite</h3>
+                
+                <div className="visualizer-space-selector">
+                  <strong>1. Choose Environment:</strong>
+                  <div className="visualizer-space-buttons">
+                    {['Living Room', 'Bedroom', 'Sideboard Cabinet', 'Wood Planks', 'Linen Wall', 'Stucco Wall'].map((space) => (
+                      <button
+                        key={space}
+                        className={`visualizer-space-btn ${visualizerSpace === space ? 'active' : ''}`}
+                        onClick={() => setVisualizerSpace(space)}
+                        style={{ fontSize: '12px', padding: '8px 16px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                      >
+                        {space === 'Living Room' && '🛋️'}
+                        {space === 'Bedroom' && '🛏️'}
+                        {space === 'Sideboard Cabinet' && '🗄️'}
+                        {space === 'Wood Planks' && '🪵'}
+                        {space === 'Linen Wall' && '🕸️'}
+                        {space === 'Stucco Wall' && '🛕'}
+                        <span>{space}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="visualizer-color-swatches-box">
+                  <strong>2. Select Shade Color:</strong>
+                  <div className="visualizer-swatches">
+                    {visualizerColors.map((color) => (
+                      <button
+                        key={color.name}
+                        className={`visualizer-swatch-dot ${selectedColor === color.hex ? 'active' : ''}`}
+                        style={{ backgroundColor: color.hex }}
+                        onClick={() => setSelectedColor(color.hex)}
+                        title={color.name}
+                      >
+                        <span 
+                          className="swatch-check"
+                          style={{ 
+                            color: color.isLight ? 'var(--color-navy)' : '#FFFFFF',
+                            textShadow: color.isLight ? 'none' : '0 1px 3px rgba(0,0,0,0.6)'
+                          }}
+                        >
+                          ✓
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="visualizer-active-shade-name">
+                    Active Color tint: <strong>{visualizerColors.find(c => c.hex === selectedColor)?.name} ({selectedColor})</strong>
+                  </div>
+                </div>
+
+                <div className="visualizer-note">
+                  <p>Note: Digital color renders may vary slightly from real dried paint swatches. We highly recommend booking a physical site assessment for exact Colourworld matches.</p>
+                </div>
+
+                {(() => {
+                  const activeColor = visualizerColors.find(c => c.hex === selectedColor) || visualizerColors[0];
+                  return (
+                    <Link 
+                      to={`/contact?subject=Color Visualizer Choice (${visualizerSpace})&shade=${encodeURIComponent(activeColor.name)}`} 
+                      className="btn-solid-gold visualizer-submit-btn" 
+                      style={{ 
+                        marginTop: '20px', 
+                        width: '100%', 
+                        textAlign: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: activeColor.hex,
+                        color: activeColor.isLight ? 'var(--color-navy)' : '#FFFFFF',
+                        border: activeColor.isLight ? '1.5px solid rgba(15, 23, 42, 0.18)' : '1.5px solid transparent',
+                        boxShadow: activeColor.isLight 
+                          ? '0 4px 14px rgba(15, 23, 42, 0.08)' 
+                          : `0 4px 14px ${activeColor.hex}50`,
+                        textShadow: activeColor.isLight ? 'none' : '0 1px 2px rgba(0, 0, 0, 0.15)'
+                      }}
+                    >
+                      Request Shade Swatch Sample ➔
+                    </Link>
+                  );
+                })()}
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 10. CLIENT LOGO MARQUEE (LIGHT) */}
+      <section className="marquee-brands-section" style={{ padding: '60px 0', backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border-light)' }}>
+        <div className="container-xl">
+          <div className="marquee-frame">
+            <div className="marquee-track">
               {extendedBrandsList.map((brand, idx) => (
-                <div key={idx} className="home-brand-logo-text">
+                <div key={idx} className="marquee-logo-text">
                   {brand}
                 </div>
               ))}
@@ -547,113 +1488,201 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. PROJECT SHOWCASE */}
-      <section className="home-projects-section">
+      {/* 11. INDUSTRY & SECTOR SOLUTIONS (LIGHT) */}
+      <section className="sectors-section" style={{ padding: '120px 0', backgroundColor: '#FFFFFF' }}>
         <div className="container-xl">
           <ScrollReveal>
-            <div className="section-header-centered" style={{ marginBottom: '30px' }}>
-              <span className="section-subtitle-centered">Our Portfolio</span>
-              <h2 className="section-title-centered" style={{ fontSize: '26px' }}>Project Showcase</h2>
+            <div className="section-header-centered">
+              <span className="section-subtitle-centered">Market Sectors</span>
+              <h2 className="section-title-centered">Industry Coating Solutions</h2>
             </div>
           </ScrollReveal>
 
-          {/* Project Tabs */}
-          <div className="home-projects-tabs">
-            {['All', 'Residential', 'Commercial', 'Industrial'].map(tab => (
-              <button
-                key={tab}
-                className={`home-projects-tab-btn ${projectTab === tab ? 'active' : ''}`}
-                onClick={() => setProjectTab(tab)}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          {/* Full-width category project grid */}
-          <div className="home-projects-grid" key={projectTab}>
-            {filteredProjects.map((project, idx) => (
-              <ScrollReveal key={idx} delay={idx * 0.05} animation="zoom-in">
-                <div className="home-project-card">
-                  <img src={project.image} alt={project.title} />
-                  <div className="home-project-overlay">
-                    <h4>{project.title}</h4>
-                    <p>{project.desc}</p>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 9. WHY CHOOSE US */}
-      <section className="home-why-section">
-        <div className="container-xl">
-          <ScrollReveal>
-            <div className="section-header-centered" style={{ marginBottom: '60px' }}>
-              <span className="section-subtitle-centered">The Umiya Edge</span>
-              <h2 className="section-title-centered" style={{ fontSize: '26px' }}>Why Choose Us</h2>
-            </div>
-          </ScrollReveal>
-
-          <div className="home-why-grid">
-            {whyChooseUsData.map((item, idx) => (
-              <ScrollReveal key={idx} delay={idx * 0.08} animation="fade-in-up">
-                <div className="home-why-card">
-                  <div className="home-why-icon-box">{item.icon}</div>
-                  <h3 className="home-why-title">{item.title}</h3>
-                  <p className="home-why-desc">{item.desc}</p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 10. TESTIMONIALS */}
-      <section className="home-testimonials-section">
-        <div className="container-xl">
-          <ScrollReveal>
-            <div className="section-header-centered" style={{ marginBottom: '60px' }}>
-              <span className="section-subtitle-centered">Customer Testimonials</span>
-              <h2 className="section-title-centered" style={{ fontSize: '26px' }}>Client Reviews</h2>
-            </div>
-          </ScrollReveal>
-
-          <div className="home-testimonials-container">
-            <ScrollReveal key={testimonialIndex} animation="zoom-in" duration={0.4}>
-              <div className="home-testimonial-card">
-                <div className="home-testimonial-stars">★★★★★</div>
-                <p className="home-testimonial-text">
-                  "{testimonials[testimonialIndex].quote}"
-                </p>
-                <div className="home-testimonial-user">
-                  {testimonials[testimonialIndex].author}
-                </div>
-                <div className="home-testimonial-role">
-                  {testimonials[testimonialIndex].role}
-                </div>
+          <div className="sectors-grid">
+            <ScrollReveal animation="zoom-in" delay={0.1}>
+              <div className="sector-card">
+                <span className="sector-icon">🏢</span>
+                <h3 className="sector-title">Residential</h3>
+                <p className="sector-desc">Premium interior paints, damp proof waterproofing courses, and high-quality exterior emulsions for custom villas.</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal animation="zoom-in" delay={0.2}>
+              <div className="sector-card">
+                <span className="sector-icon">🏨</span>
+                <h3 className="sector-title">Hospitality</h3>
+                <p className="sector-desc">Lustre designer textures, velvet-sheen interior coatings, and luxury veneers finish for hotels and restaurants.</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal animation="zoom-in" delay={0.3}>
+              <div className="sector-card">
+                <span className="sector-icon">🏬</span>
+                <h3 className="sector-title">Commercial</h3>
+                <p className="sector-desc">Impact-resistant coatings, corporate office flat emulsions, and high-reflectivity glass-facade framing primers.</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal animation="zoom-in" delay={0.4}>
+              <div className="sector-card">
+                <span className="sector-icon">🏭</span>
+                <h3 className="sector-title">Industrial</h3>
+                <p className="sector-desc">Anti-corrosive chemical coatings, rust protection zinc oxide primers, and safety pipe paints matching GIDC norms.</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal animation="zoom-in" delay={0.5}>
+              <div className="sector-card">
+                <span className="sector-icon">🏬</span>
+                <h3 className="sector-title">Warehousing</h3>
+                <p className="sector-desc">Heavy-duty seamless dust-free epoxy floorings resisting high rubber friction and structural forklift loads.</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal animation="zoom-in" delay={0.6}>
+              <div className="sector-card">
+                <span className="sector-icon">🏫</span>
+                <h3 className="sector-title">Educational</h3>
+                <p className="sector-desc">Eco-safe, low-odor, zero-VOC interior wall emulsions ensuring healthy classroom air for schools and colleges.</p>
               </div>
             </ScrollReveal>
           </div>
+        </div>
+      </section>
 
-          <div className="home-testimonials-nav">
-            <button className="home-testimonials-btn" onClick={prevTestimonial} aria-label="Previous testimonial">
-              <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button className="home-testimonials-btn" onClick={nextTestimonial} aria-label="Next testimonial">
-              <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+      {/* 12. WHY PREMIUM CLIENTS CHOOSE US (LIGHT) */}
+      <section className="why-premium-section" style={{ padding: '120px 0', backgroundColor: '#FAF8F5', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)' }}>
+        <div className="container-xl">
+          <ScrollReveal>
+            <div className="section-header-centered">
+              <span className="section-subtitle-centered">The Umiya Edge</span>
+              <h2 className="section-title-centered">Why Premium Clients Choose Us</h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="premium-why-grid">
+            {premiumWhyChooseUs.map((item, idx) => (
+              <ScrollReveal key={idx} delay={idx * 0.05} animation="fade-in-up">
+                <div className="premium-why-card">
+                  <span className="premium-why-num">0{idx + 1}</span>
+                  <h3 className="premium-why-title">{item.title}</h3>
+                  <p className="premium-why-desc">{item.desc}</p>
+                </div>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 11. CONTACT CTA */}
+      {/* 13. VIDEO PROJECT SHOWCASE (DARK/CHARCOAL) */}
+      <section className="video-showcase-section">
+        <div className="container-xl">
+          <ScrollReveal>
+            <div className="section-header-centered" style={{ marginBottom: '50px' }}>
+              <span className="section-subtitle-centered" style={{ color: 'var(--color-gold)' }}>Visual Proof</span>
+              <h2 className="section-title-centered" style={{ color: '#FFFFFF' }}>Video Project Showcase</h2>
+              <p style={{ color: 'rgba(255,255,255,0.7)', maxWidth: '600px', margin: '10px auto 0 auto', fontSize: '14px' }}>
+                Drone walkthroughs, project walkthroughs, and installation process. Seeing is believing.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="video-showcase-grid-wrapper">
+            <ScrollReveal animation="zoom-in">
+              <div className="video-player-frame">
+                <div className="video-play-overlay">
+                  <div className="video-play-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                  <span className="video-play-text">Watch Drone Walkthrough (0:45)</span>
+                </div>
+                <img src="/projects/modern_villa_facade.png" alt="Video Showcase Cover" className="video-poster-img" loading="lazy" />
+              </div>
+            </ScrollReveal>
+
+            <div className="video-showcase-info-cards">
+              <div className="video-info-card">
+                <span className="video-info-icon">🛩️</span>
+                <h4>Drone Project Footage</h4>
+                <p>High-altitude aerial views tracking our large-scale warehouse roof coat applications and structural paint uniformity.</p>
+              </div>
+              <div className="video-info-card">
+                <span className="video-info-icon">📹</span>
+                <h4>Site Walkthroughs</h4>
+                <p>Interior and exterior video tours showing dry-film thickness inspection, color accuracy, and seamless wall textures.</p>
+              </div>
+              <div className="video-info-card">
+                <span className="video-info-icon">🛠️</span>
+                <h4>Coating Process</h4>
+                <p>Step-by-step video capturing substrate preparation, primer adhesion layers, and ultimate weather-guard application.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 15. SUCCESS STORIES / CASE STUDY WALKTHROUGH (CHARCOAL/DARK) */}
+      <section className="case-studies-section">
+        <div className="container-xl">
+          <ScrollReveal>
+            <div className="section-header-centered" style={{ marginBottom: '50px' }}>
+              <span className="section-subtitle-centered" style={{ color: 'var(--color-gold)' }}>Case Studies</span>
+              <h2 className="section-title-centered" style={{ color: '#FFFFFF' }}>Premium Success Stories</h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="case-studies-container">
+            <div className="case-studies-selector-tabs">
+              {caseStudies.map((cs, idx) => (
+                <button
+                  key={idx}
+                  className={`case-study-tab-btn ${activeCaseIndex === idx ? 'active' : ''}`}
+                  onClick={() => setActiveCaseIndex(idx)}
+                >
+                  {cs.title}
+                </button>
+              ))}
+            </div>
+
+            <div className="case-study-detail-card">
+              <ScrollReveal key={activeCaseIndex} animation="zoom-in" duration={0.4}>
+                <div className="case-study-grid-inner">
+                  <div className="case-study-info">
+                    <span className="case-study-badge">Project Audit</span>
+                    <h3 className="case-study-title">{caseStudies[activeCaseIndex].title}</h3>
+                    
+                    <div className="case-study-block">
+                      <strong>Challenge:</strong>
+                      <p>{caseStudies[activeCaseIndex].challenge}</p>
+                    </div>
+
+                    <div className="case-study-block">
+                      <strong>Solution:</strong>
+                      <p>{caseStudies[activeCaseIndex].solution}</p>
+                    </div>
+
+                    <div className="case-study-block">
+                      <strong>Result:</strong>
+                      <p>{caseStudies[activeCaseIndex].result}</p>
+                    </div>
+                  </div>
+                  <div className="case-study-image-box">
+                    <img src={caseStudies[activeCaseIndex].image} alt={caseStudies[activeCaseIndex].title} loading="lazy" />
+                  </div>
+                </div>
+              </ScrollReveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 14. FLOATING CONSULTATION WIDGET */}
+      <div className="floating-consultation-card">
+        <span className="floating-consult-badge">Help Selecting?</span>
+        <p className="floating-consult-desc">Get professional guidance on paints and coatings.</p>
+        <Link to="/contact?subject=Floating Widget Consultation" className="floating-consult-btn">
+          Book Free consultation ➔
+        </Link>
+      </div>
+
+      {/* 16. PREMIUM CTA (DARK NAVY) */}
       <section 
         className="home-contact-cta-section" 
         style={{ backgroundImage: `url('/page_banner.png')` }}
@@ -661,17 +1690,50 @@ export default function Home() {
         <div className="home-contact-cta-overlay"></div>
         <div className="container-xl home-contact-cta-container">
           <ScrollReveal animation="fade-in-up">
-            <h2 className="home-contact-cta-title">Ready To Transform Your Space?</h2>
-            <p className="home-contact-cta-desc">
-              Speak with our experts for paint, coating and waterproofing solutions.
+            <h2 className="home-contact-cta-title">Let's Build Something Exceptional.</h2>
+            <p className="home-contact-cta-desc" style={{ maxWidth: '700px', margin: '0 auto 40px auto' }}>
+              Speak directly with our coatings technical engineers. We offer surface diagnostics, moisture level verification, and custom specifications.
             </p>
-            <div className="home-contact-cta-buttons">
-              <Link to="/contact" className="btn-luxury">Contact Us</Link>
-              <Link to="/contact?subject=Request Quote" className="btn-outline-gold" style={{ border: '1px solid rgba(255,255,255,0.4)', color: 'white' }}>Request Quote</Link>
+            
+            <div className="home-contact-cta-buttons" style={{ marginBottom: '50px' }}>
+              <Link to="/contact?subject=Request Site Visit" className="btn-solid-gold">Schedule Site Visit</Link>
+              <Link to="/contact?subject=Get Quote" className="btn-outline-white">Get Quote</Link>
+            </div>
+
+            {/* Quick Contact info */}
+            <div className="cta-quick-contacts">
+              <a href="tel:+918866117573" className="cta-contact-item">
+                <span className="cta-contact-icon">📞</span>
+                <span>+91 88661 17573</span>
+              </a>
+              <a href="https://wa.me/918866117573" target="_blank" rel="noopener noreferrer" className="cta-contact-item">
+                <span className="cta-contact-icon">💬</span>
+                <span>WhatsApp Expert</span>
+              </a>
+              <a href="mailto:umiyapaint@yahoo.co.in" className="cta-contact-item">
+                <span className="cta-contact-icon">✉️</span>
+                <span>umiyapaint@yahoo.co.in</span>
+              </a>
             </div>
           </ScrollReveal>
         </div>
       </section>
+
+      {/* 9. MOBILE STICKY ACTION BAR */}
+      <div className="mobile-action-bar">
+        <a href="tel:+918866117573" className="mobile-action-btn call">
+          <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+          </svg>
+          <span>Call Store</span>
+        </a>
+        <a href="https://wa.me/918866117573" target="_blank" rel="noopener noreferrer" className="mobile-action-btn whatsapp">
+          <span>WhatsApp</span>
+        </a>
+        <Link to="/contact?subject=Request Quote" className="mobile-action-btn quote">
+          <span>Get Quote</span>
+        </Link>
+      </div>
     </>
   )
 }
