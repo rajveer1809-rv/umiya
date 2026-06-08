@@ -249,15 +249,14 @@ export default function Home() {
 
   // 9. Live Coating Visualizer States
   const [visualizerSpace, setVisualizerSpace] = useState('Living Room')
-  const [selectedColor, setSelectedColor] = useState('#FAF8F5') // Default warm cream
+  const [selectedColor, setSelectedColor] = useState('#1E2D42') // Default Deep Navy matching mockup
 
   const visualizerColors = [
     { name: 'Warm Cream', hex: '#FAF8F5', isLight: true },
     { name: 'Luxury Gold', hex: '#BF8C4C', isLight: false },
-    { name: 'Steel Blue', hex: '#637A9F', isLight: false },
+    { name: 'Deep Navy', hex: '#1E2D42', isLight: false },
     { name: 'Slate Gray', hex: '#8F9B9C', isLight: true },
-    { name: 'Terracotta', hex: '#A85A42', isLight: false },
-    { name: 'Deep Navy', hex: '#1E2D42', isLight: false }
+    { name: 'Terracotta', hex: '#A85A42', isLight: false }
   ]
 
   const renderVisualizerSuite = () => {
@@ -343,36 +342,58 @@ export default function Home() {
               <stop offset="0%" stopColor="#FEF08A" stopOpacity="0.25" />
               <stop offset="100%" stopColor="#FEF08A" stopOpacity="0.0" />
             </linearGradient>
+            <linearGradient id="cove-glow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#FFEBD6" stopOpacity="0.85" />
+              <stop offset="25%" stopColor="#FFEBD6" stopOpacity="0.5" />
+              <stop offset="65%" stopColor="#FFEBD6" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#FFEBD6" stopOpacity="0.0" />
+            </linearGradient>
+            <linearGradient id="bedroom-carpet" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#F5F5F4" />
+              <stop offset="100%" stopColor="#E7E5E4" />
+            </linearGradient>
           </defs>
 
           {/* Wall Background (Painted with hexColor) */}
           <rect width="800" height="320" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
+          
           {/* Lamp Wall Glows */}
           <circle cx="110" cy="210" r="160" fill="url(#lamp-glow-left)" style={{ mixBlendMode: 'screen' }} />
           <circle cx="690" cy="210" r="160" fill="url(#lamp-glow-right)" style={{ mixBlendMode: 'screen' }} />
+          
+          {/* LED Cove Lighting Glow */}
+          <rect y="15" width="800" height="100" fill="url(#cove-glow)" style={{ mixBlendMode: 'screen' }} />
+          
           {/* Wall ambient shading */}
           <rect width="800" height="320" fill="url(#wall-shading)" style={{ mixBlendMode: 'multiply' }} />
-          {/* Ceiling ambient shadow */}
-          <rect width="800" height="40" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply' }} />
+          
+          {/* Crown Molding */}
+          <rect width="800" height="15" fill="#FAF8F5" />
+          <rect y="15" width="800" height="5" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply' }} />
+          
           {/* Left and Right corners */}
           <rect width="40" height="320" fill="url(#right-corner-ao)" style={{ mixBlendMode: 'multiply', transform: 'scaleX(-1)', transformOrigin: '20px 0' }} />
           <rect x="760" width="40" height="320" fill="url(#right-corner-ao)" style={{ mixBlendMode: 'multiply' }} />
           
+          {/* Skirting Board */}
+          <rect y="310" width="800" height="10" fill="#FAF8F5" />
+          <line x1="0" y1="310" x2="800" y2="310" stroke="#E2E8F0" strokeWidth="1" />
+
           {/* Floor */}
-          <rect y="320" width="800" height="180" fill="#E5E7EB" />
-          <line x1="0" y1="320" x2="800" y2="320" stroke="#D1D5DB" strokeWidth="2" />
+          <rect y="320" width="800" height="180" fill="url(#bedroom-carpet)" />
+          <rect y="320" width="800" height="15" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply', transform: 'scaleY(-1)', transformOrigin: '0 327.5px' }} />
 
           {/* Bed Wall Cast Shadow */}
           <image href="/images/luxury_bed.png" x="175" y="160" width="450" height="270" filter="url(#cast-shadow-filter)" transform="translate(0, 15)" style={{ mixBlendMode: 'multiply' }} />
           {/* Bed Contact Shadow */}
-          <ellipse cx="400" cy="410" rx="220" ry="12" fill="url(#contact-shadow)" opacity="0.8" />
+          <ellipse cx="400" cy="425" rx="220" ry="10" fill="url(#contact-shadow)" opacity="0.85" />
           {/* Bed Headboard, Mattress & Blanket */}
           <image href="/images/luxury_bed.png" x="175" y="160" width="450" height="270" filter="url(#soft-shadow)" />
 
           {/* Left Nightstand Wall Cast Shadow */}
           <image href="/images/nightstand_lamp.png" x="55" y="210" width="110" height="200" filter="url(#cast-shadow-filter)" transform="translate(-10, 8)" style={{ mixBlendMode: 'multiply' }} />
           {/* Left Nightstand Contact Shadow */}
-          <ellipse cx="110" cy="405" rx="50" ry="6" fill="url(#contact-shadow)" opacity="0.85" />
+          <ellipse cx="110" cy="405" rx="45" ry="5" fill="url(#contact-shadow)" opacity="0.85" />
           {/* Left Nightstand */}
           <image href="/images/nightstand_lamp.png" x="55" y="210" width="110" height="200" filter="url(#soft-shadow)" />
 
@@ -381,26 +402,26 @@ export default function Home() {
             <image href="/images/nightstand_lamp.png" x="0" y="210" width="110" height="200" filter="url(#cast-shadow-filter)" transform="translate(-10, 8)" />
           </g>
           {/* Right Nightstand Contact Shadow */}
-          <ellipse cx="690" cy="405" rx="50" ry="6" fill="url(#contact-shadow)" opacity="0.85" />
+          <ellipse cx="690" cy="405" rx="45" ry="5" fill="url(#contact-shadow)" opacity="0.85" />
           {/* Right Nightstand (flipped horizontally) */}
           <g transform="translate(745, 0) scale(-1, 1)" filter="url(#soft-shadow)">
             <image href="/images/nightstand_lamp.png" x="0" y="210" width="110" height="200" />
           </g>
 
           {/* Lamp Light Cones */}
-          <polygon points="110,210 40,340 180,340" fill="url(#lamp-cone-left)" opacity="0.6" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
-          <polygon points="690,210 620,340 760,340" fill="url(#lamp-cone-left)" opacity="0.6" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
+          <polygon points="110,210 40,340 180,340" fill="url(#lamp-cone-left)" opacity="0.5" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
+          <polygon points="690,210 620,340 760,340" fill="url(#lamp-cone-left)" opacity="0.5" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
 
-          {/* Picture Frame above bed */}
+          {/* Centered Gold-framed Art Painting above bed */}
           <g filter="url(#soft-shadow)">
-            <rect x="340" y="40" width="120" height="80" fill="#FAF8F5" stroke="#1F2937" strokeWidth="3" />
-            <circle cx="400" cy="80" r="20" fill="#F59E0B" />
+            <rect x="338" y="38" width="124" height="84" fill="none" stroke="#C5A880" strokeWidth="3" />
+            <image href="/images/wall_painting.png" x="340" y="40" width="120" height="80" />
           </g>
         </svg>
       )
     }
 
-    // Default: Living Room
+    // Default: Living Room (mockup match)
     return (
       <svg viewBox="0 0 800 500" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
         <defs>
@@ -413,10 +434,10 @@ export default function Home() {
             <stop offset="80%" stopColor="#000000" stopOpacity="0.0" />
             <stop offset="100%" stopColor="#000000" stopOpacity="0.15" />
           </linearGradient>
-          <linearGradient id="wood-floor" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#DDB892" />
-            <stop offset="50%" stopColor="#B08968" />
-            <stop offset="100%" stopColor="#7F5539" />
+          <linearGradient id="dark-wood-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#2E1C0C" />
+            <stop offset="50%" stopColor="#1C0F05" />
+            <stop offset="100%" stopColor="#0F0802" />
           </linearGradient>
           <radialGradient id="contact-shadow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#0F172A" stopOpacity="0.85" />
@@ -436,70 +457,111 @@ export default function Home() {
           </linearGradient>
           <linearGradient id="right-corner-ao" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="#000000" stopOpacity="0.0" />
-            <stop offset="100%" stopColor="#000000" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0.4" />
           </linearGradient>
           <linearGradient id="ceiling-ao" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#000000" stopOpacity="0.25" />
             <stop offset="100%" stopColor="#000000" stopOpacity="0.0" />
           </linearGradient>
+          <linearGradient id="cove-glow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FFEBD6" stopOpacity="0.85" />
+            <stop offset="25%" stopColor="#FFEBD6" stopOpacity="0.5" />
+            <stop offset="65%" stopColor="#FFEBD6" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#FFEBD6" stopOpacity="0.0" />
+          </linearGradient>
+          <radialGradient id="lamp-glow-right" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#FFEBD6" stopOpacity="0.75" />
+            <stop offset="35%" stopColor="#FFEBD6" stopOpacity="0.35" />
+            <stop offset="70%" stopColor="#FFEBD6" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="#FFEBD6" stopOpacity="0.0" />
+          </radialGradient>
         </defs>
 
         {/* 1. Wall Background (painted with hexColor) */}
-        <rect width="800" height="350" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
+        <rect width="800" height="345" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
         {/* Wall light falloff overlay */}
-        <rect width="800" height="350" fill="url(#wall-light-falloff)" style={{ mixBlendMode: 'multiply' }} />
+        <rect width="800" height="345" fill="url(#wall-light-falloff)" style={{ mixBlendMode: 'multiply' }} />
+        
+        {/* Cove Lighting LED Glow */}
+        <rect y="15" width="800" height="120" fill="url(#cove-glow)" style={{ mixBlendMode: 'screen' }} />
+        
         {/* Ceiling ambient shadow */}
         <rect width="800" height="40" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply' }} />
         {/* Right corner shadow */}
-        <rect x="750" width="50" height="350" fill="url(#right-corner-ao)" style={{ mixBlendMode: 'multiply' }} />
+        <rect x="750" width="50" height="345" fill="url(#right-corner-ao)" style={{ mixBlendMode: 'multiply' }} />
 
-        {/* 2. Window on the Left Wall */}
-        <image href="/images/modern_window.png" x="40" y="30" width="180" height="240" filter="url(#soft-shadow)" />
+        {/* Crown Molding */}
+        <rect width="800" height="15" fill="#FAF8F5" />
+        <rect y="15" width="800" height="5" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply' }} />
+
+        {/* 2. Patio Window on the far Left */}
+        <image href="/images/modern_window.png" x="0" y="15" width="140" height="330" filter="url(#soft-shadow)" />
         {/* Window light beam overlay */}
-        <polygon points="130,150 800,280 800,500 130,270" fill="url(#light-beam)" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
+        <polygon points="120,100 800,320 800,500 250,500" fill="url(#light-beam)" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
+
+        {/* Skirting Board */}
+        <rect y="335" width="800" height="10" fill="#FAF8F5" />
+        <line x1="0" y1="335" x2="800" y2="335" stroke="#E2E8F0" strokeWidth="1" />
 
         {/* 3. Wood Floor */}
-        <rect y="350" width="800" height="150" fill="url(#wood-floor)" />
+        <rect y="345" width="800" height="155" fill="url(#dark-wood-floor)" />
         {/* Floor perspective board lines */}
-        <g stroke="#5C3F2B" strokeWidth="0.8" opacity="0.3">
-          <line x1="0" y1="350" x2="800" y2="350" />
+        <g stroke="#0F0802" strokeWidth="0.8" opacity="0.4">
+          <line x1="0" y1="345" x2="800" y2="345" />
           <line x1="0" y1="375" x2="800" y2="375" />
-          <line x1="0" y1="405" x2="800" y2="405" />
-          <line x1="0" y1="440" x2="800" y2="440" />
-          <line x1="0" y1="480" x2="800" y2="480" />
+          <line x1="0" y1="410" x2="800" y2="410" />
+          <line x1="0" y1="450" x2="800" y2="450" />
           {/* Vertical perspective lines */}
-          <line x1="100" y1="350" x2="50" y2="500" />
-          <line x1="250" y1="350" x2="200" y2="500" />
-          <line x1="400" y1="350" x2="380" y2="500" />
-          <line x1="550" y1="350" x2="560" y2="500" />
-          <line x1="700" y1="350" x2="740" y2="500" />
+          <line x1="80" y1="345" x2="20" y2="500" />
+          <line x1="220" y1="345" x2="160" y2="500" />
+          <line x1="360" y1="345" x2="330" y2="500" />
+          <line x1="500" y1="345" x2="510" y2="500" />
+          <line x1="640" y1="345" x2="680" y2="500" />
+          <line x1="780" y1="345" x2="840" y2="500" />
         </g>
         {/* Floor ambient occlusion near skirting */}
-        <rect y="350" width="800" height="25" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply', transform: 'scaleY(-1)', transformOrigin: '0 362.5px' }} />
+        <rect y="345" width="800" height="25" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply', transform: 'scaleY(-1)', transformOrigin: '0 357.5px' }} />
         
-        {/* Skirting Board */}
-        <rect y="340" width="800" height="10" fill="#FAF8F5" />
-        <line x1="0" y1="340" x2="800" y2="340" stroke="#E2E8F0" strokeWidth="1" />
-
         {/* 4. Textured Rug */}
-        <ellipse cx="400" cy="425" rx="250" ry="50" fill="#E2E8F0" filter="url(#soft-shadow)" />
-        <ellipse cx="400" cy="425" rx="240" ry="45" fill="#F8FAFC" />
-        {/* Rug pattern */}
-        <ellipse cx="400" cy="425" rx="230" ry="40" fill="none" stroke="#CBD5E1" strokeWidth="1.5" strokeDasharray="6,4" />
+        <ellipse cx="400" cy="415" rx="270" ry="60" fill="#94A3B8" opacity="0.3" filter="url(#soft-shadow)" />
+        <ellipse cx="400" cy="415" rx="265" ry="55" fill="#E2E8F0" />
+        <ellipse cx="400" cy="415" rx="255" ry="50" fill="none" stroke="#94A3B8" strokeWidth="1.5" strokeDasharray="5,4" />
 
         {/* 5. Sofa Wall Cast Shadow */}
-        <image href="/images/luxury_sofa.png" x="40" y="110" width="720" height="290" filter="url(#cast-shadow-filter)" transform="translate(35, 12)" style={{ mixBlendMode: 'multiply' }} />
+        <image href="/images/luxury_sofa.png" x="190" y="140" width="420" height="225" filter="url(#cast-shadow-filter)" transform="translate(18, 10)" style={{ mixBlendMode: 'multiply' }} />
         {/* Sofa Floor Contact Shadow */}
-        <ellipse cx="400" cy="385" rx="300" ry="12" fill="url(#contact-shadow)" opacity="0.85" />
-        {/* Realistic 3D Sofa */}
-        <image href="/images/luxury_sofa.png" x="40" y="110" width="720" height="290" filter="url(#soft-shadow)" />
+        <ellipse cx="400" cy="360" rx="200" ry="10" fill="url(#contact-shadow)" opacity="0.85" />
+        {/* Sofa Image */}
+        <image href="/images/luxury_sofa.png" x="190" y="140" width="420" height="225" filter="url(#soft-shadow)" />
 
-        {/* 6. Plant Wall Cast Shadow */}
-        <image href="/images/potted_plant.png" x="10" y="220" width="110" height="210" filter="url(#cast-shadow-filter)" transform="translate(25, 10)" style={{ mixBlendMode: 'multiply' }} />
+        {/* 6. Gold-framed Abstract Canvas Painting */}
+        <g filter="url(#soft-shadow)">
+          <rect x="278" y="63" width="244" height="164" fill="none" stroke="#C5A880" strokeWidth="4" />
+          <image href="/images/wall_painting.png" x="280" y="65" width="240" height="160" />
+        </g>
+
+        {/* 7. Plant Wall Cast Shadow */}
+        <image href="/images/potted_plant.png" x="130" y="200" width="110" height="210" filter="url(#cast-shadow-filter)" transform="translate(15, 8)" style={{ mixBlendMode: 'multiply' }} />
         {/* Plant Floor Contact Shadow */}
-        <ellipse cx="65" cy="430" rx="30" ry="8" fill="url(#contact-shadow)" opacity="0.9" />
+        <ellipse cx="185" cy="405" rx="25" ry="6" fill="url(#contact-shadow)" opacity="0.9" />
         {/* Potted Plant */}
-        <image href="/images/potted_plant.png" x="10" y="220" width="110" height="210" filter="url(#soft-shadow)" />
+        <image href="/images/potted_plant.png" x="130" y="200" width="110" height="210" filter="url(#soft-shadow)" />
+
+        {/* 8. Floor Lamp & Lamp Glow */}
+        {/* Wall Cast Shadow */}
+        <image href="/images/floor_lamp.png" x="540" y="160" width="120" height="230" filter="url(#cast-shadow-filter)" transform="translate(12, 6)" style={{ mixBlendMode: 'multiply' }} />
+        {/* Floor Lamp Contact Shadow */}
+        <ellipse cx="600" cy="385" rx="25" ry="5" fill="url(#contact-shadow)" opacity="0.85" />
+        {/* Warm Lamp Glow on Wall */}
+        <circle cx="570" cy="190" r="130" fill="url(#lamp-glow-right)" style={{ mixBlendMode: 'screen' }} />
+        {/* Floor Lamp Image */}
+        <image href="/images/floor_lamp.png" x="540" y="160" width="120" height="230" filter="url(#soft-shadow)" />
+
+        {/* 9. Coffee Table */}
+        {/* Coffee Table Contact Shadow */}
+        <ellipse cx="400" cy="410" rx="95" ry="8" fill="url(#contact-shadow)" opacity="0.9" />
+        {/* Coffee Table Image */}
+        <image href="/images/coffee_table.png" x="280" y="295" width="240" height="120" filter="url(#soft-shadow)" />
       </svg>
     )
   }
@@ -1362,12 +1424,12 @@ export default function Home() {
 
           <div className="visualizer-container-grid">
             <ScrollReveal animation="fade-in-left">
-              <div className="visualizer-mockup-frame" style={{ position: 'relative' }}>
-                <div className="visualizer-image-box" style={{ background: '#FAF8F5', height: '440px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div className="visualizer-mockup-frame" style={{ position: 'relative', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.15)' }}>
+                <div className="visualizer-image-box" style={{ background: '#FAF8F5', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px' }}>
                   {renderVisualizerSuite()}
                   
                   {selectedColor && (
-                    <div className="shade-active-indicator" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                    <div className="shade-active-indicator" style={{ borderTop: '1px solid rgba(0,0,0,0.06)', backgroundColor: '#FAF8F5', borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px', padding: '14px 24px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <span 
                           style={{ 
@@ -1378,12 +1440,12 @@ export default function Home() {
                             border: '1.5px solid rgba(15,23,42,0.15)'
                           }}
                         ></span>
-                        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-navy)' }}>
+                        <span style={{ fontSize: '14px', fontWeight: 700, color: '#0F172A', fontFamily: 'var(--font-display)' }}>
                           {visualizerColors.find(c => c.hex === selectedColor)?.name}
                         </span>
                       </div>
-                      <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--color-gold-dark)' }}>
-                        {selectedColor}
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#BF8C4C', fontFamily: 'monospace' }}>
+                        {selectedColor.toUpperCase()}
                       </span>
                     </div>
                   )}
@@ -1392,57 +1454,98 @@ export default function Home() {
             </ScrollReveal>
 
             <ScrollReveal animation="fade-in-right">
-              <div className="visualizer-controls-panel">
-                <h3 className="visualizer-panel-title">Visualizer Suite</h3>
+              <div className="visualizer-controls-panel" style={{ backgroundColor: 'transparent', border: 'none', padding: '0' }}>
+                <h3 className="visualizer-panel-title" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.15)', paddingBottom: '12px', marginBottom: '24px' }}>Visualizer Suite</h3>
                 
-                <div className="visualizer-space-selector">
-                  <strong>1. Choose Environment:</strong>
-                  <div className="visualizer-space-buttons">
-                    {['Living Room', 'Bedroom', 'Wood Planks'].map((space) => (
-                      <button
-                        key={space}
-                        className={`visualizer-space-btn ${visualizerSpace === space ? 'active' : ''}`}
-                        onClick={() => setVisualizerSpace(space)}
-                        style={{ fontSize: '12px', padding: '8px 16px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-                      >
-                        {space === 'Living Room' && '🛋️'}
-                        {space === 'Bedroom' && '🛏️'}
-                        {space === 'Wood Planks' && '🪵'}
-                        <span>{space}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="visualizer-color-swatches-box">
-                  <strong>2. Select Shade Color:</strong>
-                  <div className="visualizer-swatches">
-                    {visualizerColors.map((color) => (
-                      <button
-                        key={color.name}
-                        className={`visualizer-swatch-dot ${selectedColor === color.hex ? 'active' : ''}`}
-                        style={{ backgroundColor: color.hex }}
-                        onClick={() => setSelectedColor(color.hex)}
-                        title={color.name}
-                      >
-                        <span 
-                          className="swatch-check"
+                <div className="visualizer-space-selector" style={{ marginBottom: '24px' }}>
+                  <strong style={{ fontSize: '11px', color: '#BF8C4C', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>1. Choose Environment:</strong>
+                  <div className="visualizer-space-buttons" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {['Living Room', 'Bedroom', 'Wood Planks'].map((space) => {
+                      const isActive = visualizerSpace === space;
+                      return (
+                        <button
+                          key={space}
+                          className={`visualizer-space-btn ${isActive ? 'active' : ''}`}
+                          onClick={() => setVisualizerSpace(space)}
                           style={{ 
-                            color: color.isLight ? 'var(--color-navy)' : '#FFFFFF',
-                            textShadow: color.isLight ? 'none' : '0 1px 3px rgba(0,0,0,0.6)'
+                            fontSize: '13px', 
+                            padding: '12px 20px', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '10px',
+                            width: '100%',
+                            textAlign: 'left',
+                            backgroundColor: isActive ? '#BF8C4C' : 'rgba(15, 23, 42, 0.45)',
+                            borderColor: isActive ? '#BF8C4C' : 'rgba(255, 255, 255, 0.12)',
+                            color: '#FFFFFF',
+                            fontWeight: 600,
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease'
                           }}
                         >
-                          ✓
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                  <div className="visualizer-active-shade-name">
-                    Active Color tint: <strong>{visualizerColors.find(c => c.hex === selectedColor)?.name} ({selectedColor})</strong>
+                          {isActive && <span style={{ color: '#FFE082', fontSize: '10px' }}>◆</span>}
+                          {space === 'Living Room' && '🛋️'}
+                          {space === 'Bedroom' && '🛏️'}
+                          {space === 'Wood Planks' && '🪵'}
+                          <span style={{ flexGrow: 1 }}>{space}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
-                <div className="visualizer-note">
+                <div className="visualizer-color-swatches-box" style={{ marginBottom: '24px' }}>
+                  <strong style={{ fontSize: '11px', color: '#BF8C4C', letterSpacing: '1.5px', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>2. Select Shade Color:</strong>
+                  <div className="visualizer-swatches" style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
+                    {visualizerColors.map((color) => {
+                      const isActive = selectedColor === color.hex;
+                      return (
+                        <button
+                          key={color.name}
+                          className={`visualizer-swatch-dot ${isActive ? 'active' : ''}`}
+                          style={{ 
+                            backgroundColor: color.hex,
+                            width: '42px',
+                            height: '42px',
+                            borderRadius: '50%',
+                            border: isActive ? '3px solid #FFFFFF' : '2px solid rgba(255, 255, 255, 0.2)',
+                            boxShadow: isActive ? '0 0 0 2px #BF8C4C' : 'none',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            transition: 'all 0.3s ease'
+                          }}
+                          onClick={() => setSelectedColor(color.hex)}
+                          title={color.name}
+                        >
+                          {isActive && (
+                            <span 
+                              className="swatch-check"
+                              style={{ 
+                                color: color.isLight ? '#0F172A' : '#FFFFFF',
+                                fontWeight: 'bold',
+                                fontSize: '12px'
+                              }}
+                            >
+                              ✓
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  
+                  <div className="visualizer-active-shade-name" style={{ marginTop: '16px' }}>
+                    <span style={{ fontSize: '11px', textTransform: 'uppercase', color: 'rgba(255, 255, 255, 0.5)', display: 'block', letterSpacing: '1.5px', marginBottom: '4px', fontWeight: 600 }}>Active Color</span>
+                    <strong style={{ fontSize: '18px', color: '#FFFFFF', letterSpacing: '0.5px', textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+                      {visualizerColors.find(c => c.hex === selectedColor)?.name} ({selectedColor.toUpperCase()})
+                    </strong>
+                  </div>
+                </div>
+
+                <div className="visualizer-note" style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '11px', lineHeight: '1.6', marginTop: '20px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '15px' }}>
                   <p>Note: Digital color renders may vary slightly from real dried paint swatches. We highly recommend booking a physical site assessment for exact Colourworld matches.</p>
                 </div>
 
@@ -1453,20 +1556,24 @@ export default function Home() {
                       to={`/contact?subject=Color Visualizer Choice (${visualizerSpace})&shade=${encodeURIComponent(activeColor.name)}`} 
                       className="btn-solid-gold visualizer-submit-btn" 
                       style={{ 
-                        marginTop: '20px', 
+                        marginTop: '24px', 
                         width: '100%', 
+                        display: 'block',
                         textAlign: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: activeColor.hex,
-                        color: activeColor.isLight ? 'var(--color-navy)' : '#FFFFFF',
-                        border: activeColor.isLight ? '1.5px solid rgba(15, 23, 42, 0.18)' : '1.5px solid transparent',
-                        boxShadow: activeColor.isLight 
-                          ? '0 4px 14px rgba(15, 23, 42, 0.08)' 
-                          : `0 4px 14px ${activeColor.hex}50`,
-                        textShadow: activeColor.isLight ? 'none' : '0 1px 2px rgba(0, 0, 0, 0.15)'
+                        padding: '14px 28px',
+                        backgroundColor: '#BF8C4C',
+                        color: '#FFFFFF',
+                        fontWeight: 700,
+                        fontSize: '13px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '1.5px',
+                        borderRadius: '8px',
+                        transition: 'all 0.3s ease',
+                        border: 'none',
+                        boxShadow: '0 4px 12px rgba(191, 140, 76, 0.3)'
                       }}
                     >
-                      Request Shade Swatch Sample ➔
+                      Request Shade Swatch Sample
                     </Link>
                   );
                 })()}
