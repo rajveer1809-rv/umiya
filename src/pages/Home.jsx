@@ -44,10 +44,10 @@ export default function Home() {
       desc: 'Applying premium, soft-sheen luxury emulsions and designer texture glazes to turn dull workspaces into artistic environments.'
     },
     'Warehouse Coatings': {
-      before: '/gallery/commercial_spaces.png',
-      after: '/projects/heavy_plant_pipeline.png',
-      title: 'Anti-Corrosive Pipe Coatings',
-      desc: 'Corroded factory piping treated with zinc chromate primers and protective aliphatic polyurethane layers.'
+      before: '/gallery/warehouse_coatings_before.png',
+      after: '/gallery/warehouse_coatings_after.png',
+      title: 'Anti-Corrosive Pipe & Surface Coatings',
+      desc: 'Corroded factory piping and concrete surfaces treated with zinc chromate primers and protective aliphatic polyurethane layers.'
     }
   }
 
