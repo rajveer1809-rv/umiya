@@ -1,10 +1,49 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { products } from '../data/products'
 import ProductImage from '../components/ProductImage'
 import ScrollReveal from '../components/ScrollReveal'
 
 export default function Home() {
+  const slides = [
+    {
+      tagline: 'Authorized Paint & Coating Depot',
+      headline: 'Building Colors.<br />Building Trust.',
+      subheadline: 'Premium Paints, Industrial Coatings, Waterproofing Solutions & Hardware Since 2005.',
+      primaryBtnText: 'Explore Products',
+      primaryBtnLink: '/products',
+      secondaryBtnText: 'Get Consultation',
+      secondaryBtnLink: '/contact'
+    },
+    {
+      tagline: 'Premium Brands & Tech Tinting',
+      headline: 'Vibrant Spaces.<br />Precision Colors.',
+      subheadline: 'Computerized shade combinations matching 1,500+ colors from Asian Paints, Berger, and Dulux.',
+      primaryBtnText: 'View Shades',
+      primaryBtnLink: '/products',
+      secondaryBtnText: 'Locate Store',
+      secondaryBtnLink: '/contact'
+    },
+    {
+      tagline: 'Structural & Moisture Shields',
+      headline: 'Dampness Defended.<br />Epoxy Engineered.',
+      subheadline: 'High-build epoxy coatings and elastomeric water shields to safeguard regional warehouses and homes.',
+      primaryBtnText: 'Waterproofing Care',
+      primaryBtnLink: '/services#waterproofing-systems',
+      secondaryBtnText: 'Ask Our Experts',
+      secondaryBtnLink: '/contact'
+    }
+  ]
+
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length)
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [slides.length])
+
   const [featuredCategory, setFeaturedCategory] = useState('Interior Paints')
   const [projectTab, setProjectTab] = useState('All')
   const [testimonialIndex, setTestimonialIndex] = useState(0)
@@ -265,15 +304,22 @@ export default function Home() {
         <div className="container-xl home-hero-container">
           <div className="home-hero-content">
             <ScrollReveal>
-              <span className="home-hero-tagline">Authorized Paint & Coating Depot</span>
-              <h1 className="home-hero-headline">Building Colors.<br />Building Trust.</h1>
-              <p className="home-hero-subheadline">
-                Premium Paints, Industrial Coatings, Waterproofing Solutions & Hardware Since 2005.
-              </p>
-              
-              <div className="home-hero-buttons">
-                <Link to="/products" className="btn-luxury">Explore Products</Link>
-                <Link to="/contact" className="btn-outline-gold">Get Consultation</Link>
+              {/* Dynamic Slideshow Wrapper with key-remount animation trigger */}
+              <div key={currentSlide} className="home-hero-slide-content">
+                <span className="home-hero-tagline">{slides[currentSlide].tagline}</span>
+                <h1 className="home-hero-headline" dangerouslySetInnerHTML={{ __html: slides[currentSlide].headline }}></h1>
+                <p className="home-hero-subheadline">
+                  {slides[currentSlide].subheadline}
+                </p>
+                
+                <div className="home-hero-buttons">
+                  <Link to={slides[currentSlide].primaryBtnLink} className="btn-luxury">
+                    {slides[currentSlide].primaryBtnText}
+                  </Link>
+                  <Link to={slides[currentSlide].secondaryBtnLink} className="btn-outline-gold">
+                    {slides[currentSlide].secondaryBtnText}
+                  </Link>
+                </div>
               </div>
 
               {/* Floating stats inside hero */}
@@ -287,6 +333,18 @@ export default function Home() {
               </div>
             </ScrollReveal>
           </div>
+        </div>
+
+        {/* Dynamic Slide Indicators */}
+        <div className="home-hero-indicators">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              className={`home-hero-indicator-dot ${currentSlide === idx ? 'active' : ''}`}
+              onClick={() => setCurrentSlide(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
         </div>
       </section>
 
