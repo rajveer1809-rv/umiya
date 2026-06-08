@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { products } from '../data/products'
 import ProductImage from '../components/ProductImage'
 import ScrollReveal from '../components/ScrollReveal'
+import ThreeRoomVisualizer from '../components/ThreeRoomVisualizer'
 
 export default function Home() {
   const [featuredCategory, setFeaturedCategory] = useState('Interior Paints')
@@ -254,6 +255,7 @@ export default function Home() {
   // 9. Live Coating Visualizer States
   const [visualizerSpace, setVisualizerSpace] = useState('Living Room')
   const [selectedColor, setSelectedColor] = useState('#FAF8F5') // Default warm cream
+  const [active3DTarget, setActive3DTarget] = useState('Main Wall')
 
   const visualizerColors = [
     { name: 'Warm Cream', hex: '#FAF8F5', isLight: true },
@@ -264,248 +266,6 @@ export default function Home() {
     { name: 'Deep Navy', hex: '#1E2D42', isLight: false }
   ]
 
-  const renderVisualizerSuite = () => {
-    const hexColor = selectedColor
-
-    if (visualizerSpace === 'Sideboard Cabinet') {
-      return (
-        <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
-          {/* Wall Background */}
-          <rect width="400" height="210" fill="#F3F4F6" />
-          
-          {/* Floor */}
-          <rect y="210" width="400" height="70" fill="#E5E7EB" />
-          <line x1="0" y1="210" x2="400" y2="210" stroke="#D1D5DB" strokeWidth="2" />
-
-          {/* Cabinet Body */}
-          <rect x="80" y="70" width="240" height="140" rx="8" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
-          
-          {/* Cabinet wood grain overlay */}
-          <g opacity="0.22" stroke="#000000" strokeWidth="1" fill="none" pointerEvents="none">
-            <line x1="160" y1="70" x2="160" y2="210" stroke="#000000" strokeWidth="1.5" />
-            <line x1="240" y1="70" x2="240" y2="210" stroke="#000000" strokeWidth="1.5" />
-            
-            <path d="M 85 90 C 120 85, 200 95, 315 90" />
-            <path d="M 85 105 C 150 110, 220 98, 315 102" />
-            <path d="M 85 130 C 110 125, 150 135, 180 130 C 220 125, 280 135, 315 128" />
-            <path d="M 85 155 C 140 150, 190 160, 315 152" />
-            <path d="M 85 175 C 130 178, 220 170, 315 174" />
-            <path d="M 85 195 C 150 190, 240 200, 315 192" />
-            
-            <path d="M 120 115 A 8 4 0 1 0 136 115 A 8 4 0 1 0 120 115 Z" />
-            <path d="M 270 145 A 10 5 0 1 0 290 145 A 10 5 0 1 0 270 145 Z" />
-          </g>
-
-          {/* Legs */}
-          <line x1="110" y1="210" x2="100" y2="235" stroke="#1F2937" strokeWidth="4" strokeLinecap="round" />
-          <line x1="290" y1="210" x2="300" y2="235" stroke="#1F2937" strokeWidth="4" strokeLinecap="round" />
-          <line x1="150" y1="210" x2="150" y2="225" stroke="#1F2937" strokeWidth="3" strokeLinecap="round" />
-          <line x1="250" y1="210" x2="250" y2="225" stroke="#1F2937" strokeWidth="3" strokeLinecap="round" />
-
-          {/* Knobs handles */}
-          <circle cx="145" cy="140" r="4" fill="#D97706" />
-          <circle cx="175" cy="140" r="4" fill="#D97706" />
-          <circle cx="225" cy="140" r="4" fill="#D97706" />
-          <circle cx="255" cy="140" r="4" fill="#D97706" />
-
-          {/* Plant pot on sideboard */}
-          <rect x="250" y="45" width="20" height="25" rx="2" fill="#E5E7EB" />
-          <path d="M 260 45 Q 240 25 245 15" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" />
-          <path d="M 260 45 Q 275 20 268 12" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      )
-    }
-
-    if (visualizerSpace === 'Wood Planks') {
-      return (
-        <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
-          {/* Stacked planks */}
-          <g stroke="#000000" strokeWidth="0.5">
-            <rect y="0" width="400" height="56" fill={hexColor} opacity="0.95" style={{ transition: 'fill 0.4s ease' }} />
-            <rect y="56" width="400" height="56" fill={hexColor} opacity="0.88" style={{ transition: 'fill 0.4s ease' }} />
-            <rect y="112" width="400" height="56" fill={hexColor} opacity="1.0" style={{ transition: 'fill 0.4s ease' }} />
-            <rect y="168" width="400" height="56" fill={hexColor} opacity="0.91" style={{ transition: 'fill 0.4s ease' }} />
-            <rect y="224" width="400" height="56" fill={hexColor} opacity="0.96" style={{ transition: 'fill 0.4s ease' }} />
-          </g>
-          
-          {/* Wood Grain Overlay */}
-          <g opacity="0.2" stroke="#000000" strokeWidth="1.2" fill="none" pointerEvents="none">
-            {/* Plank division lines */}
-            <line x1="0" y1="56" x2="400" y2="56" stroke="#000000" strokeWidth="1" />
-            <line x1="0" y1="112" x2="400" y2="112" stroke="#000000" strokeWidth="1" />
-            <line x1="0" y1="168" x2="400" y2="168" stroke="#000000" strokeWidth="1" />
-            <line x1="0" y1="224" x2="400" y2="224" stroke="#000000" strokeWidth="1" />
-
-            {/* Board 1 Grain */}
-            <path d="M 10 20 Q 120 12 240 25 T 390 18" />
-            <path d="M 0 35 Q 160 42 320 28 T 400 32" />
-            
-            {/* Board 2 Grain */}
-            <path d="M 50 78 A 20 6 0 0 0 90 78 A 20 6 0 0 0 50 78 Z" />
-            <path d="M 0 68 Q 110 85 220 62 T 400 75" />
-            <path d="M 10 92 Q 180 82 290 98 T 390 90" />
-            
-            {/* Board 3 Grain */}
-            <path d="M 0 135 C 100 125, 200 145, 400 130" />
-            <path d="M 20 152 Q 130 162 250 148 T 380 155" />
-            
-            {/* Board 4 Grain */}
-            <path d="M 280 196 A 12 5 0 0 1 304 196 A 12 5 0 0 1 280 196 Z" />
-            <path d="M 0 185 Q 140 178 270 192 T 400 182" />
-            <path d="M 15 212 C 100 205, 210 220, 395 208" />
-            
-            {/* Board 5 Grain */}
-            <path d="M 0 248 Q 160 255 310 242 T 400 250" />
-            <path d="M 5 265 C 120 260, 240 272, 390 262" />
-          </g>
-        </svg>
-      )
-    }
-
-    if (visualizerSpace === 'Linen Wall') {
-      return (
-        <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
-          <rect width="400" height="200" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
-          <rect width="400" height="200" fill="url(#global-linen-pat)" />
-          {/* Floor */}
-          <rect y="200" width="400" height="80" fill="#EBE4D8" />
-          <line x1="0" y1="200" x2="400" y2="200" stroke="#D3C9BC" strokeWidth="2" />
-          {/* Skirting board */}
-          <rect y="190" width="400" height="10" fill="#FBF9F6" />
-          <line x1="0" y1="190" x2="400" y2="190" stroke="#E6DFD3" strokeWidth="1" />
-          {/* Sofa overlay */}
-          <rect x="120" y="150" width="160" height="50" rx="8" fill="#4B5563" />
-          <rect x="130" y="175" width="65" height="20" rx="4" fill="#374151" />
-          <rect x="205" y="175" width="65" height="20" rx="4" fill="#374151" />
-          <rect x="110" y="165" width="15" height="30" rx="6" fill="#1F2937" />
-          <rect x="275" y="165" width="15" height="30" rx="6" fill="#1F2937" />
-          <path d="M 140 175 L 150 155 L 160 175 Z" fill="#D97706" />
-          <path d="M 260 175 L 250 155 L 240 175 Z" fill="#059669" />
-          {/* Plant */}
-          <rect x="35" y="185" width="16" height="25" rx="2" fill="#78350F" />
-          <path d="M 43 185 Q 30 160 20 170 C 25 178 37 182 43 185 Z" fill="#166534" />
-          <path d="M 43 185 Q 56 165 66 175 C 60 182 50 185 43 185 Z" fill="#166534" />
-        </svg>
-      )
-    }
-
-    if (visualizerSpace === 'Stucco Wall') {
-      return (
-        <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
-          <rect width="400" height="200" fill={hexColor} filter="url(#global-stucco-filt)" style={{ transition: 'fill 0.4s ease' }} />
-          {/* Floor */}
-          <rect y="200" width="400" height="80" fill="#EBE4D8" />
-          <line x1="0" y1="200" x2="400" y2="200" stroke="#D3C9BC" strokeWidth="2" />
-          {/* Skirting board */}
-          <rect y="190" width="400" height="10" fill="#FBF9F6" />
-          <line x1="0" y1="190" x2="400" y2="190" stroke="#E6DFD3" strokeWidth="1" />
-          {/* Sofa overlay */}
-          <rect x="120" y="150" width="160" height="50" rx="8" fill="#4B5563" />
-          <rect x="130" y="175" width="65" height="20" rx="4" fill="#374151" />
-          <rect x="205" y="175" width="65" height="20" rx="4" fill="#374151" />
-          <rect x="110" y="165" width="15" height="30" rx="6" fill="#1F2937" />
-          <rect x="275" y="165" width="15" height="30" rx="6" fill="#1F2937" />
-          <path d="M 140 175 L 150 155 L 160 175 Z" fill="#D97706" />
-          <path d="M 260 175 L 250 155 L 240 175 Z" fill="#059669" />
-          {/* Plant */}
-          <rect x="35" y="185" width="16" height="25" rx="2" fill="#78350F" />
-          <path d="M 43 185 Q 30 160 20 170 C 25 178 37 182 43 185 Z" fill="#166534" />
-          <path d="M 43 185 Q 56 165 66 175 C 60 182 50 185 43 185 Z" fill="#166534" />
-        </svg>
-      )
-    }
-
-    if (visualizerSpace === 'Bedroom') {
-      return (
-        <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
-          {/* Wall */}
-          <rect width="400" height="180" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
-          
-          {/* Floor */}
-          <rect y="180" width="400" height="100" fill="#E5E7EB" />
-          <line x1="0" y1="180" x2="400" y2="180" stroke="#D1D5DB" strokeWidth="2" />
-
-          {/* Headboard */}
-          <rect x="80" y="120" width="240" height="80" rx="4" fill="#374151" />
-          
-          {/* Bed Mattress & Blanket */}
-          <rect x="90" y="160" width="220" height="70" rx="4" fill="#FFFFFF" stroke="#E5E7EB" />
-          <rect x="90" y="180" width="220" height="50" rx="2" fill="#93C5FD" />
-
-          {/* Pillows */}
-          <rect x="110" y="145" width="50" height="25" rx="3" fill="#F3F4F6" stroke="#E5E7EB" />
-          <rect x="240" y="145" width="50" height="25" rx="3" fill="#F3F4F6" stroke="#E5E7EB" />
-
-          {/* Nightstands */}
-          <rect x="30" y="150" width="40" height="40" rx="2" fill="#8B5A2B" />
-          <circle cx="50" cy="170" r="3" fill="#1F2937" />
-          <rect x="330" y="150" width="40" height="40" rx="2" fill="#8B5A2B" />
-          <circle cx="350" cy="170" r="3" fill="#1F2937" />
-          
-          {/* Lamps */}
-          <rect x="45" y="140" width="10" height="10" fill="#4B5563" />
-          <path d="M 40 140 L 60 140 L 55 125 L 45 125 Z" fill="#FBBF24" />
-          <rect x="345" y="140" width="10" height="10" fill="#4B5563" />
-          <path d="M 340 140 L 360 140 L 355 125 L 345 125 Z" fill="#FBBF24" />
-
-          {/* Picture frame above bed */}
-          <rect x="160" y="30" width="80" height="50" fill="#FAF8F5" stroke="#1F2937" strokeWidth="2" />
-          <circle cx="200" cy="55" r="10" fill="#F59E0B" />
-        </svg>
-      )
-    }
-
-    // Default: Living Room
-    return (
-      <svg viewBox="0 0 400 280" className="room-visualizer-svg" style={{ width: '100%', height: '100%', display: 'block', borderRadius: 'var(--radius-md)' }}>
-        {/* Wall Background */}
-        <rect width="400" height="200" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
-        
-        {/* Floor */}
-        <rect y="200" width="400" height="80" fill="#EBE4D8" />
-        <line x1="0" y1="200" x2="400" y2="200" stroke="#D3C9BC" strokeWidth="2" />
-        
-        {/* Skirting board */}
-        <rect y="190" width="400" height="10" fill="#FBF9F6" />
-        <line x1="0" y1="190" x2="400" y2="190" stroke="#E6DFD3" strokeWidth="1" />
-
-        {/* Window */}
-        <rect x="20" y="30" width="80" height="110" fill="#E0F2FE" opacity="0.8" stroke="#FBF9F6" strokeWidth="4" />
-        <line x1="60" y1="30" x2="60" y2="140" stroke="#FBF9F6" strokeWidth="2" />
-        <line x1="20" y1="85" x2="100" y2="85" stroke="#FBF9F6" strokeWidth="2" />
-        
-        {/* Wall Art Frame */}
-        <rect x="290" y="40" width="60" height="80" fill="#FAF8F5" stroke="#232323" strokeWidth="3" />
-        {/* Inner Art */}
-        <circle cx="320" cy="75" r="15" fill="#F59E0B" />
-        <path d="M 295 105 Q 310 95 320 105 T 345 105" fill="none" stroke="#0284C7" strokeWidth="2" />
-
-        {/* Sofa */}
-        <rect x="120" y="150" width="160" height="50" rx="8" fill="#52525B" />
-        <rect x="130" y="175" width="65" height="20" rx="4" fill="#3F3F46" />
-        <rect x="205" y="175" width="65" height="20" rx="4" fill="#3F3F46" />
-        <rect x="110" y="165" width="15" height="30" rx="6" fill="#27272A" />
-        <rect x="275" y="165" width="15" height="30" rx="6" fill="#27272A" />
-        
-        {/* Accent Pillows */}
-        <path d="M 140 175 L 150 155 L 160 175 Z" fill="#F43F5E" />
-        <path d="M 260 175 L 250 155 L 240 175 Z" fill="#10B981" />
-        
-        {/* Legs */}
-        <line x1="130" y1="200" x2="125" y2="215" stroke="#18181B" strokeWidth="4" strokeLinecap="round" />
-        <line x1="270" y1="200" x2="275" y2="215" stroke="#18181B" strokeWidth="4" strokeLinecap="round" />
-        
-        {/* Rug */}
-        <ellipse cx="200" cy="225" rx="90" ry="15" fill="#E4E4E7" opacity="0.6" />
-
-        {/* Plant */}
-        <rect x="30" y="185" width="20" height="30" rx="3" fill="#D97706" />
-        <path d="M 40 185 Q 25 155 15 165 C 20 175 35 180 40 185 Z" fill="#15803D" />
-        <path d="M 40 185 Q 40 145 50 150 C 45 165 42 175 40 185 Z" fill="#166534" />
-        <path d="M 40 185 Q 55 160 65 170 C 58 178 48 182 40 185 Z" fill="#15803D" />
-      </svg>
-    )
-  }
 
   // 10. Client Logo Marquee Data
   const marqueeBrands = [
@@ -1357,8 +1117,12 @@ export default function Home() {
           <div className="visualizer-container-grid">
             <ScrollReveal animation="fade-in-left">
               <div className="visualizer-mockup-frame" style={{ position: 'relative' }}>
-                <div className="visualizer-image-box" style={{ background: '#FAF8F5', height: '440px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {renderVisualizerSuite()}
+                <div className="visualizer-image-box" style={{ background: '#1E293B', height: '440px', display: 'block' }}>
+                  <ThreeRoomVisualizer
+                    space={visualizerSpace}
+                    selectedColor={selectedColor}
+                    onTargetChange={(targetName) => setActive3DTarget(targetName)}
+                  />
                   
                   {selectedColor && (
                     <div className="shade-active-indicator" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
@@ -1373,7 +1137,7 @@ export default function Home() {
                           }}
                         ></span>
                         <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-navy)' }}>
-                          {visualizerColors.find(c => c.hex === selectedColor)?.name}
+                          {visualizerColors.find(c => c.hex === selectedColor)?.name} on <strong style={{ color: 'var(--color-gold-dark)' }}>{active3DTarget}</strong>
                         </span>
                       </div>
                       <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--color-gold-dark)' }}>
@@ -1447,7 +1211,7 @@ export default function Home() {
                   const activeColor = visualizerColors.find(c => c.hex === selectedColor) || visualizerColors[0];
                   return (
                     <Link 
-                      to={`/contact?subject=Color Visualizer Choice (${visualizerSpace})&shade=${encodeURIComponent(activeColor.name)}`} 
+                      to={`/contact?subject=Color Visualizer Choice (${visualizerSpace})&shade=${encodeURIComponent(activeColor.name)}&target=${encodeURIComponent(active3DTarget)}`} 
                       className="btn-solid-gold visualizer-submit-btn" 
                       style={{ 
                         marginTop: '20px', 
