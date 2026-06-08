@@ -1,13 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { products } from '../data/products'
-import ProductImage from '../components/ProductImage'
 import ScrollReveal from '../components/ScrollReveal'
 
 export default function Home() {
-  const [featuredCategory, setFeaturedCategory] = useState('Interior Paints')
   const [projectTab, setProjectTab] = useState('All')
-  const [testimonialIndex, setTestimonialIndex] = useState(0)
 
   // Before & After Interactive States
   const [beforeAfterTab, setBeforeAfterTab] = useState('Exterior Facades')
