@@ -229,13 +229,85 @@ export default function Home() {
 
   // 6. Explore By Space Cards
   const exploreSpaces = [
-    { icon: '🏠', title: 'Living Rooms', desc: 'Washable luxury emulsions', link: '/products' },
-    { icon: '🛏', title: 'Premium Bedrooms', desc: 'Velvet soft sheen finishes', link: '/products' },
-    { icon: '🏢', title: 'Office Interiors', desc: 'Clean corporate color vibes', link: '/products' },
-    { icon: '🏬', title: 'Commercial Spaces', desc: 'Impact-resistant floors', link: '/products' },
-    { icon: '🏭', title: 'Industrial Plants', desc: 'Anti-corrosive shields', link: '/products' },
-    { icon: '🏬', title: 'Warehouses', desc: 'Dust-free epoxy flooring', link: '/products' },
-    { icon: '🏡', title: 'Exterior Buildings', desc: 'UV-stable weather guards', link: '/products' }
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+      ),
+      title: 'Living Rooms',
+      desc: 'Washable luxury emulsions',
+      link: '/products'
+    },
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 11v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-9M3 16h18" />
+          <path d="M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v4H3z" />
+        </svg>
+      ),
+      title: 'Premium Bedrooms',
+      desc: 'Velvet soft sheen finishes',
+      link: '/products'
+    },
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="4" y="4" width="16" height="16" rx="2" />
+          <line x1="9" y1="9" x2="15" y2="9" />
+          <line x1="9" y1="13" x2="15" y2="13" />
+          <line x1="9" y1="17" x2="15" y2="17" />
+        </svg>
+      ),
+      title: 'Office Interiors',
+      desc: 'Clean corporate color vibes',
+      link: '/products'
+    },
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <rect x="9" y="9" width="6" height="13" />
+        </svg>
+      ),
+      title: 'Commercial Spaces',
+      desc: 'Impact-resistant floors',
+      link: '/products'
+    },
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 21H2V9l5 4 5-4 5 4 5-4v12z" />
+          <path d="M17 21V13M7 21v-4" />
+        </svg>
+      ),
+      title: 'Industrial Plants',
+      desc: 'Anti-corrosive shields',
+      link: '/products'
+    },
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+          <path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" />
+        </svg>
+      ),
+      title: 'Warehouses',
+      desc: 'Dust-free epoxy flooring',
+      link: '/products'
+    },
+    {
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <path d="M12 22V12" />
+        </svg>
+      ),
+      title: 'Exterior Buildings',
+      desc: 'UV-stable weather guards',
+      link: '/products'
+    }
   ]
 
   // 7. Luxury Materials Showcase Data
@@ -357,9 +429,7 @@ export default function Home() {
           {/* Wall Background (Painted with hexColor) */}
           <rect width="800" height="320" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
           
-          {/* Lamp Wall Glows */}
-          <circle cx="110" cy="210" r="160" fill="url(#lamp-glow-left)" style={{ mixBlendMode: 'screen' }} />
-          <circle cx="690" cy="210" r="160" fill="url(#lamp-glow-right)" style={{ mixBlendMode: 'screen' }} />
+
           
           {/* LED Cove Lighting Glow */}
           <rect y="15" width="800" height="100" fill="url(#cove-glow)" style={{ mixBlendMode: 'screen' }} />
@@ -390,33 +460,7 @@ export default function Home() {
           {/* Bed Headboard, Mattress & Blanket */}
           <image href="/images/luxury_bed.png" x="175" y="160" width="450" height="270" filter="url(#soft-shadow)" />
 
-          {/* Left Nightstand Wall Cast Shadow */}
-          <image href="/images/nightstand_lamp.png" x="55" y="210" width="110" height="200" filter="url(#cast-shadow-filter)" transform="translate(-10, 8)" style={{ mixBlendMode: 'multiply' }} />
-          {/* Left Nightstand Contact Shadow */}
-          <ellipse cx="110" cy="405" rx="45" ry="5" fill="url(#contact-shadow)" opacity="0.85" />
-          {/* Left Nightstand */}
-          <image href="/images/nightstand_lamp.png" x="55" y="210" width="110" height="200" filter="url(#soft-shadow)" />
 
-          {/* Right Nightstand Wall Cast Shadow (flipped) */}
-          <g transform="translate(745, 0) scale(-1, 1)" style={{ mixBlendMode: 'multiply' }}>
-            <image href="/images/nightstand_lamp.png" x="0" y="210" width="110" height="200" filter="url(#cast-shadow-filter)" transform="translate(-10, 8)" />
-          </g>
-          {/* Right Nightstand Contact Shadow */}
-          <ellipse cx="690" cy="405" rx="45" ry="5" fill="url(#contact-shadow)" opacity="0.85" />
-          {/* Right Nightstand (flipped horizontally) */}
-          <g transform="translate(745, 0) scale(-1, 1)" filter="url(#soft-shadow)">
-            <image href="/images/nightstand_lamp.png" x="0" y="210" width="110" height="200" />
-          </g>
-
-          {/* Lamp Light Cones */}
-          <polygon points="110,210 40,340 180,340" fill="url(#lamp-cone-left)" opacity="0.5" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
-          <polygon points="690,210 620,340 760,340" fill="url(#lamp-cone-left)" opacity="0.5" style={{ mixBlendMode: 'screen', pointerEvents: 'none' }} />
-
-          {/* Centered Gold-framed Art Painting above bed */}
-          <g filter="url(#soft-shadow)">
-            <rect x="338" y="38" width="124" height="84" fill="none" stroke="#C5A880" strokeWidth="3" />
-            <image href="/images/wall_painting.png" x="340" y="40" width="120" height="80" />
-          </g>
         </svg>
       )
     }
@@ -503,10 +547,10 @@ export default function Home() {
         <rect y="335" width="800" height="10" fill="#FAF8F5" />
         <line x1="0" y1="335" x2="800" y2="335" stroke="#E2E8F0" strokeWidth="1" />
 
-        {/* 3. Wood Floor */}
-        <rect y="345" width="800" height="155" fill="url(#dark-wood-floor)" />
-        {/* Floor perspective board lines */}
-        <g stroke="#0F0802" strokeWidth="0.8" opacity="0.4">
+        {/* 3. White Floor */}
+        <rect y="345" width="800" height="155" fill="#FFFFFF" />
+        {/* Subtle modern panel lines on white floor */}
+        <g stroke="#E2E8F0" strokeWidth="0.5" opacity="0.3">
           <line x1="0" y1="345" x2="800" y2="345" />
           <line x1="0" y1="375" x2="800" y2="375" />
           <line x1="0" y1="410" x2="800" y2="410" />
@@ -523,54 +567,76 @@ export default function Home() {
         <rect y="345" width="800" height="25" fill="url(#ceiling-ao)" style={{ mixBlendMode: 'multiply', transform: 'scaleY(-1)', transformOrigin: '0 357.5px' }} />
         
         {/* 4. Textured Rug */}
-        <ellipse cx="400" cy="415" rx="270" ry="60" fill="#94A3B8" opacity="0.3" filter="url(#soft-shadow)" />
-        <ellipse cx="400" cy="415" rx="265" ry="55" fill="#E2E8F0" />
-        <ellipse cx="400" cy="415" rx="255" ry="50" fill="none" stroke="#94A3B8" strokeWidth="1.5" strokeDasharray="5,4" />
+        <ellipse cx="400" cy="445" rx="270" ry="50" fill="#94A3B8" opacity="0.3" filter="url(#soft-shadow)" />
+        <ellipse cx="400" cy="445" rx="265" ry="45" fill="#E2E8F0" />
+        <ellipse cx="400" cy="445" rx="255" ry="40" fill="none" stroke="#94A3B8" strokeWidth="1.5" strokeDasharray="5,4" />
 
         {/* 5. Sofa Wall Cast Shadow */}
-        <image href="/images/luxury_sofa.png" x="190" y="140" width="420" height="225" filter="url(#cast-shadow-filter)" transform="translate(18, 10)" style={{ mixBlendMode: 'multiply' }} />
+        <image href="/images/luxury_sofa.png" x="85" y="162.5" width="630" height="337.5" filter="url(#cast-shadow-filter)" transform="translate(18, 10)" style={{ mixBlendMode: 'multiply' }} />
         {/* Sofa Floor Contact Shadow */}
-        <ellipse cx="400" cy="360" rx="200" ry="10" fill="url(#contact-shadow)" opacity="0.85" />
+        <ellipse cx="400" cy="495" rx="300" ry="12" fill="url(#contact-shadow)" opacity="0.85" />
         {/* Sofa Image */}
-        <image href="/images/luxury_sofa.png" x="190" y="140" width="420" height="225" filter="url(#soft-shadow)" />
-
-        {/* 6. Gold-framed Abstract Canvas Painting */}
-        <g filter="url(#soft-shadow)">
-          <rect x="278" y="63" width="244" height="164" fill="none" stroke="#C5A880" strokeWidth="4" />
-          <image href="/images/wall_painting.png" x="280" y="65" width="240" height="160" />
-        </g>
-
-        {/* 7. Plant Wall Cast Shadow */}
-        <image href="/images/potted_plant.png" x="130" y="200" width="110" height="210" filter="url(#cast-shadow-filter)" transform="translate(15, 8)" style={{ mixBlendMode: 'multiply' }} />
-        {/* Plant Floor Contact Shadow */}
-        <ellipse cx="185" cy="405" rx="25" ry="6" fill="url(#contact-shadow)" opacity="0.9" />
-        {/* Potted Plant */}
-        <image href="/images/potted_plant.png" x="130" y="200" width="110" height="210" filter="url(#soft-shadow)" />
-
-        {/* 8. Floor Lamp & Lamp Glow */}
-        {/* Wall Cast Shadow */}
-        <image href="/images/floor_lamp.png" x="540" y="160" width="120" height="230" filter="url(#cast-shadow-filter)" transform="translate(12, 6)" style={{ mixBlendMode: 'multiply' }} />
-        {/* Floor Lamp Contact Shadow */}
-        <ellipse cx="600" cy="385" rx="25" ry="5" fill="url(#contact-shadow)" opacity="0.85" />
-        {/* Warm Lamp Glow on Wall */}
-        <circle cx="570" cy="190" r="130" fill="url(#lamp-glow-right)" style={{ mixBlendMode: 'screen' }} />
-        {/* Floor Lamp Image */}
-        <image href="/images/floor_lamp.png" x="540" y="160" width="120" height="230" filter="url(#soft-shadow)" />
-
-        {/* 9. Coffee Table */}
-        {/* Coffee Table Contact Shadow */}
-        <ellipse cx="400" cy="410" rx="95" ry="8" fill="url(#contact-shadow)" opacity="0.9" />
-        {/* Coffee Table Image */}
-        <image href="/images/coffee_table.png" x="280" y="295" width="240" height="120" filter="url(#soft-shadow)" />
+        <image href="/images/luxury_sofa.png" x="85" y="162.5" width="630" height="337.5" filter="url(#soft-shadow)" />
       </svg>
     )
   }
 
-  // 10. Client Logo Marquee Data
+  // 10. Client Logo Marquee Data with Names and Original Image Logos
   const marqueeBrands = [
-    'Asian Paints', 'Berger', 'Nerolac', 'Indigo', 'JSW', 'Dr Fixit', 'Birla White', 'ICA Wood Coatings'
+    {
+      name: 'Asian Paints',
+      class: 'brand-asian-paints-hover',
+      logo: '/images/brands/aplogo.jfif'
+    },
+    {
+      name: 'Berger',
+      class: 'brand-berger-hover',
+      logo: '/images/brands/burgerlogo.jfif'
+    },
+    {
+      name: 'Dulux',
+      class: 'brand-dulux-hover',
+      logo: '/images/brands/deluxlogo.png'
+    },
+    {
+      name: 'Dr Fixit',
+      class: 'brand-drfixit-hover',
+      logo: '/images/brands/drflogojfif.jfif'
+    },
+    {
+      name: 'Birla White',
+      class: 'brand-birla-white-hover',
+      logo: '/images/brands/birlawhitelogo.jfif'
+    },
+    {
+      name: 'British Paints',
+      class: 'brand-british-paints-hover',
+      logo: '/images/brands/britishpaint.png'
+    },
+    {
+      name: 'Esdee Paints',
+      class: 'brand-esdee-paints-hover',
+      logo: '/images/brands/esdee.png'
+    },
+    {
+      name: 'ICA Wood Coatings',
+      class: 'brand-ica-hover',
+      logo: '/images/brands/ica.png'
+    }
   ]
   const extendedBrandsList = [...marqueeBrands, ...marqueeBrands]
+
+  // Brands We Deal In Section Data
+  const brandsWeDealIn = [
+    { name: 'Asian Paints', logo: '/images/brands/aplogo.jfif', badge: 'Platinum Dealer' },
+    { name: 'Berger Paints', logo: '/images/brands/burgerlogo.jfif', badge: 'Authorized Partner' },
+    { name: 'Dulux', logo: '/images/brands/deluxlogo.png', badge: 'Certified Retailer' },
+    { name: 'Dr. Fixit', logo: '/images/brands/drflogojfif.jfif', badge: 'Waterproofing Hub' },
+    { name: 'Birla White', logo: '/images/brands/birlawhitelogo.jfif', badge: 'Putty Depot' },
+    { name: 'British Paints', logo: '/images/brands/britishpaint.png', badge: 'Direct Supplier' },
+    { name: 'Esdee Paints', logo: '/images/brands/esdee.png', badge: 'Industrial Depot' },
+    { name: 'ICA Wood Coatings', logo: '/images/brands/ica.png', badge: 'Italian Premium Finishes' }
+  ]
 
   // 12. Why Choose Us Premium Metrics
   const premiumWhyChooseUs = [
@@ -1135,6 +1201,20 @@ export default function Home() {
               </div>
             </ScrollReveal>
           </div>
+
+          {/* Brand name banner shifted under interactive image and details box */}
+          <div className="home-brand-marquee-container" style={{ marginTop: '60px', paddingTop: '45px', borderTop: '1px solid var(--border-light)' }}>
+            <div className="marquee-frame">
+              <div className="marquee-track">
+                {extendedBrandsList.map((brand, idx) => (
+                  <div key={idx} className={`marquee-logo-text ${brand.class}`} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <img src={brand.logo} alt={`${brand.name} logo`} className="marquee-brand-logo-img" />
+                    <span>{brand.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1583,17 +1663,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 10. CLIENT LOGO MARQUEE (LIGHT) */}
-      <section className="marquee-brands-section" style={{ padding: '60px 0', backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border-light)' }}>
+      {/* Brands We Deal In Section */}
+      <section className="home-brands-deal-in-section" style={{ padding: '120px 0', backgroundColor: '#FAF8F5', borderBottom: '1px solid var(--border-light)' }}>
         <div className="container-xl">
-          <div className="marquee-frame">
-            <div className="marquee-track">
-              {extendedBrandsList.map((brand, idx) => (
-                <div key={idx} className="marquee-logo-text">
-                  {brand}
-                </div>
-              ))}
+          <ScrollReveal>
+            <div className="section-header-centered" style={{ marginBottom: '50px' }}>
+              <span className="section-subtitle-centered">Authorized Depot Partner</span>
+              <h2 className="section-title-centered">Brands We Deal In</h2>
             </div>
+          </ScrollReveal>
+
+          <div className="home-brands-deal-in-grid">
+            {brandsWeDealIn.map((brand, idx) => (
+              <ScrollReveal key={idx} delay={idx * 0.05} animation="zoom-in">
+                <div className="home-brand-deal-card">
+                  <img src={brand.logo} alt={`${brand.name} logo`} className="home-brand-deal-logo" />
+                  <h3 className="home-brand-deal-name">{brand.name}</h3>
+                  <span className="home-brand-deal-badge">{brand.badge}</span>
+                </div>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>
@@ -1611,42 +1700,72 @@ export default function Home() {
           <div className="sectors-grid">
             <ScrollReveal animation="zoom-in" delay={0.1}>
               <div className="sector-card">
-                <span className="sector-icon">🏢</span>
+                <span className="sector-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                  </svg>
+                </span>
                 <h3 className="sector-title">Residential</h3>
                 <p className="sector-desc">Premium interior paints, damp proof waterproofing courses, and high-quality exterior emulsions for custom villas.</p>
               </div>
             </ScrollReveal>
             <ScrollReveal animation="zoom-in" delay={0.2}>
               <div className="sector-card">
-                <span className="sector-icon">🏨</span>
+                <span className="sector-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 7h6M9 11h6M9 15h6" />
+                  </svg>
+                </span>
                 <h3 className="sector-title">Hospitality</h3>
                 <p className="sector-desc">Lustre designer textures, velvet-sheen interior coatings, and luxury veneers finish for hotels and restaurants.</p>
               </div>
             </ScrollReveal>
             <ScrollReveal animation="zoom-in" delay={0.3}>
               <div className="sector-card">
-                <span className="sector-icon">🏬</span>
+                <span className="sector-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M10 22V12h4v10" />
+                    <path d="M2 22V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v18H2z" />
+                  </svg>
+                </span>
                 <h3 className="sector-title">Commercial</h3>
                 <p className="sector-desc">Impact-resistant coatings, corporate office flat emulsions, and high-reflectivity glass-facade framing primers.</p>
               </div>
             </ScrollReveal>
             <ScrollReveal animation="zoom-in" delay={0.4}>
               <div className="sector-card">
-                <span className="sector-icon">🏭</span>
+                <span className="sector-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2 21h20M19 21V11l-4 3-4-3-4 3-5-4v12h17z" />
+                    <path d="M19 11h2v3h-2z" />
+                  </svg>
+                </span>
                 <h3 className="sector-title">Industrial</h3>
                 <p className="sector-desc">Anti-corrosive chemical coatings, rust protection zinc oxide primers, and safety pipe paints matching GIDC norms.</p>
               </div>
             </ScrollReveal>
             <ScrollReveal animation="zoom-in" delay={0.5}>
               <div className="sector-card">
-                <span className="sector-icon">🏬</span>
+                <span className="sector-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                  </svg>
+                </span>
                 <h3 className="sector-title">Warehousing</h3>
                 <p className="sector-desc">Heavy-duty seamless dust-free epoxy floorings resisting high rubber friction and structural forklift loads.</p>
               </div>
             </ScrollReveal>
             <ScrollReveal animation="zoom-in" delay={0.6}>
               <div className="sector-card">
-                <span className="sector-icon">🏫</span>
+                <span className="sector-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                    <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5" />
+                  </svg>
+                </span>
                 <h3 className="sector-title">Educational</h3>
                 <p className="sector-desc">Eco-safe, low-odor, zero-VOC interior wall emulsions ensuring healthy classroom air for schools and colleges.</p>
               </div>

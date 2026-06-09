@@ -2379,20 +2379,20 @@ main {
   background-color: #FFFFFF;
 }
 
-.why-grid {
+.why-choose-section .why-grid {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   gap: 60px;
   align-items: center;
 }
 
-.why-card {
+.why-choose-section .why-card {
   display: flex;
   gap: 16px;
   margin-bottom: 24px;
 }
 
-.why-card-icon {
+.why-choose-section .why-card-icon {
   width: 44px;
   height: 44px;
   background-color: var(--color-gold-transparent);
@@ -2404,20 +2404,20 @@ main {
   flex-shrink: 0;
 }
 
-.why-card-title {
+.why-choose-section .why-card-title {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
-.why-card-desc {
+.why-choose-section .why-card-desc {
   font-size: 13.5px;
   color: var(--text-muted);
   line-height: 1.5;
 }
 
 @media (max-width: 991px) {
-  .why-grid {
+  .why-choose-section .why-grid {
     grid-template-columns: 1fr;
     gap: 40px;
   }
@@ -2556,6 +2556,12 @@ main {
   gap: 24px;
 }
 
+.contact-cards-grid > .reveal-element {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .contact-card-item {
   background-color: #FAF8F5;
   border: 1px solid var(--border-light);
@@ -2566,6 +2572,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  width: 100%;
+  flex: 1;
 }
 
 .contact-card-item:hover {
@@ -3301,6 +3310,10 @@ main {
   color: var(--color-gold-dark);
   border-color: var(--color-gold);
   box-shadow: var(--shadow-sm);
+}
+
+.prod-brand-card:hover .prod-brand-logo-img {
+  transform: scale(1.05);
 }
 
 /* 5. Product Gallery */
@@ -4881,8 +4894,22 @@ main {
 
 .explore-space-icon {
   font-size: 36px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 16px;
+}
+
+.explore-space-icon svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--color-navy);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.explore-space-card:hover .explore-space-icon svg {
+  stroke: var(--color-gold-dark);
+  transform: scale(1.1);
 }
 
 .explore-space-title {
@@ -4943,15 +4970,20 @@ main {
   border-radius: 3px;
 }
 
-.material-showcase-card {
+.materials-horizontal-scroll .reveal-element {
+  display: flex;
   flex: 0 0 350px;
+  scroll-snap-align: start;
+}
+
+.material-showcase-card {
+  width: 100%;
   background-color: #FFFFFF;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 40px 35px;
   box-shadow: var(--shadow-sm);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  scroll-snap-align: start;
   display: flex;
   flex-direction: column;
 }
@@ -5257,6 +5289,56 @@ main {
   letter-spacing: 3px;
   white-space: nowrap;
   user-select: none;
+  transition: all 0.3s ease;
+}
+
+/* Brand-specific marquee hover overrides */
+.brand-asian-paints-hover:hover {
+  color: #e31e24 !important;
+  opacity: 1 !important;
+}
+.brand-berger-hover:hover {
+  color: #5f259f !important;
+  opacity: 1 !important;
+}
+.brand-dulux-hover:hover {
+  color: #01509f !important;
+  opacity: 1 !important;
+}
+.brand-drfixit-hover:hover {
+  color: #f05a28 !important;
+  opacity: 1 !important;
+}
+.brand-birla-white-hover:hover {
+  color: #0054a6 !important;
+  opacity: 1 !important;
+}
+.brand-british-paints-hover:hover {
+  color: #da251d !important;
+  opacity: 1 !important;
+}
+.brand-esdee-paints-hover:hover {
+  color: #1c4598 !important;
+  opacity: 1 !important;
+}
+.brand-ica-hover:hover {
+  color: #ef4444 !important;
+  opacity: 1 !important;
+}
+
+/* Brand logo images in marquee styling */
+.marquee-brand-logo-img {
+  height: 32px;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(0.95) contrast(0.9) opacity(0.5);
+  transition: all 0.3s ease;
+}
+
+.marquee-logo-text:hover .marquee-brand-logo-img {
+  filter: none;
+  opacity: 1;
 }
 
 /* 10. Industry & Sectors Solutions */
@@ -5285,8 +5367,22 @@ main {
 
 .sector-icon {
   font-size: 36px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 20px;
+}
+
+.sector-icon svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--color-navy);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sector-card:hover .sector-icon svg {
+  stroke: var(--color-gold-dark);
+  transform: scale(1.1);
 }
 
 .sector-title {
@@ -5752,5 +5848,77 @@ main {
     height: 36px;
     font-size: 12px;
   }
+}
+
+/* Brands We Deal In Section */
+.home-brands-deal-in-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 50px;
+}
+
+@media (max-width: 991px) {
+  .home-brands-deal-in-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 575px) {
+  .home-brands-deal-in-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.home-brand-deal-card {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 35px 25px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.home-brand-deal-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-gold);
+  box-shadow: var(--shadow-md);
+}
+
+.home-brand-deal-logo {
+  height: 60px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.home-brand-deal-card:hover .home-brand-deal-logo {
+  transform: scale(1.08);
+}
+
+.home-brand-deal-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-navy);
+  margin-bottom: 8px;
+}
+
+.home-brand-deal-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-gold-dark);
+  background-color: var(--color-gold-transparent);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  border: 1px solid rgba(191, 140, 76, 0.15);
+  letter-spacing: 0.5px;
 }
 

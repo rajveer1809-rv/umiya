@@ -128,14 +128,46 @@ export default function About() {
   ]
 
   const brands = [
-    'Asian Paints',
-    'Berger Paints',
-    'Dulux',
-    'Dr. Fixit',
-    'Birla White',
-    'British Paints',
-    'Esdee Paints',
-    'ICA Wood Coatings'
+    {
+      name: 'Asian Paints',
+      class: 'brand-asian-paints-hover',
+      logo: '/images/brands/aplogo.jfif'
+    },
+    {
+      name: 'Berger Paints',
+      class: 'brand-berger-hover',
+      logo: '/images/brands/burgerlogo.jfif'
+    },
+    {
+      name: 'Dulux',
+      class: 'brand-dulux-hover',
+      logo: '/images/brands/deluxlogo.png'
+    },
+    {
+      name: 'Dr. Fixit',
+      class: 'brand-drfixit-hover',
+      logo: '/images/brands/drflogojfif.jfif'
+    },
+    {
+      name: 'Birla White',
+      class: 'brand-birla-white-hover',
+      logo: '/images/brands/birlawhitelogo.jfif'
+    },
+    {
+      name: 'British Paints',
+      class: 'brand-british-paints-hover',
+      logo: '/images/brands/britishpaint.png'
+    },
+    {
+      name: 'Esdee Paints',
+      class: 'brand-esdee-paints-hover',
+      logo: '/images/brands/esdee.png'
+    },
+    {
+      name: 'ICA Wood Coatings',
+      class: 'brand-ica-hover',
+      logo: '/images/brands/ica.png'
+    }
   ]
 
   // Double list to make infinite slide seamless
@@ -365,9 +397,10 @@ export default function About() {
             <div className="brand-logos-container">
               <div className="brand-logos-track">
                 {extendedBrands.map((brand, idx) => (
-                  <span key={idx} className="brand-logo-text">
-                    ✦ {brand}
-                  </span>
+                  <div key={idx} className={`marquee-logo-text ${brand.class}`} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <img src={brand.logo} alt={`${brand.name} logo`} className="marquee-brand-logo-img" />
+                    <span>{brand.name}</span>
+                  </div>
                 ))}
               </div>
             </div>

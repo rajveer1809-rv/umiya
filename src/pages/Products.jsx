@@ -134,35 +134,35 @@ export default function Products() {
 
   // Brands list
   const brandList = [
-    { name: 'Asian Paints', type: 'Platinum Dealer' },
-    { name: 'Berger Paints', type: 'Authorized Partner' },
-    { name: 'Dulux', type: 'Certified Retailer' },
-    { name: 'Dr. Fixit', type: 'Waterproofing Hub' },
-    { name: 'Birla White', type: 'Putty Depot' },
-    { name: 'British Paints', type: 'Direct Supplier' },
-    { name: 'Esdee Paints', type: 'Industrial Depot' },
-    { name: 'ICA Wood Coatings', type: 'Italian Premium Finishes' }
+    { name: 'Asian Paints', type: 'Platinum Dealer', logo: '/images/brands/aplogo.jfif' },
+    { name: 'Berger Paints', type: 'Authorized Partner', logo: '/images/brands/burgerlogo.jfif' },
+    { name: 'Dulux', type: 'Certified Retailer', logo: '/images/brands/deluxlogo.png' },
+    { name: 'Dr. Fixit', type: 'Waterproofing Hub', logo: '/images/brands/drflogojfif.jfif' },
+    { name: 'Birla White', type: 'Putty Depot', logo: '/images/brands/birlawhitelogo.jfif' },
+    { name: 'British Paints', type: 'Direct Supplier', logo: '/images/brands/britishpaint.png' },
+    { name: 'Esdee Paints', type: 'Industrial Depot', logo: '/images/brands/esdee.png' },
+    { name: 'ICA Wood Coatings', type: 'Italian Premium Finishes', logo: '/images/brands/ica.png' }
   ]
 
-  // Gallery items matching available illustration assets
+  // Gallery items matching available project/gallery assets
   const galleryItems = [
     {
-      image: '/about_interior.png',
+      image: '/gallery/modern_living_rooms.png',
       title: 'Modern Living Room',
       subtitle: 'Finished with Royale Luxury Emulsion'
     },
     {
-      image: '/about_detail.png',
+      image: '/projects/veneer_furniture_coating.png',
       title: 'Polished Timber veneer',
       subtitle: 'Finished with Imperia Polyurethane PU'
     },
     {
-      image: '/page_banner_services.png',
+      image: '/projects/modern_villa_facade.png',
       title: 'External Damp Protection',
       subtitle: 'Waterproofed with Dr. Fixit Membrane systems'
     },
     {
-      image: '/page_banner_contact.png',
+      image: '/projects/heavy_plant_pipeline.png',
       title: 'Industrial Heavy Machinery',
       subtitle: 'Coated with High Build Epoxy Primers'
     }
@@ -267,7 +267,15 @@ export default function Products() {
           <div className="prod-brands-grid">
             {brandList.map((brand, idx) => (
               <ScrollReveal key={brand.name} delay={idx * 0.04} animation="fade-in-up">
-                <div className="prod-brand-card">
+                <div className="prod-brand-card" style={{ display: 'flex', flexDirection: 'column', gap: '15px', padding: '24px 15px' }}>
+                  <div style={{ height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img 
+                      src={brand.logo} 
+                      alt={`${brand.name} logo`} 
+                      style={{ maxHeight: '100%', maxWidth: '120px', objectFit: 'contain', transition: 'transform 0.3s ease' }} 
+                      className="prod-brand-logo-img"
+                    />
+                  </div>
                   <div>
                     <div style={{ color: 'var(--text-main)', fontWeight: 700, fontSize: '15px' }}>{brand.name}</div>
                     <div style={{ color: 'var(--color-gold-dark)', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '4px', fontWeight: 600 }}>{brand.type}</div>

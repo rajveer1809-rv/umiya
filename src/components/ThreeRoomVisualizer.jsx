@@ -244,14 +244,12 @@ export default function ThreeRoomVisualizer({
       camera.position.set(0, 2.2, 8.5);
       controls.target.set(0, 0.4, 0);
 
-      // Floor (Wood)
+      // Floor (White)
       const floorGeo = new THREE.BoxGeometry(10, 0.1, 8);
       const floorMat = new THREE.MeshStandardMaterial({
-        color: '#D4B895',
-        roughness: 0.35,
-        metalness: 0.05,
-        bumpMap: woodBump,
-        bumpScale: 0.03
+        color: '#FFFFFF',
+        roughness: 0.8,
+        metalness: 0.0
       });
       const floor = new THREE.Mesh(floorGeo, floorMat);
       floor.position.set(0, -1, 0);
@@ -332,7 +330,8 @@ export default function ThreeRoomVisualizer({
 
       // Sofa - Paintable (Upholstery color customizable)
       const sofaGroup = new THREE.Group();
-      sofaGroup.position.set(0, -0.9, 0);
+      sofaGroup.position.set(0, -2.0, 0);
+      sofaGroup.scale.set(1.5, 1.5, 1.5);
 
       const sofaBaseGeo = new THREE.BoxGeometry(5.2, 0.4, 2.0);
       const sofaBaseMat = new THREE.MeshStandardMaterial({ color: '#1A202C', roughness: 0.8 });
@@ -405,90 +404,7 @@ export default function ThreeRoomVisualizer({
 
       scene.add(sofaGroup);
 
-      // Coffee Table
-      const tableGeo = new THREE.BoxGeometry(2.4, 0.1, 1.4);
-      const tableMat = new THREE.MeshStandardMaterial({
-        color: '#654321',
-        roughness: 0.4,
-        bumpMap: woodBump,
-        bumpScale: 0.01
-      });
-      const table = new THREE.Mesh(tableGeo, tableMat);
-      table.position.set(0, -0.65, 2.5);
-      table.castShadow = true;
-      table.receiveShadow = true;
 
-      // Table Legs
-      const legGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.3);
-      const legMat = new THREE.MeshStandardMaterial({ color: '#1E293B', roughness: 0.3 });
-      const corners = [
-        [-1.1, 0.6], [1.1, 0.6], [-1.1, -0.6], [1.1, -0.6]
-      ];
-      corners.forEach(([lx, lz]) => {
-        const leg = new THREE.Mesh(legGeo, legMat);
-        leg.position.set(lx, -0.2, lz);
-        leg.castShadow = true;
-        table.add(leg);
-      });
-      scene.add(table);
-
-      // Picture Frame
-      const frameGroup = new THREE.Group();
-      frameGroup.position.set(0, 2.5, -3.88);
-
-      const borderGeo = new THREE.BoxGeometry(3.0, 1.8, 0.08);
-      const borderMat = new THREE.MeshStandardMaterial({ color: '#111827', roughness: 0.6 });
-      const border = new THREE.Mesh(borderGeo, borderMat);
-      frameGroup.add(border);
-
-      const artGeo = new THREE.PlaneGeometry(2.8, 1.6);
-      const artMat = new THREE.MeshBasicMaterial({ color: '#F8FAFC' });
-      const art = new THREE.Mesh(artGeo, artMat);
-      art.position.z = 0.045;
-      frameGroup.add(art);
-
-      // abstract art drawing
-      const circleGeo = new THREE.CircleGeometry(0.4, 32);
-      const circleMat = new THREE.MeshBasicMaterial({ color: '#BF8C4C' });
-      const circle = new THREE.Mesh(circleGeo, circleMat);
-      circle.position.set(-0.5, 0.1, 0.05);
-      art.add(circle);
-
-      const rectGeo = new THREE.PlaneGeometry(0.8, 0.5);
-      const rectMat = new THREE.MeshBasicMaterial({ color: '#637A9F' });
-      const rect = new THREE.Mesh(rectGeo, rectMat);
-      rect.position.set(0.6, -0.2, 0.05);
-      art.add(rect);
-
-      scene.add(frameGroup);
-
-      // Potted Plant
-      const plantGroup = new THREE.Group();
-      plantGroup.position.set(-3.6, -0.95, 2.4);
-
-      const potGeo = new THREE.CylinderGeometry(0.35, 0.25, 0.7, 16);
-      const potMat = new THREE.MeshStandardMaterial({ color: '#BF8C4C', roughness: 0.8 });
-      const pot = new THREE.Mesh(potGeo, potMat);
-      pot.position.y = 0.35;
-      pot.castShadow = true;
-      pot.receiveShadow = true;
-      plantGroup.add(pot);
-
-      // Foliage (Leaves)
-      const leafGeo = new THREE.ConeGeometry(0.12, 1.0, 4);
-      const leafMat = new THREE.MeshStandardMaterial({ color: '#1B4D3E', roughness: 0.7 });
-      for (let i = 0; i < 6; i++) {
-        const leaf = new THREE.Mesh(leafGeo, leafMat);
-        leaf.position.set(0, 0.8, 0);
-        leaf.rotation.set(
-          0.3 + Math.random() * 0.4,
-          (i * Math.PI) / 3,
-          0.3 + Math.random() * 0.2
-        );
-        leaf.castShadow = true;
-        plantGroup.add(leaf);
-      }
-      scene.add(plantGroup);
 
       // Ambient overhead light sources (Visual Spotlights)
       const spotLight1 = new THREE.SpotLight('#FFF8E7', 3.0, 8, Math.PI / 6, 0.5, 1);
@@ -598,63 +514,7 @@ export default function ThreeRoomVisualizer({
 
       scene.add(bedGroup);
 
-      // Side Tables
-      const tableGeo = new THREE.BoxGeometry(0.9, 0.9, 0.9);
-      const tableMat = new THREE.MeshStandardMaterial({
-        color: '#4A3B32',
-        roughness: 0.5,
-        bumpMap: woodBump,
-        bumpScale: 0.01
-      });
 
-      const leftTable = new THREE.Mesh(tableGeo, tableMat);
-      leftTable.position.set(-2.8, -0.5, -3.2);
-      leftTable.castShadow = true;
-      leftTable.receiveShadow = true;
-      scene.add(leftTable);
-
-      const rightTable = new THREE.Mesh(tableGeo, tableMat);
-      rightTable.position.set(2.8, -0.5, -3.2);
-      rightTable.castShadow = true;
-      rightTable.receiveShadow = true;
-      scene.add(rightTable);
-
-      // Table Lamps (Glowing)
-      const createLamp = (x, z) => {
-        const lampGroup = new THREE.Group();
-        lampGroup.position.set(x, -0.05, z);
-
-        const baseGeo = new THREE.CylinderGeometry(0.1, 0.1, 0.3);
-        const baseMat = new THREE.MeshStandardMaterial({ color: '#BF8C4C', metalness: 0.8, roughness: 0.2 });
-        const base = new THREE.Mesh(baseGeo, baseMat);
-        base.position.y = 0.15;
-        base.castShadow = true;
-        lampGroup.add(base);
-
-        const shadeGeo = new THREE.CylinderGeometry(0.18, 0.28, 0.4, 16);
-        const shadeMat = new THREE.MeshStandardMaterial({
-          color: '#FFFDF9',
-          roughness: 0.9,
-          emissive: '#FFF8E7',
-          emissiveIntensity: 0.2
-        });
-        const shade = new THREE.Mesh(shadeGeo, shadeMat);
-        shade.position.y = 0.5;
-        shade.castShadow = true;
-        lampGroup.add(shade);
-
-        // Warm light source
-        const lampLight = new THREE.PointLight('#FFD17F', 0.9, 5, 1.2);
-        lampLight.position.set(0, 0.5, 0);
-        lampLight.castShadow = true;
-        lampLight.shadow.bias = -0.002;
-        lampGroup.add(lampLight);
-
-        return lampGroup;
-      };
-
-      scene.add(createLamp(-2.8, -3.2));
-      scene.add(createLamp(2.8, -3.2));
 
     } else if (space === 'Sideboard Cabinet') {
       defaultActiveTarget = 'Cabinet Body';

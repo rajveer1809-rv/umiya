@@ -408,21 +408,7 @@ export default function ProductDetails() {
             <rect x="110" y="145" width="50" height="25" rx="3" fill="#F3F4F6" stroke="#E5E7EB" />
             <rect x="240" y="145" width="50" height="25" rx="3" fill="#F3F4F6" stroke="#E5E7EB" />
 
-            {/* Nightstands */}
-            <rect x="30" y="150" width="40" height="40" rx="2" fill="#8B5A2B" />
-            <circle cx="50" cy="170" r="3" fill="#1F2937" />
-            <rect x="330" y="150" width="40" height="40" rx="2" fill="#8B5A2B" />
-            <circle cx="350" cy="170" r="3" fill="#1F2937" />
-            
-            {/* Lamps */}
-            <rect x="45" y="140" width="10" height="10" fill="#4B5563" />
-            <path d="M 40 140 L 60 140 L 55 125 L 45 125 Z" fill="#FBBF24" />
-            <rect x="345" y="140" width="10" height="10" fill="#4B5563" />
-            <path d="M 340 140 L 360 140 L 355 125 L 345 125 Z" fill="#FBBF24" />
 
-            {/* Picture frame above bed */}
-            <rect x="160" y="30" width="80" height="50" fill="#FAF8F5" stroke="#1F2937" strokeWidth="2" />
-            <circle cx="200" cy="55" r="10" fill="#F59E0B" />
           </svg>
         )
       } else {
@@ -433,47 +419,37 @@ export default function ProductDetails() {
             <rect width="400" height="200" fill={hexColor} style={{ transition: 'fill 0.4s ease' }} />
             
             {/* Floor */}
-            <rect y="200" width="400" height="80" fill="#EBE4D8" />
-            <line x1="0" y1="200" x2="400" y2="200" stroke="#D3C9BC" strokeWidth="2" />
+            <rect y="200" width="400" height="80" fill="#FFFFFF" />
+            <line x1="0" y1="200" x2="400" y2="200" stroke="#E2E8F0" strokeWidth="2" />
             
             {/* Skirting board */}
             <rect y="190" width="400" height="10" fill="#FBF9F6" />
-            <line x1="0" y1="190" x2="400" y2="190" stroke="#E6DFD3" strokeWidth="1" />
+            <line x1="0" y1="190" x2="400" y2="190" stroke="#E2E8F0" strokeWidth="1" />
 
             {/* Window */}
             <rect x="20" y="30" width="80" height="110" fill="#E0F2FE" opacity="0.8" stroke="#FBF9F6" strokeWidth="4" />
             <line x1="60" y1="30" x2="60" y2="140" stroke="#FBF9F6" strokeWidth="2" />
             <line x1="20" y1="85" x2="100" y2="85" stroke="#FBF9F6" strokeWidth="2" />
             
-            {/* Wall Art Frame */}
-            <rect x="290" y="40" width="60" height="80" fill="#FAF8F5" stroke="#232323" strokeWidth="3" />
-            {/* Inner Art */}
-            <circle cx="320" cy="75" r="15" fill="#F59E0B" />
-            <path d="M 295 105 Q 310 95 320 105 T 345 105" fill="none" stroke="#0284C7" strokeWidth="2" />
+
 
             {/* Sofa */}
-            <rect x="120" y="150" width="160" height="50" rx="8" fill="#52525B" />
-            <rect x="130" y="175" width="65" height="20" rx="4" fill="#3F3F46" />
-            <rect x="205" y="175" width="65" height="20" rx="4" fill="#3F3F46" />
-            <rect x="110" y="165" width="15" height="30" rx="6" fill="#27272A" />
-            <rect x="275" y="165" width="15" height="30" rx="6" fill="#27272A" />
+            <rect x="80" y="175" width="240" height="75" rx="12" fill="#52525B" />
+            <rect x="95" y="212.5" width="98" height="30" rx="6" fill="#3F3F46" />
+            <rect x="207" y="212.5" width="98" height="30" rx="6" fill="#3F3F46" />
+            <rect x="60" y="198" width="22" height="45" rx="9" fill="#27272A" />
+            <rect x="318" y="198" width="22" height="45" rx="9" fill="#27272A" />
             
             {/* Accent Pillows */}
-            <path d="M 140 175 L 150 155 L 160 175 Z" fill="#F43F5E" />
-            <path d="M 260 175 L 250 155 L 240 175 Z" fill="#10B981" />
+            <path d="M 135 212.5 L 150 182.5 L 165 212.5 Z" fill="#F43F5E" />
+            <path d="M 265 212.5 L 250 182.5 L 235 212.5 Z" fill="#10B981" />
             
             {/* Legs */}
-            <line x1="130" y1="200" x2="125" y2="215" stroke="#18181B" strokeWidth="4" strokeLinecap="round" />
-            <line x1="270" y1="200" x2="275" y2="215" stroke="#18181B" strokeWidth="4" strokeLinecap="round" />
+            <line x1="100" y1="250" x2="95" y2="270" stroke="#18181B" strokeWidth="6" strokeLinecap="round" />
+            <line x1="300" y1="250" x2="305" y2="270" stroke="#18181B" strokeWidth="6" strokeLinecap="round" />
             
             {/* Rug */}
-            <ellipse cx="200" cy="225" rx="90" ry="15" fill="#E4E4E7" opacity="0.6" />
-
-            {/* Plant */}
-            <rect x="30" y="185" width="20" height="30" rx="3" fill="#D97706" />
-            <path d="M 40 185 Q 25 155 15 165 C 20 175 35 180 40 185 Z" fill="#15803D" />
-            <path d="M 40 185 Q 40 145 50 150 C 45 165 42 175 40 185 Z" fill="#166534" />
-            <path d="M 40 185 Q 55 160 65 170 C 58 178 48 182 40 185 Z" fill="#15803D" />
+            <ellipse cx="200" cy="260" rx="135" ry="20" fill="#E4E4E7" opacity="0.6" />
           </svg>
         )
       }
