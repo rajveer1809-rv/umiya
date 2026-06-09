@@ -2433,10 +2433,9 @@ main {
   }
 }
 
-/* Color Inspiration Gallery styling */
 .inspiration-section {
   padding: 80px 0;
-  background-color: var(--bg-main);
+  background-color: var(--bg-dark);
 }
 
 .inspiration-grid {
@@ -2447,9 +2446,9 @@ main {
 }
 
 .inspiration-card {
-  background-color: #FFFFFF;
+  background-color: var(--color-navy-light);
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
@@ -2470,8 +2469,8 @@ main {
   display: flex;
   padding: 12px;
   gap: 8px;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid var(--border-light);
+  background-color: var(--color-navy-light);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .inspiration-swatch {
@@ -2490,11 +2489,12 @@ main {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 4px;
+  color: #FFFFFF;
 }
 
 .inspiration-desc {
   font-size: 11px;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 @media (max-width: 991px) {
@@ -4873,7 +4873,7 @@ main {
 /* 5. Explore By Space Cards */
 .explore-spaces-section {
   padding: 120px 0;
-  background-color: var(--bg-gold-light-alternate);
+  background-color: var(--bg-card);
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -4886,7 +4886,7 @@ main {
 
 .explore-space-card {
   display: block;
-  background-color: var(--bg-card);
+  background-color: #FFFFFF;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 35px 30px;

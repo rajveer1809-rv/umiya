@@ -66,25 +66,25 @@ export default function About() {
       title: 'Royal Breeze & Alabaster',
       desc: 'Living Room Inspiration',
       colors: ['#1E3E80', '#F7F6F0', '#EEDCBE', '#374151'],
-      image: '/about_interior.png'
+      image: '/images/inspirations/living_room.png'
     },
     {
       title: 'Mint Whisper & Warm Sand',
       desc: 'Bedroom Concept Palette',
       colors: ['#C2E8D4', '#FDF6E2', '#EEDCBE', '#5C5449'],
-      image: '/about_detail.png'
+      image: '/images/inspirations/bedroom.png'
     },
     {
       title: 'Tuscan Glow & Alabaster',
       desc: 'Dining Area Palette',
       colors: ['#F9D189', '#F3A47C', '#F7F6F0', '#634427'],
-      image: '/about_interior.png'
+      image: '/images/inspirations/dining_room.png'
     },
     {
       title: 'Mahogany Elegance & Slate',
       desc: 'Premium Study & Wood Finish',
       colors: ['#8B422B', '#C59B6D', '#2C2B2C', '#FAF8F5'],
-      image: '/about_detail.png'
+      image: '/images/inspirations/study_room.png'
     }
   ]
 
@@ -324,7 +324,7 @@ export default function About() {
           <ScrollReveal>
             <div className="section-header-centered" style={{ marginBottom: '40px' }}>
               <span className="section-subtitle-centered">Trending Palette Swatches</span>
-              <h2 className="section-title-centered" style={{ fontSize: '28px', fontWeight: 700 }}>Color Inspiration Gallery</h2>
+              <h2 className="section-title-centered" style={{ fontSize: '28px', fontWeight: 700, color: '#FFFFFF' }}>Color Inspiration Gallery</h2>
             </div>
           </ScrollReveal>
 
