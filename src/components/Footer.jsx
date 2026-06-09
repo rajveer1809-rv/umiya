@@ -52,7 +52,7 @@ export default function Footer() {
                 </svg>
               </span>
               <p style={{ fontSize: '13.5px', color: '#B0B0B0', margin: 0 }}>
-                +91 88661 17573 / +91 98795 35081
+                +91 88661 17573
               </p>
             </div>
             <div className="footer-contact-item">

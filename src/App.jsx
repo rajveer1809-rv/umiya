@@ -7,11 +7,13 @@ import Services from './pages/Services'
 import Products from './pages/Products'
 import ProductDetails from './pages/ProductDetails'
 import Contact from './pages/Contact'
+import ScrollToTop from './components/ScrollToTop'
 import './App.css'
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="app-root">
         <Navbar />
         <main>

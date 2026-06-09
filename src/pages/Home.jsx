@@ -1860,46 +1860,21 @@ export default function Home() {
                 {isHomeVideoPlaying ? (
                   <div 
                     className="local-video-slideshow"
-                    style={{
-                      position: 'relative',
-                      width: '100%',
-                      height: '100%',
-                      backgroundImage: `url(${videoSlides[videoSlideIndex].image})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      transition: 'background-image 0.6s ease-in-out',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      padding: '24px'
-                    }}
+                    style={{ backgroundImage: `url(${videoSlides[videoSlideIndex].image})` }}
                   >
                     {/* Top Bar: Title & Close Button */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 3 }}>
-                      <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', padding: '8px 16px', borderRadius: '4px', backdropFilter: 'blur(4px)' }}>
-                        <span style={{ fontSize: '11px', color: 'var(--color-gold)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700 }}>
+                    <div className="local-video-topbar">
+                      <div className="local-video-badge">
+                        <span>
                           Project Showcase Video ({videoSlideIndex + 1}/{videoSlides.length})
                         </span>
                       </div>
                       <button 
+                        className="local-video-close"
                         onClick={(e) => {
                           e.stopPropagation();
                           setIsHomeVideoPlaying(false);
                           setVideoSlideIndex(0);
-                        }}
-                        style={{
-                          background: 'rgba(0,0,0,0.6)',
-                          border: 'none',
-                          color: '#FFFFFF',
-                          width: '32px',
-                          height: '32px',
-                          borderRadius: '50%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          backdropFilter: 'blur(4px)',
-                          transition: 'all 0.2s'
                         }}
                         title="Close Player"
                       >
@@ -1908,37 +1883,31 @@ export default function Home() {
                     </div>
 
                     {/* Dark Vignette Bottom Overlay */}
-                    <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)',
-                      zIndex: 1,
-                      pointerEvents: 'none'
-                    }} />
+                    <div className="local-video-bottom-overlay" />
 
                     {/* Bottom Info & Controls */}
-                    <div style={{ zIndex: 3, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div className="local-video-bottom-container">
                       {/* Active Slide Info */}
                       <div>
-                        <h3 style={{ color: '#FFFFFF', margin: '0 0 4px 0', fontSize: '20px', fontWeight: 600 }}>
+                        <h3 className="local-video-title">
                           {videoSlides[videoSlideIndex].title}
                         </h3>
-                        <p style={{ color: 'rgba(255,255,255,0.8)', margin: 0, fontSize: '13px' }}>
+                        <p className="local-video-desc">
                           {videoSlides[videoSlideIndex].desc}
                         </p>
                       </div>
 
                       {/* Video Player Controls Strip */}
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '12px' }}>
+                      <div className="local-video-controls-strip">
                         {/* Playback Controls */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <div className="local-video-btn-group">
                           {/* Prev Button */}
                           <button 
+                            className="local-video-nav-btn"
                             onClick={(e) => {
                               e.stopPropagation();
                               setVideoSlideIndex((prev) => (prev - 1 + videoSlides.length) % videoSlides.length);
                             }}
-                            style={{ background: 'none', border: 'none', color: '#FFFFFF', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 0 }}
                             title="Previous Project"
                           >
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
@@ -1948,24 +1917,10 @@ export default function Home() {
 
                           {/* Play / Pause Toggle Button */}
                           <button 
+                            className="local-video-toggle-btn"
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsVideoPaused(!isVideoPaused);
-                            }}
-                            style={{
-                              background: 'var(--color-gold)',
-                              border: 'none',
-                              color: '#FFFFFF',
-                              width: '40px',
-                              height: '40px',
-                              borderRadius: '50%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              cursor: 'pointer',
-                              boxShadow: '0 4px 10px rgba(191,140,76,0.3)',
-                              transition: 'all 0.2s',
-                              padding: 0
                             }}
                             title={isVideoPaused ? "Play" : "Pause"}
                           >
@@ -1982,11 +1937,11 @@ export default function Home() {
 
                           {/* Next Button */}
                           <button 
+                            className="local-video-nav-btn"
                             onClick={(e) => {
                               e.stopPropagation();
                               setVideoSlideIndex((prev) => (prev + 1) % videoSlides.length);
                             }}
-                            style={{ background: 'none', border: 'none', color: '#FFFFFF', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 0 }}
                             title="Next Project"
                           >
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
@@ -1996,7 +1951,7 @@ export default function Home() {
                         </div>
 
                         {/* Slide Indicators / Dots */}
-                        <div style={{ display: 'flex', gap: '6px' }}>
+                        <div className="local-video-dots-wrapper">
                           {videoSlides.map((_, idx) => (
                             <span 
                               key={idx}
@@ -2004,14 +1959,7 @@ export default function Home() {
                                 e.stopPropagation();
                                 setVideoSlideIndex(idx);
                               }}
-                              style={{
-                                width: '8px',
-                                height: '8px',
-                                borderRadius: '50%',
-                                backgroundColor: videoSlideIndex === idx ? 'var(--color-gold)' : 'rgba(255,255,255,0.3)',
-                                transition: 'all 0.2s',
-                                cursor: 'pointer'
-                              }}
+                              className={`local-video-dot ${videoSlideIndex === idx ? 'active' : ''}`}
                             />
                           ))}
                         </div>
@@ -2019,17 +1967,14 @@ export default function Home() {
                     </div>
 
                     {/* Timeline Progress Bar (Animated) */}
-                    <div style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      height: '4px',
-                      backgroundColor: 'var(--color-gold)',
-                      width: isVideoPaused ? `${((videoSlideIndex + 1) / videoSlides.length) * 100}%` : '0%',
-                      animation: isVideoPaused ? 'none' : 'slideshowProgress 3.5s linear infinite',
-                      zIndex: 4,
-                      transition: isVideoPaused ? 'width 0.3s ease-out' : 'none'
-                    }} />
+                    <div 
+                      className="local-video-progress-bar"
+                      style={{
+                        width: isVideoPaused ? `${((videoSlideIndex + 1) / videoSlides.length) * 100}%` : '0%',
+                        animation: isVideoPaused ? 'none' : 'slideshowProgress 3.5s linear infinite',
+                        transition: isVideoPaused ? 'width 0.3s ease-out' : 'none'
+                      }} 
+                    />
                   </div>
                 ) : (
                   <>
