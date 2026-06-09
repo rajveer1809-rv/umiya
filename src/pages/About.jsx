@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ScrollReveal from '../components/ScrollReveal'
 
 export default function About() {
+  const [activeInspirationIndex, setActiveInspirationIndex] = useState(0)
   const milestones = [
     {
       year: '2005',
@@ -87,6 +89,13 @@ export default function About() {
       image: '/images/inspirations/study_room.png'
     }
   ]
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveInspirationIndex((prev) => (prev + 1) % inspirations.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [inspirations.length])
 
   const whyChooseUs = [
     {
@@ -328,31 +337,52 @@ export default function About() {
             </div>
           </ScrollReveal>
 
-          <div className="inspiration-grid">
-            {inspirations.map((item, idx) => (
-              <ScrollReveal key={idx} delay={idx * 0.1} animation="zoom-in">
-                <div className="inspiration-card">
-                  <div 
-                    className="inspiration-visual" 
-                    style={{ backgroundImage: `url(${item.image})` }}
-                  ></div>
-                  <div className="inspiration-swatches">
-                    {item.colors.map((c, cIdx) => (
-                      <span 
-                        key={cIdx} 
-                        className="inspiration-swatch" 
-                        style={{ backgroundColor: c }}
-                        title={c}
-                      ></span>
-                    ))}
-                  </div>
-                  <div className="inspiration-info">
-                    <h3 className="inspiration-title">{item.title}</h3>
-                    <span className="inspiration-desc">{item.desc}</span>
-                  </div>
+          <div className="inspiration-slideshow-wrapper">
+            {/* Left: Active Showcase (Large Image styled like a Video frame) */}
+            <ScrollReveal animation="fade-in-left">
+              <div 
+                className="inspiration-showcase-player"
+                style={{
+                  backgroundImage: `url(${inspirations[activeInspirationIndex].image})`
+                }}
+              >
+                {/* Dark Vignette Overlay */}
+                <div className="inspiration-player-overlay" />
+                
+                {/* Video Play Icon Overlay */}
+                <div className="inspiration-play-btn">
+                  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style={{ marginLeft: '4px' }}>
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
                 </div>
-              </ScrollReveal>
-            ))}
+              </div>
+            </ScrollReveal>
+
+            {/* Right: Vertical List of Slides */}
+            <ScrollReveal animation="fade-in-right">
+              <div className="inspiration-list-container">
+                {inspirations.map((item, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => setActiveInspirationIndex(idx)}
+                    className={`inspiration-list-item ${activeInspirationIndex === idx ? 'active' : ''}`}
+                  >
+                    {/* Slide Number / Indicator */}
+                    <span className="inspiration-list-num">
+                      0{idx + 1}
+                    </span>
+                    <div>
+                      <h3 className="inspiration-list-title">
+                        {item.title}
+                      </h3>
+                      <p className="inspiration-list-desc">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>

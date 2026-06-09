@@ -4,6 +4,46 @@ import ScrollReveal from '../components/ScrollReveal'
 
 export default function Home() {
   const [projectTab, setProjectTab] = useState('All')
+  const [isHomeVideoPlaying, setIsHomeVideoPlaying] = useState(false)
+  const [videoSlideIndex, setVideoSlideIndex] = useState(0)
+  const [isVideoPaused, setIsVideoPaused] = useState(false)
+
+  const videoSlides = [
+    {
+      image: '/projects/modern_villa_facade.png',
+      title: 'Modern Villa Facade',
+      desc: 'Finished with Premium UV-Stable Weather-Guard Emulsion'
+    },
+    {
+      image: '/projects/corporate_main_lobby.png',
+      title: 'Corporate Main Lobby',
+      desc: 'Completed with Satin-Soft Sheen Luxury Interior Emulsion'
+    },
+    {
+      image: '/projects/showroom_glass_facade.png',
+      title: 'Commercial Showroom Facade',
+      desc: 'Finished with Impact-Resistant Structural Coatings'
+    },
+    {
+      image: '/projects/ankleshwar_gidc_warehouse.png',
+      title: 'Ankleshwar GIDC Warehouse',
+      desc: 'Industrial Corrosion-Resistant Roof Protective Seals'
+    },
+    {
+      image: '/projects/heavy_plant_pipeline.png',
+      title: 'Industrial Heavy Plant Pipeline',
+      desc: 'Coated with Chemical-Proof Protective Primers & Topcoats'
+    }
+  ]
+
+  useEffect(() => {
+    if (!isHomeVideoPlaying || isVideoPaused) return
+
+    const timer = setInterval(() => {
+      setVideoSlideIndex((prev) => (prev + 1) % videoSlides.length)
+    }, 3500)
+    return () => clearInterval(timer)
+  }, [isHomeVideoPlaying, isVideoPaused])
 
   // Before & After Interactive States
   const [beforeAfterTab, setBeforeAfterTab] = useState('Exterior Facades')
@@ -1813,32 +1853,228 @@ export default function Home() {
 
           <div className="video-showcase-grid-wrapper">
             <ScrollReveal animation="zoom-in">
-              <div className="video-player-frame">
-                <div className="video-play-overlay">
-                  <div className="video-play-button">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
+              <div 
+                className="video-player-frame" 
+                onClick={() => setIsHomeVideoPlaying(true)}
+              >
+                {isHomeVideoPlaying ? (
+                  <div 
+                    className="local-video-slideshow"
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%',
+                      backgroundImage: `url(${videoSlides[videoSlideIndex].image})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      transition: 'background-image 0.6s ease-in-out',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      padding: '24px'
+                    }}
+                  >
+                    {/* Top Bar: Title & Close Button */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 3 }}>
+                      <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', padding: '8px 16px', borderRadius: '4px', backdropFilter: 'blur(4px)' }}>
+                        <span style={{ fontSize: '11px', color: 'var(--color-gold)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700 }}>
+                          Project Showcase Video ({videoSlideIndex + 1}/{videoSlides.length})
+                        </span>
+                      </div>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsHomeVideoPlaying(false);
+                          setVideoSlideIndex(0);
+                        }}
+                        style={{
+                          background: 'rgba(0,0,0,0.6)',
+                          border: 'none',
+                          color: '#FFFFFF',
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          backdropFilter: 'blur(4px)',
+                          transition: 'all 0.2s'
+                        }}
+                        title="Close Player"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    {/* Dark Vignette Bottom Overlay */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, transparent 100%)',
+                      zIndex: 1,
+                      pointerEvents: 'none'
+                    }} />
+
+                    {/* Bottom Info & Controls */}
+                    <div style={{ zIndex: 3, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                      {/* Active Slide Info */}
+                      <div>
+                        <h3 style={{ color: '#FFFFFF', margin: '0 0 4px 0', fontSize: '20px', fontWeight: 600 }}>
+                          {videoSlides[videoSlideIndex].title}
+                        </h3>
+                        <p style={{ color: 'rgba(255,255,255,0.8)', margin: 0, fontSize: '13px' }}>
+                          {videoSlides[videoSlideIndex].desc}
+                        </p>
+                      </div>
+
+                      {/* Video Player Controls Strip */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '12px' }}>
+                        {/* Playback Controls */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                          {/* Prev Button */}
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setVideoSlideIndex((prev) => (prev - 1 + videoSlides.length) % videoSlides.length);
+                            }}
+                            style={{ background: 'none', border: 'none', color: '#FFFFFF', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 0 }}
+                            title="Previous Project"
+                          >
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                            </svg>
+                          </button>
+
+                          {/* Play / Pause Toggle Button */}
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsVideoPaused(!isVideoPaused);
+                            }}
+                            style={{
+                              background: 'var(--color-gold)',
+                              border: 'none',
+                              color: '#FFFFFF',
+                              width: '40px',
+                              height: '40px',
+                              borderRadius: '50%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              boxShadow: '0 4px 10px rgba(191,140,76,0.3)',
+                              transition: 'all 0.2s',
+                              padding: 0
+                            }}
+                            title={isVideoPaused ? "Play" : "Pause"}
+                          >
+                            {isVideoPaused ? (
+                              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" style={{ marginLeft: '2px' }}>
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
+                            ) : (
+                              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                              </svg>
+                            )}
+                          </button>
+
+                          {/* Next Button */}
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setVideoSlideIndex((prev) => (prev + 1) % videoSlides.length);
+                            }}
+                            style={{ background: 'none', border: 'none', color: '#FFFFFF', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 0 }}
+                            title="Next Project"
+                          >
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                            </svg>
+                          </button>
+                        </div>
+
+                        {/* Slide Indicators / Dots */}
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          {videoSlides.map((_, idx) => (
+                            <span 
+                              key={idx}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setVideoSlideIndex(idx);
+                              }}
+                              style={{
+                                width: '8px',
+                                height: '8px',
+                                borderRadius: '50%',
+                                backgroundColor: videoSlideIndex === idx ? 'var(--color-gold)' : 'rgba(255,255,255,0.3)',
+                                transition: 'all 0.2s',
+                                cursor: 'pointer'
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Timeline Progress Bar (Animated) */}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      left: 0,
+                      height: '4px',
+                      backgroundColor: 'var(--color-gold)',
+                      width: isVideoPaused ? `${((videoSlideIndex + 1) / videoSlides.length) * 100}%` : '0%',
+                      animation: isVideoPaused ? 'none' : 'slideshowProgress 3.5s linear infinite',
+                      zIndex: 4,
+                      transition: isVideoPaused ? 'width 0.3s ease-out' : 'none'
+                    }} />
                   </div>
-                  <span className="video-play-text">Watch Drone Walkthrough (0:45)</span>
-                </div>
-                <img src="/projects/modern_villa_facade.png" alt="Video Showcase Cover" className="video-poster-img" loading="lazy" />
+                ) : (
+                  <>
+                    <div className="video-play-overlay">
+                      <div className="video-play-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                      <span className="video-play-text">Watch Drone Walkthrough (0:45)</span>
+                    </div>
+                    <img src="/projects/modern_villa_facade.png" alt="Video Showcase Cover" className="video-poster-img" loading="lazy" />
+                  </>
+                )}
               </div>
             </ScrollReveal>
 
             <div className="video-showcase-info-cards">
               <div className="video-info-card">
-                <span className="video-info-icon">🛩️</span>
+                <span className="video-info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="2" />
+                    <path d="M12 2v6M12 16v6M2 12h6M16 12h6" />
+                    <path d="M4.5 4.5l3.5 3.5M16 16l3.5 3.5M4.5 19.5l3.5-3.5M16 8l3.5-3.5" />
+                  </svg>
+                </span>
                 <h4>Drone Project Footage</h4>
                 <p>High-altitude aerial views tracking our large-scale warehouse roof coat applications and structural paint uniformity.</p>
               </div>
               <div className="video-info-card">
-                <span className="video-info-icon">📹</span>
+                <span className="video-info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M23 7l-7 5 7 5V7z" />
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                  </svg>
+                </span>
                 <h4>Site Walkthroughs</h4>
                 <p>Interior and exterior video tours showing dry-film thickness inspection, color accuracy, and seamless wall textures.</p>
               </div>
               <div className="video-info-card">
-                <span className="video-info-icon">🛠️</span>
+                <span className="video-info-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                  </svg>
+                </span>
                 <h4>Coating Process</h4>
                 <p>Step-by-step video capturing substrate preparation, primer adhesion layers, and ultimate weather-guard application.</p>
               </div>
@@ -1932,15 +2168,28 @@ export default function Home() {
             {/* Quick Contact info */}
             <div className="cta-quick-contacts">
               <a href="tel:+918866117573" className="cta-contact-item">
-                <span className="cta-contact-icon">📞</span>
+                <span className="cta-contact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                </span>
                 <span>+91 88661 17573</span>
               </a>
               <a href="https://wa.me/918866117573" target="_blank" rel="noopener noreferrer" className="cta-contact-item">
-                <span className="cta-contact-icon">💬</span>
+                <span className="cta-contact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                </span>
                 <span>WhatsApp Expert</span>
               </a>
               <a href="mailto:umiyapaint@yahoo.co.in" className="cta-contact-item">
-                <span className="cta-contact-icon">✉️</span>
+                <span className="cta-contact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                </span>
                 <span>umiyapaint@yahoo.co.in</span>
               </a>
             </div>

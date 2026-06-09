@@ -52,8 +52,12 @@ export default function Navbar() {
       {/* Main Header */}
       <header className="site-header">
         <div className="container-xl nav-container">
-          <NavLink to="/" className="logo" style={{ display: 'flex', alignItems: 'center' }}>
+          <NavLink to="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
             <img src="/logo-removebg-preview.png" alt="UMIYA Logo" style={{ height: '48px', width: 'auto', objectFit: 'contain' }} />
+            <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+              <span style={{ fontSize: '18px', fontWeight: 800, color: 'var(--color-navy)', textTransform: 'uppercase', letterSpacing: '1px', lineHeight: 1.1 }}>Umiya</span>
+              <span style={{ fontSize: '10px', fontWeight: 600, color: 'var(--color-gold-dark)', textTransform: 'uppercase', letterSpacing: '0.5px', lineHeight: 1.1, marginTop: '2px' }}>Hardware & Paints</span>
+            </div>
           </NavLink>
 
           <nav>

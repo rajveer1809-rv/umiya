@@ -2438,74 +2438,114 @@ main {
   background-color: var(--bg-dark);
 }
 
-.inspiration-grid {
+.inspiration-slideshow-wrapper {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
   margin-top: 40px;
+  align-items: center;
 }
 
-.inspiration-card {
-  background-color: var(--color-navy-light);
+.inspiration-showcase-player {
+  position: relative;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-}
-
-.inspiration-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-
-.inspiration-visual {
-  height: 200px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  aspect-ratio: 16/10;
   background-size: cover;
   background-position: center;
-}
-
-.inspiration-swatches {
   display: flex;
-  padding: 12px;
-  gap: 8px;
-  background-color: var(--color-navy-light);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-image 0.5s ease-in-out;
 }
 
-.inspiration-swatch {
-  flex: 1;
-  height: 24px;
-  border-radius: 4px;
-  border: 1px solid rgba(0,0,0,0.06);
+.inspiration-player-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 100%);
+  z-index: 1;
 }
 
-.inspiration-info {
-  padding: 16px;
-  text-align: center;
-}
-
-.inspiration-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 4px;
+.inspiration-play-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--color-gold);
   color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(191, 140, 76, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 2;
+  transition: all 0.3s ease;
 }
 
-.inspiration-desc {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
+.inspiration-showcase-player:hover .inspiration-play-btn {
+  transform: scale(1.1);
+  background-color: var(--color-gold-dark);
+}
+
+.inspiration-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inspiration-list-item {
+  padding: 20px 24px;
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.inspiration-list-item:hover {
+  border-color: rgba(191, 140, 76, 0.3);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.inspiration-list-item.active {
+  background-color: var(--color-navy-light);
+  border-color: var(--color-gold);
+}
+
+.inspiration-list-num {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.3s ease;
+}
+
+.inspiration-list-item.active .inspiration-list-num {
+  color: var(--color-gold);
+}
+
+.inspiration-list-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+
+.inspiration-list-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
 }
 
 @media (max-width: 991px) {
-  .inspiration-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 575px) {
-  .inspiration-grid {
+  .inspiration-slideshow-wrapper {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
 }
 
@@ -4224,6 +4264,14 @@ main {
 
 .cta-contact-icon {
   font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-contact-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* 9. Mobile Sticky Action Bar */
@@ -4873,7 +4921,7 @@ main {
 /* 5. Explore By Space Cards */
 .explore-spaces-section {
   padding: 120px 0;
-  background-color: var(--bg-card);
+  background-color: #FFFFFF;
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -5568,8 +5616,16 @@ main {
 
 .video-info-icon {
   font-size: 26px;
-  display: inline-block;
-  margin-bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: var(--color-gold);
+}
+
+.video-info-icon svg {
+  width: 28px;
+  height: 28px;
 }
 
 .video-info-card h4 {
@@ -5930,5 +5986,14 @@ main {
   text-transform: uppercase;
   border: 1px solid rgba(191, 140, 76, 0.15);
   letter-spacing: 0.5px;
+}
+
+@keyframes slideshowProgress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
