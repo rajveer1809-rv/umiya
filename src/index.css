@@ -3,10 +3,11 @@
   --font-display: 'Poppins', sans-serif;
   
   /* Color Palette matching Litho Home Decor / Luxury Paint Shop */
-  --bg-main: #FAF8F5;       /* Premium warm cream background */
-  --bg-card: #FFFFFF;
-  --bg-dark: #0F172A;       /* Redesigned to Premium navy for footer/dark areas */
-  --bg-dark-accent: #0B0F19;
+  --bg-main: #F6EFE2;       /* Premium warm light golden-cream background */
+  --bg-card: #FAF6EC;       /* Soft champagne / gold-white for card backgrounds */
+  --bg-gold-light-alternate: #EFE6D5; /* Warm golden-sand background */
+  --bg-dark: #18120C;       /* Redesigned to Premium warm golden-charcoal for footer/dark areas */
+  --bg-dark-accent: #110C08;
   --text-main: #232323;     /* Elegant dark charcoal */
   --text-muted: #828282;    /* Clean gray for secondary text from Litho */
   --text-light: #FFFFFF;
@@ -16,11 +17,11 @@
   --color-gold-light: #fcf9f5;
   --color-gold-transparent: rgba(191, 140, 76, 0.15);
   
-  /* Premium Navy Colors */
-  --color-navy: #0F172A;
-  --color-navy-light: #1E293B;
-  --color-navy-dark: #0A0F1D;
-  --color-navy-accent: rgba(15, 23, 42, 0.05);
+  /* Premium Warm Golden-Charcoal Colors */
+  --color-navy: #18120C;
+  --color-navy-light: #2A2016;
+  --color-navy-dark: #0F0A06;
+  --color-navy-accent: rgba(24, 18, 12, 0.05);
   
   --border-color: #E6DFD3;
   --border-light: #F0EAE1;
@@ -585,7 +586,7 @@ main {
 /* Specialization Section */
 .specialization-section {
   padding: 100px 0;
-  background-color: #FAF8F5;
+  background-color: var(--bg-main);
 }
 
 .spec-grid {
@@ -595,7 +596,7 @@ main {
 }
 
 .spec-card {
-  background-color: #FFFFFF;
+  background-color: var(--bg-card);
   padding: 40px 30px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
@@ -810,7 +811,7 @@ main {
 /* Color Inspiration / Blog Section */
 .blog-section {
   padding: 100px 0;
-  background-color: #FAF8F5;
+  background-color: var(--bg-main);
 }
 
 .blog-grid {
@@ -820,7 +821,7 @@ main {
 }
 
 .blog-card {
-  background-color: #FFFFFF;
+  background-color: var(--bg-card);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
   overflow: hidden;
@@ -1031,41 +1032,50 @@ main {
   background-size: cover;
   background-position: center;
   padding: 60px 0;
+  box-shadow: 0 12px 36px rgba(255, 255, 255, 0.15);
   border-bottom: 1px solid var(--border-light);
   text-align: center;
+  color: var(--color-gold-dark);
 }
 
 .banner-about {
-  background-image: linear-gradient(180deg, rgba(250, 248, 245, 0.7) 0%, rgba(250, 248, 245, 0.95) 100%), url('/page_banner_about.png');
+  background-image: linear-gradient(180deg, rgba(246, 239, 226, 0.7) 0%, rgba(246, 239, 226, 0.95) 100%), url('/page_banner_about.png');
 }
 
 .banner-products {
-  background-image: linear-gradient(180deg, rgba(250, 248, 245, 0.7) 0%, rgba(250, 248, 245, 0.95) 100%), url('/page_banner_products.png');
+  background-image: linear-gradient(180deg, rgba(246, 239, 226, 0.7) 0%, rgba(246, 239, 226, 0.95) 100%), url('/page_banner_products.png');
 }
 
 .banner-services {
-  background-image: linear-gradient(180deg, rgba(250, 248, 245, 0.7) 0%, rgba(250, 248, 245, 0.95) 100%), url('/page_banner_services.png');
+  background-image: linear-gradient(180deg, rgba(246, 239, 226, 0.7) 0%, rgba(246, 239, 226, 0.95) 100%), url('/page_banner_services.png');
 }
 
 .banner-contact {
-  background-image: linear-gradient(180deg, rgba(250, 248, 245, 0.7) 0%, rgba(250, 248, 245, 0.95) 100%), url('/page_banner_contact.png');
+  background-image: linear-gradient(180deg, rgba(246, 239, 226, 0.7) 0%, rgba(246, 239, 226, 0.95) 100%), url('/page_banner_contact.png');
 }
 
 .inner-page-banner h1 {
   font-size: 36px;
   font-weight: 700;
   margin-bottom: 8px;
+  color: var(--color-gold-dark);
 }
 
 .breadcrumbs {
   font-size: 12px;
-  color: var(--text-muted);
+  color: var(--color-gold-dark);
+  opacity: 0.85;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.breadcrumbs a:hover {
+.breadcrumbs a {
   color: var(--color-gold-dark);
+  transition: var(--transition);
+}
+
+.breadcrumbs a:hover {
+  color: var(--color-gold);
 }
 
 /* Contact page customization */
@@ -1077,7 +1087,7 @@ main {
 }
 
 .contact-info-block {
-  background-color: #FAF8F5;
+  background-color: var(--bg-main);
   padding: 40px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
@@ -1160,13 +1170,13 @@ main {
   border-radius: var(--radius-sm);
   padding: 14px 16px;
   font-size: 14px;
-  background-color: #FAF8F5;
+  background-color: var(--bg-main);
   transition: var(--transition);
 }
 
 .form-control:focus {
   border-color: var(--color-gold-dark);
-  background-color: #FFFFFF;
+  background-color: var(--bg-card);
   box-shadow: 0 0 0 3px var(--color-gold-transparent);
 }
 
@@ -2161,7 +2171,7 @@ main {
 /* Timeline styling */
 .about-timeline-section {
   padding: 80px 0;
-  background-color: #FFFFFF;
+  background-color: var(--bg-main);
 }
 
 .timeline-container {
@@ -2272,7 +2282,7 @@ main {
 /* What We Offer styling */
 .offerings-section {
   padding: 80px 0;
-  background-color: #FAF8F5;
+  background-color: var(--bg-card);
 }
 
 .offerings-grid {
@@ -2283,7 +2293,7 @@ main {
 }
 
 .offering-card {
-  background-color: #FFFFFF;
+  background-color: var(--bg-main);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
   overflow: hidden;
@@ -2376,7 +2386,7 @@ main {
 /* Why Choose Us styling */
 .why-choose-section {
   padding: 80px 0;
-  background-color: #FFFFFF;
+  background-color: var(--bg-card);
 }
 
 .why-choose-section .why-grid {
@@ -2426,7 +2436,7 @@ main {
 /* Color Inspiration Gallery styling */
 .inspiration-section {
   padding: 80px 0;
-  background-color: #FAF8F5;
+  background-color: var(--bg-main);
 }
 
 .inspiration-grid {
@@ -2691,7 +2701,7 @@ main {
 /* Services We Help With styling */
 .contact-services-section {
   padding: 80px 0;
-  background-color: #FFFFFF;
+  background-color: var(--bg-gold-light-alternate);
 }
 
 .contact-services-grid {
@@ -2746,7 +2756,7 @@ main {
 /* Store Gallery styling */
 .store-gallery-section {
   padding: 80px 0;
-  background-color: #FAF8F5;
+  background-color: var(--bg-card);
   border-top: 1px solid var(--border-light);
   border-bottom: 1px solid var(--border-light);
 }
@@ -2832,7 +2842,7 @@ main {
 /* --- Services Page Layouts --- */
 .services-overview-section {
   padding: 80px 0;
-  background-color: #FFFFFF;
+  background-color: var(--bg-card);
 }
 
 .services-detail-section {
@@ -2841,11 +2851,11 @@ main {
 }
 
 .services-detail-section:nth-child(even) {
-  background-color: #FAF8F5;
+  background-color: var(--bg-main);
 }
 
 .services-detail-section:nth-child(odd) {
-  background-color: #FFFFFF;
+  background-color: var(--bg-card);
 }
 
 .services-detail-grid {
@@ -3429,7 +3439,7 @@ main {
 .home-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.8) 50%, rgba(15, 23, 42, 0.35) 100%);
+  background: linear-gradient(135deg, rgba(24, 18, 12, 0.95) 0%, rgba(24, 18, 12, 0.8) 50%, rgba(197, 155, 109, 0.25) 100%);
   z-index: 1;
 }
 
@@ -3637,7 +3647,7 @@ main {
 /* 2. Why Choose Us Section */
 .why-choose-us-section {
   padding: 120px 0;
-  background-color: #FAF8F5;
+  background-color: var(--bg-main);
 }
 
 .why-grid {
@@ -3762,7 +3772,7 @@ main {
 .project-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0) 40%, rgba(15, 23, 42, 0.95) 100%);
+  background: linear-gradient(180deg, rgba(24, 18, 12, 0) 40%, rgba(24, 18, 12, 0.95) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -4063,7 +4073,7 @@ main {
 /* 7. Testimonials Carousel Section */
 .home-testimonials-section {
   padding: 120px 0;
-  background-color: #FAF8F5;
+  background-color: var(--bg-main);
   text-align: center;
 }
 
@@ -4156,7 +4166,7 @@ main {
 .home-contact-cta-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(24, 18, 12, 0.95);
   z-index: 1;
 }
 
@@ -4277,7 +4287,7 @@ main {
     padding: 140px 0 80px 0;
   }
   .home-hero-overlay {
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.85) 100%);
+    background: linear-gradient(180deg, rgba(24, 18, 12, 0.95) 0%, rgba(24, 18, 12, 0.8) 70%, rgba(197, 155, 109, 0.3) 100%);
   }
   .home-hero-headline {
     font-size: 48px;
@@ -4529,7 +4539,7 @@ main {
   z-index: 10;
   transform: translate(-50%, -50%);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 6px 18px rgba(24, 18, 12, 0.25);
 }
 
 .hotspot-node:hover, .hotspot-node.active {
@@ -4660,7 +4670,7 @@ main {
 /* 3. Bento Wall Projects Portfolio Grid */
 .bento-projects-section {
   padding: 120px 0;
-  background-color: #0F172A;
+  background-color: var(--bg-dark);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -4676,7 +4686,7 @@ main {
   position: relative;
   border-radius: var(--radius-md);
   overflow: hidden;
-  background-color: #1E293B;
+  background-color: var(--color-navy-light);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   transition: all 0.5s ease;
@@ -4711,7 +4721,7 @@ main {
 .bento-card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.55) 50%, rgba(15, 23, 42, 0) 100%);
+  background: linear-gradient(to top, rgba(24, 18, 12, 0.95) 0%, rgba(24, 18, 12, 0.55) 50%, rgba(24, 18, 12, 0) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -4777,7 +4787,7 @@ main {
 /* 4. Transform Journey Scroll Timeline */
 .journey-section {
   padding: 120px 0;
-  background-color: #111827;
+  background-color: var(--bg-dark);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -4863,7 +4873,7 @@ main {
 /* 5. Explore By Space Cards */
 .explore-spaces-section {
   padding: 120px 0;
-  background-color: #FFFFFF;
+  background-color: var(--bg-gold-light-alternate);
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -4876,7 +4886,7 @@ main {
 
 .explore-space-card {
   display: block;
-  background-color: #FAF8F5;
+  background-color: var(--bg-card);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 35px 30px;
@@ -5040,7 +5050,7 @@ main {
 /* 7. Project Impact Counter */
 .impact-counter-section {
   padding: 90px 0;
-  background-color: #0F172A;
+  background-color: var(--color-navy-light);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -5079,7 +5089,7 @@ main {
 /* 8. Live Coating Color Visualizer */
 .visualizer-section {
   padding: 120px 0;
-  background-color: #0B1220;
+  background-color: var(--bg-dark-accent);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -5096,7 +5106,7 @@ main {
   overflow: hidden;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: #0F172A;
+  background-color: var(--bg-dark);
 }
 
 .visualizer-image-box {
@@ -5127,7 +5137,7 @@ main {
 }
 
 .visualizer-controls-panel {
-  background-color: rgba(15, 23, 42, 0.45);
+  background-color: rgba(24, 18, 12, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-md);
   padding: 40px;
@@ -5454,7 +5464,7 @@ main {
 /* 12. Drone Video Project Showcase */
 .video-showcase-section {
   padding: 120px 0;
-  background-color: #0F172A;
+  background-color: var(--bg-dark);
   color: #FFFFFF;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -5492,7 +5502,7 @@ main {
 .video-play-overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(15, 23, 42, 0.45);
+  background-color: rgba(24, 18, 12, 0.45);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5502,7 +5512,7 @@ main {
 }
 
 .video-player-frame:hover .video-play-overlay {
-  background-color: rgba(15, 23, 42, 0.55);
+  background-color: rgba(24, 18, 12, 0.55);
 }
 
 .video-play-button {
@@ -5579,8 +5589,8 @@ main {
 /* 13. Case Studies / Premium Success Stories */
 .case-studies-section {
   padding: 120px 0;
-  background-color: #111827;
-  color: #FFFFFF;
+  background-color: var(--bg-gold-light-alternate);
+  color: var(--text-main);
 }
 
 .case-studies-container {
@@ -5601,9 +5611,9 @@ main {
 .case-study-tab-btn {
   padding: 12px 28px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background-color: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  color: var(--text-main);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -5617,11 +5627,11 @@ main {
 }
 
 .case-study-detail-card {
-  background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 50px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-md);
 }
 
 .case-study-grid-inner {
@@ -5653,7 +5663,7 @@ main {
 .case-study-title {
   font-size: 26px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text-main);
   margin-bottom: 30px;
   font-family: var(--font-display);
 }
@@ -5677,7 +5687,7 @@ main {
 
 .case-study-block p {
   font-size: 14.5px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-muted);
   line-height: 1.65;
   margin: 0;
 }
@@ -5686,7 +5696,7 @@ main {
   border-radius: var(--radius-sm);
   overflow: hidden;
   aspect-ratio: 4/3;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-light);
   box-shadow: var(--shadow-md);
 }
 

@@ -1402,7 +1402,7 @@ export default function Home() {
       </section>
 
       {/* 7. LUXURY MATERIALS SHOWCASE (LIGHT) */}
-      <section className="materials-showcase-section" style={{ backgroundColor: '#FAF8F5', borderTop: '1px solid var(--border-light)' }}>
+      <section className="materials-showcase-section" style={{ backgroundColor: 'var(--bg-main)', borderTop: '1px solid var(--border-light)' }}>
         <div className="container-xl">
           <ScrollReveal>
             <div className="section-header-centered">
@@ -1505,11 +1505,11 @@ export default function Home() {
           <div className="visualizer-container-grid">
             <ScrollReveal animation="fade-in-left">
               <div className="visualizer-mockup-frame" style={{ position: 'relative', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.15)' }}>
-                <div className="visualizer-image-box" style={{ background: '#FAF8F5', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px' }}>
+                <div className="visualizer-image-box" style={{ background: 'var(--bg-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px' }}>
                   {renderVisualizerSuite()}
                   
                   {selectedColor && (
-                    <div className="shade-active-indicator" style={{ borderTop: '1px solid rgba(0,0,0,0.06)', backgroundColor: '#FAF8F5', borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px', padding: '14px 24px' }}>
+                    <div className="shade-active-indicator" style={{ borderTop: '1px solid rgba(0,0,0,0.06)', backgroundColor: 'var(--bg-main)', borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px', padding: '14px 24px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <span 
                           style={{ 
@@ -1555,7 +1555,7 @@ export default function Home() {
                             gap: '10px',
                             width: '100%',
                             textAlign: 'left',
-                            backgroundColor: isActive ? '#BF8C4C' : 'rgba(15, 23, 42, 0.45)',
+                            backgroundColor: isActive ? '#BF8C4C' : 'rgba(24, 18, 12, 0.45)',
                             borderColor: isActive ? '#BF8C4C' : 'rgba(255, 255, 255, 0.12)',
                             color: '#FFFFFF',
                             fontWeight: 600,
@@ -1664,7 +1664,7 @@ export default function Home() {
       </section>
 
       {/* Brands We Deal In Section */}
-      <section className="home-brands-deal-in-section" style={{ padding: '120px 0', backgroundColor: '#FAF8F5', borderBottom: '1px solid var(--border-light)' }}>
+      <section className="home-brands-deal-in-section" style={{ padding: '120px 0', backgroundColor: 'var(--bg-gold-light-alternate)', borderBottom: '1px solid var(--border-light)' }}>
         <div className="container-xl">
           <ScrollReveal>
             <div className="section-header-centered" style={{ marginBottom: '50px' }}>
@@ -1775,7 +1775,7 @@ export default function Home() {
       </section>
 
       {/* 12. WHY PREMIUM CLIENTS CHOOSE US (LIGHT) */}
-      <section className="why-premium-section" style={{ padding: '120px 0', backgroundColor: '#FAF8F5', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)' }}>
+      <section className="why-premium-section" style={{ padding: '120px 0', backgroundColor: 'var(--bg-main)', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)' }}>
         <div className="container-xl">
           <ScrollReveal>
             <div className="section-header-centered">
@@ -1853,7 +1853,7 @@ export default function Home() {
           <ScrollReveal>
             <div className="section-header-centered" style={{ marginBottom: '50px' }}>
               <span className="section-subtitle-centered" style={{ color: 'var(--color-gold)' }}>Case Studies</span>
-              <h2 className="section-title-centered" style={{ color: '#FFFFFF' }}>Premium Success Stories</h2>
+              <h2 className="section-title-centered">Premium Success Stories</h2>
             </div>
           </ScrollReveal>
 

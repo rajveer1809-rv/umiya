@@ -1049,7 +1049,7 @@ export default function ThreeRoomVisualizer({
           position: 'absolute',
           top: '12px',
           left: '12px',
-          backgroundColor: 'rgba(15, 23, 42, 0.85)',
+          backgroundColor: 'rgba(24, 18, 12, 0.85)',
           padding: '8px 12px',
           borderRadius: 'var(--radius-sm, 6px)',
           border: '1px solid rgba(255, 255, 255, 0.1)',

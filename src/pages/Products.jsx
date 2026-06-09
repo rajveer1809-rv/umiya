@@ -384,7 +384,7 @@ export default function Products() {
       </section>
 
       {/* 7. Product Cards */}
-      <section className="products-section" style={{ padding: '0 0 80px 0', backgroundColor: '#FAF8F5' }}>
+      <section className="products-section" style={{ padding: '0 0 80px 0', backgroundColor: 'var(--bg-main)' }}>
         <div className="container-xl" style={{ paddingTop: '50px' }}>
           {filteredProducts.length > 0 ? (
             <div className="shades-grid" key={`${activeFilter}-${searchQuery}`}>

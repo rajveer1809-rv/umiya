@@ -176,21 +176,10 @@ export default function About() {
   return (
     <>
       {/* 1. Hero Banner (with paint image background) */}
-      <section 
-        className="inner-page-banner banner-about"
-        style={{
-          backgroundImage: "linear-gradient(180deg, rgba(250, 248, 245, 0.7) 0%, rgba(250, 248, 245, 0.95) 100%), url('/page_banner_about.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          borderBottom: '1px solid var(--border-light)',
-          padding: '60px 0'
-        }}
-      >
+      <section className="inner-page-banner banner-about">
         <div className="container-xl">
           <ScrollReveal animation="fade-in-up">
-            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '36px', marginBottom: '8px' }}>
-              About Our Company
-            </h1>
+            <h1>About Our Company</h1>
             <div className="breadcrumbs">
               <Link to="/">Home</Link> <span>/</span> About Us
             </div>
@@ -369,7 +358,7 @@ export default function About() {
       </section>
 
       {/* 7. Customer Statistics */}
-      <section className="stats-strip-section" style={{ backgroundColor: '#FAF8F5', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', padding: '50px 0' }}>
+      <section className="stats-strip-section" style={{ backgroundColor: 'var(--bg-card)', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', padding: '50px 0' }}>
         <div className="container-xl">
           <ScrollReveal animation="fade-in-up">
             <div className="about-stats-grid" style={{ marginTop: 0, paddingTop: 0, border: 'none' }}>
